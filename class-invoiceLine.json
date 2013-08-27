@@ -1,0 +1,18 @@
+{ "class": "class",
+  "name": "invoiceLine",
+  "super": "object",
+  "properties": [
+    { "name": "productId",
+      "propertyType": "documentId"
+    },
+    { "name": "productPrice",
+      "propertyType": "monetaryValue"
+    },
+    { "name": "quantity",
+      "propertyType": "float"
+    },
+    { "name": "lineTotal",
+      "propertyType": "monetaryValue"
+    }
+  ]
+}
