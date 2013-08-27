@@ -1,0 +1,16 @@
+{ "class": "class",
+  "name": "class",
+  "super": "metaObject",
+  "properties": [
+    { "name": "name",
+      "propertyType": "className"
+    },
+    { "name": "super",
+      "propertyType": "className"
+    },
+    { "class": "propertyArray",
+      "name": "properties",
+      "propertyType": "property"
+    }
+  ]
+}

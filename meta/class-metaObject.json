@@ -1,0 +1,6 @@
+{ "class": "class",
+  "name": "metaObject",
+  "super": "object",
+  "properties": [
+  ]
+}

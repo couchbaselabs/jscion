@@ -1,0 +1,9 @@
+{ "class": "class",
+  "name": "property",
+  "super": "metaObject",
+  "properties": [
+    { "name": "propertyType",
+      "propertyType": "typeName"
+    }
+  ]
+}

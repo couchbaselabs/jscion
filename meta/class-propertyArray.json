@@ -1,0 +1,6 @@
+{ "class": "class",
+  "name": "propertyArray",
+  "super": "property",
+  "properties": [
+  ]
+}
