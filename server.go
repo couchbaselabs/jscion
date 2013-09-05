@@ -11,8 +11,7 @@ import (
 )
 
 // Reads all the json files in a directory tree into a map.
-func content(root, suffix string) map[string]interface{} {
-	res := map[string]interface{}{}
+func content(root, suffix string, res map[string]interface{}) map[string]interface{} {
 	filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
 		if f.IsDir() || !strings.HasSuffix(path, suffix) {
 			return nil
@@ -42,8 +41,8 @@ func main() {
 	fmt.Printf("dataSuffix: %s\n", dataSuffix)
 
 	handler := func(w http.ResponseWriter, r *http.Request) {
-		j, _ := json.Marshal(content(dataPath, dataSuffix))
-		w.Write(j)
+		m, _ := json.Marshal(content(dataPath, dataSuffix, map[string]interface{}{}))
+		w.Write(m)
 	}
 
 	http.HandleFunc("/", handler)
