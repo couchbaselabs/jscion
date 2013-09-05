@@ -34,7 +34,7 @@ func content(root, suffix string, res map[string]interface{}) map[string]interfa
 
 func main() {
 	addr := ":8080"
-	dataPath := "."
+	dataPath := "./data"
 	dataSuffix := ".json"
 	fmt.Printf("addr: %s\n", addr)
 	fmt.Printf("dataPath: %s\n", dataPath)
