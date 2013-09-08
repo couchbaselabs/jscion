@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"text/template"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -36,13 +37,20 @@ func main() {
 	addr := ":8080"
 	dataPath := "./data"
 	dataSuffix := ".json"
+	tmplPath := "./default.html.tmpl"
 	fmt.Printf("addr: %s\n", addr)
 	fmt.Printf("dataPath: %s\n", dataPath)
 	fmt.Printf("dataSuffix: %s\n", dataSuffix)
 
 	handler := func(w http.ResponseWriter, r *http.Request) {
-		m, _ := json.Marshal(content(dataPath, dataSuffix, map[string]interface{}{}))
-		w.Write(m)
+		d, _ := json.Marshal(content(dataPath, dataSuffix, map[string]interface{}{}))
+		e := map[string][]byte{}
+		e["Data"] = d
+		t, _ := template.ParseFiles(tmplPath)
+		err := t.Execute(w, e)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
 	}
 
 	http.HandleFunc("/", handler)
