@@ -1,1 +1,3 @@
-alert('hi')
+function render(ctx, ident) {
+}
+

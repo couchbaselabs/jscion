@@ -4,13 +4,14 @@
 </head>
 <body>
 <div id="container"></div>
+<script src="js/underscore-1.5.2.min.js"></script>
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/jscion.js"></script>
 <script>
 $.ajax({
   url: "/data.json",
-  success: function(data) {
-    $("#container").html("<pre>" + data + "</pre>");
+  success: function(dataJson) {
+    $("#container").html("<pre>" + dataJson + "</pre>");
   }
 });
 </script>
