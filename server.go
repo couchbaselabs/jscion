@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -32,24 +33,30 @@ func content(root, suffix string, res map[string]interface{}) map[string]interfa
 	return res
 }
 
+var addr = flag.String("addr", ":8080",
+	"HTTP/REST listen address")
+var dataPath = flag.String("dataPath", "./data",
+	"Data directory")
+var dataSuffix = flag.String("dataSuffix", ".json",
+	"Suffix for data files")
+var staticPath = flag.String("staticPath", "./static",
+	"Path to static web UI content")
+
 func main() {
-	addr := ":8080"
-	dataPath := "./data"
-	dataSuffix := ".json"
-	staticPath := "./static"
-	fmt.Printf("addr: %s\n", addr)
-	fmt.Printf("dataPath: %s\n", dataPath)
-	fmt.Printf("dataSuffix: %s\n", dataSuffix)
-	fmt.Printf("staticPath: %s\n", staticPath)
+	flag.Parse()
+	fmt.Printf("jsion\n")
+	flag.VisitAll(func(f *flag.Flag) {
+		fmt.Printf("  -%s=%s\n", f.Name, f.Value)
+	})
 
 	dataHandler := func(w http.ResponseWriter, r *http.Request) {
-		d, _ := json.Marshal(content(dataPath, dataSuffix, map[string]interface{}{}))
+		d, _ := json.Marshal(content(*dataPath, *dataSuffix, map[string]interface{}{}))
 		w.Write(d)
 	}
 
 	http.HandleFunc("/data.json", dataHandler)
 
-	http.Handle("/", http.FileServer(http.Dir(staticPath)))
+	http.Handle("/", http.FileServer(http.Dir(*staticPath)))
 
-	http.ListenAndServe(addr, nil)
+	http.ListenAndServe(*addr, nil)
 }
