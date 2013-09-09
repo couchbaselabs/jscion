@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"text/template"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -37,26 +36,20 @@ func main() {
 	addr := ":8080"
 	dataPath := "./data"
 	dataSuffix := ".json"
-	tmplPath := "./default.html.tmpl"
+	staticPath := "./static"
 	fmt.Printf("addr: %s\n", addr)
 	fmt.Printf("dataPath: %s\n", dataPath)
 	fmt.Printf("dataSuffix: %s\n", dataSuffix)
+	fmt.Printf("staticPath: %s\n", staticPath)
 
-	handler := func(w http.ResponseWriter, r *http.Request) {
+	dataHandler := func(w http.ResponseWriter, r *http.Request) {
 		d, _ := json.Marshal(content(dataPath, dataSuffix, map[string]interface{}{}))
-		e := map[string][]byte{}
-		e["Data"] = d
-		t, _ := template.ParseFiles(tmplPath)
-		err := t.Execute(w, e)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
+		w.Write(d)
 	}
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+	http.HandleFunc("/data.json", dataHandler)
 
-	http.HandleFunc("/index.html", handler)
-	http.HandleFunc("/", handler)
+	http.Handle("/", http.FileServer(http.Dir(staticPath)))
 
 	http.ListenAndServe(addr, nil)
 }
