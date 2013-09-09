@@ -59,11 +59,14 @@ function renderObjWithClass(ctx, obj, cls) {
     return { err: err };
   }
   var s = _.map(properties, function(p, k) {
-      // p is like [dogAgeProperty, animalAgeProperty, thingAgeProperty].
+      // k is like "age".
+      // p is like [dogAge, mammalAge, animalAge].
       var v = obj[k];
-      var ptc = ctx.getClassByName(findFirst(p, "propertyType"));
+      var pc = findFirst(p, "class") || "property";
+      var pt = findFirst(p, "propertyType") || "string";
+      var ptc = ctx.getClassByName(pt);
       if (!ptc.err && ptc.result) {
-        if (findFirst(p, "class") == "propertyArray") {
+        if (pc == "propertyArray") {
           v = _.map(v, function(vx) {
               var r = renderObjWithClass(ctx, vx, ptc.result);
               return r.err || r.result;
