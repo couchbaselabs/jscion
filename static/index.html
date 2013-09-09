@@ -13,9 +13,8 @@ $(function() {
     url: "/data.json",
     dataType: "json",
     success: function(data) {
-      var ctx = makeCtx(data);
-      var ident = "invoice-0001";
-      var r = render(ctx, ident);
+      var ctx = jsion(data);
+      var r = ctx.render("invoice-0001");
       $("#container").html(r.err || r.result || "no render result");
     }
   });
