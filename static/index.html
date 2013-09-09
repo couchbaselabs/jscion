@@ -10,8 +10,10 @@
 <script>
 $.ajax({
   url: "/data.json",
-  success: function(dataJson) {
-    $("#container").html("<pre>" + dataJson + "</pre>");
+  dataType: "json",
+  success: function(data) {
+    console.log(data);
+    $("#container").html("<pre>" + JSON.stringify(data) + "</pre>");
   }
 });
 </script>
