@@ -14,14 +14,10 @@ $(function() {
     url: "/data.json",
     dataType: "json",
     success: function(data) {
-      console.log(data);
       var ctx = makeCtx(data);
       var ident = "invoice-0001";
       var r = render(ctx, ident);
-      if (r.err || !r.result) {
-        return console.log(r.err || "no render result");
-      }
-      $("#container").html(r.result);
+      $("#container").html(r.err || r.result || "no render result");
     }
   });
 });
