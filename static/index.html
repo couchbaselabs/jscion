@@ -8,13 +8,22 @@
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/jscion.js"></script>
 <script>
-$.ajax({
-  url: "/data.json",
-  dataType: "json",
-  success: function(data) {
-    console.log(data);
-    $("#container").html("<pre>" + JSON.stringify(data) + "</pre>");
-  }
+$(function() {
+  console.log(makeCtx);
+  $.ajax({
+    url: "/data.json",
+    dataType: "json",
+    success: function(data) {
+      console.log(data);
+      var ctx = makeCtx(data);
+      var ident = "invoice-0001";
+      var r = render(ctx, ident);
+      if (r.err || !r.result) {
+        return console.log(r.err || "no render result");
+      }
+      $("#container").html(r.result);
+    }
+  });
 });
 </script>
 </body>
