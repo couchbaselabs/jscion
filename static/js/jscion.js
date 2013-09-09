@@ -48,5 +48,8 @@ function render(ctx, ident) {
   if (err) {
     return { err: err };
   }
-  return { result: JSON.stringify(properties) + " " + JSON.stringify(o.result) };
+  return { result: "<ul>" +
+      _.map(properties, function(p) {
+          return "<li>" + p[0].name + ":" + o.result[p[0].name] + "</li>";
+        }).join("\n") + "</ul>" }
 }
