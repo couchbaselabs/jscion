@@ -4,7 +4,9 @@ function jsion(data) {
               "getClassByName": getClassByName,
               "render": render,
               "renderObj": renderObj,
-              "renderObjWithClass": renderObjWithClass };
+              "renderObjWithClass": renderObjWithClass,
+              "flattenHierarchy": flattenHierarchy,
+              "flattenProperties": flattenProperties };
   return ctx;
 
   function get(ident) { return { err: null, result: data[ident] }; }
