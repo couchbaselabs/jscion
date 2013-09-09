@@ -44,7 +44,7 @@ var staticPath = flag.String("staticPath", "./static",
 
 func main() {
 	flag.Parse()
-	fmt.Printf("jsion\n")
+	fmt.Printf("%s\n", os.Args[0])
 	flag.VisitAll(func(f *flag.Flag) {
 		fmt.Printf("  -%s=%s\n", f.Name, f.Value)
 	})
