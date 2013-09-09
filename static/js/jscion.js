@@ -8,8 +8,12 @@ function makeCtx(data) {
 }
 
 // Walk the superclasses, gathering meta info into the out dict.  For
-// example, collectMeta(ctx, trollClass, "properties", out) would give
-// out of { "defense": [trollProperty, monsterProperty, actorProperty] };
+// example, collectMeta(ctx, trollClass, "properties", out) would
+// fill the out dict with {
+//   "name": [actorProperty],
+//   "age": [trollProperty, monsterProperty, actorProperty],
+//   "pts": [trollProperty, monsterProperty]
+// };
 // Returns null or err.
 function collectMeta(ctx, cls, metaName, out) {
   if (!cls) {
