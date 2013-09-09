@@ -7,11 +7,11 @@ function makeCtx(data) {
            "getClassByName": getClassByName };
 }
 
-// Walk the superclasses, gathering properties into the out dict, with
-// key of propertyName, val of array of properties, most specific
-// subclassed property coming first.  For example:
-// out == { "weight": [trollProperty, monsterProperty, actorProperty] };
-function collectProperties(ctx, cls, out) {
+// Walk the superclasses, gathering meta info into the out dict.  For
+// example, collectMeta(ctx, trollClass, "properties", out) would give
+// out of { "defense": [trollProperty, monsterProperty, actorProperty] };
+// Returns null or err.
+function collectMeta(ctx, cls, metaName, out) {
   if (!cls) {
     return null;
   }
@@ -19,14 +19,14 @@ function collectProperties(ctx, cls, out) {
   if (s.err) {
     return s.err;
   }
-  var err = collectProperties(ctx, s.result, out);
+  var err = collectMeta(ctx, s.result, metaName, out); // Recurse on super.
   if (err) {
     return err;
   }
-  _.each(cls.properties, function(property) {
-      var arr = out[property.name] || [];
-      arr.unshift(property);
-      out[property.name] = arr;
+  _.each(cls[metaName], function(x) {
+      var arr = out[x.name] || [];
+      arr.unshift(x);
+      out[x.name] = arr;
     });
 }
 
@@ -40,7 +40,7 @@ function render(ctx, ident) {
     return { err: c.err || ("no class for obj with ident: " + ident) };
   }
   var properties = {};
-  var err = collectProperties(ctx, c.result, properties);
+  var err = collectMeta(ctx, c.result, "properties", properties);
   if (err) {
     return { err: err };
   }
