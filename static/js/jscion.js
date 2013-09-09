@@ -9,31 +9,21 @@ function makeCtx(data) {
            "getClassByName": getClassByName };
 }
 
-// Walk the superclasses, gathering meta info into the out dict.  For
-// example, collectMeta(ctx, trollClass, "properties", out) would
-// fill the out dict with {
-//   "name": [actorProperty],
-//   "age": [trollProperty, monsterProperty, actorProperty],
-//   "pts": [trollProperty, monsterProperty]
-// };
-// Returns null or err.
+// Gather meta collection info from superclasses into the out dict,
+// where subclass values override superclass values.  The metaName can
+// be "properties", "methods", "validations", etc.
 function collectMeta(ctx, cls, metaName, out) {
   if (!cls) {
     return null;
   }
+  _.each(cls[metaName], function(x) {
+      out[x.name] = _.defaults(out[x.name] || {}, x)
+    });
   var s = ctx.getClassByName(cls.super);
   if (s.err) {
     return s.err;
   }
-  var err = collectMeta(ctx, s.result, metaName, out); // Recurse on super.
-  if (err) {
-    return err;
-  }
-  _.each(cls[metaName], function(x) {
-      var arr = out[x.name] || [];
-      arr.unshift(x);
-      out[x.name] = arr;
-    });
+  return collectMeta(ctx, s.result, metaName, out); // Recurse on super.
 }
 
 function render(ctx, ident) {
@@ -59,11 +49,9 @@ function renderObjWithClass(ctx, obj, cls) {
     return { err: err };
   }
   var s = _.map(properties, function(p, k) {
-      // k is like "age".
-      // p is like [dogAge, mammalAge, animalAge].
       var v = obj[k];
-      var pc = findFirst(p, "class") || "property";
-      var pt = findFirst(p, "propertyType") || "string";
+      var pc = p.class || "property";
+      var pt = p.propertyType || "string";
       var ptc = ctx.getClassByName(pt);
       if (!ptc.err && ptc.result) {
         if (pc == "propertyArray") {
@@ -82,8 +70,4 @@ function renderObjWithClass(ctx, obj, cls) {
       return "<li>" + k + ":" + v + "</li>";
     }).join("\n");
   return { result: "<ul>" + s + "</ul>" };
-}
-
-function findFirst(a, key) {
-  return (_.find(a, function(x) { return _.has(x, key); }) || {})[key];
 }
