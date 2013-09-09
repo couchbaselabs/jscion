@@ -11,28 +11,6 @@ import (
 	"strings"
 )
 
-// Reads all the json files in a directory tree into a map.
-func content(root, suffix string, res map[string]interface{}) map[string]interface{} {
-	filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
-		if f.IsDir() || !strings.HasSuffix(path, suffix) {
-			return nil
-		}
-		b, err := ioutil.ReadFile(path)
-		if err != nil {
-			return err
-		}
-		key := f.Name()[0:len(f.Name())-len(suffix)]
-		var val interface{}
-		err = json.Unmarshal(b, &val)
-		if err != nil {
-			return err
-		}
-		res[key] = val
-		return nil
-	})
-	return res
-}
-
 var addr = flag.String("addr", ":8080",
 	"HTTP/REST listen address")
 var dataPath = flag.String("dataPath", "./data",
@@ -59,4 +37,26 @@ func main() {
 	http.Handle("/", http.FileServer(http.Dir(*staticPath)))
 
 	http.ListenAndServe(*addr, nil)
+}
+
+// Reads all the json files in a directory tree into a map.
+func content(root, suffix string, res map[string]interface{}) map[string]interface{} {
+	filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
+		if f.IsDir() || !strings.HasSuffix(path, suffix) {
+			return nil
+		}
+		b, err := ioutil.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		key := f.Name()[0:len(f.Name())-len(suffix)]
+		var val interface{}
+		err = json.Unmarshal(b, &val)
+		if err != nil {
+			return err
+		}
+		res[key] = val
+		return nil
+	})
+	return res
 }
