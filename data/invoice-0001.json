@@ -5,7 +5,12 @@
       "productPrice": 123.0,
       "quantity": 1.0,
       "lineTotal": 123.0
+    },
+    { "productId": "tea-333",
+      "productPrice": 30.0,
+      "quantity": 1.0,
+      "lineTotal": 30.0
     }
   ],
-  "grandTotal": 123.0
+  "grandTotal": 153.0
 }

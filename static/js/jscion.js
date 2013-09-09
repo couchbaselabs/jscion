@@ -1,6 +1,8 @@
 function makeCtx(data) {
   function get(ident) { return { err: null, result: data[ident] }; }
-  function getClass(dobj) { return getClassByName(dobj["class"]); }
+  function getClass(obj, defaultClassName) {
+    return getClassByName(obj["class"] || defaultClassName);
+  }
   function getClassByName(name) { return get("class-" + name); }
   return { "get": get,
            "getClass": getClass,
@@ -39,17 +41,46 @@ function render(ctx, ident) {
   if (o.err || !o.result) {
     return { err: o.err || ("no object with ident: " + ident) };
   }
-  var c = ctx.getClass(o.result);
+  return renderObj(ctx, o.result);
+}
+
+function renderObj(ctx, obj) {
+  var c = ctx.getClass(obj);
   if (c.err || !c.result) {
-    return { err: c.err || ("no class for obj with ident: " + ident) };
+    return { err: c.err || ("no class for obj: " + JSON.stringify(obj)) };
   }
+  return renderObjWithClass(ctx, obj, c.result);
+}
+
+function renderObjWithClass(ctx, obj, cls) {
   var properties = {};
-  var err = collectMeta(ctx, c.result, "properties", properties);
+  var err = collectMeta(ctx, cls, "properties", properties);
   if (err) {
     return { err: err };
   }
-  return { result: "<ul>" +
-      _.map(properties, function(p) {
-          return "<li>" + p[0].name + ":" + o.result[p[0].name] + "</li>";
-        }).join("\n") + "</ul>" }
+  var s = _.map(properties, function(p, k) {
+      // p is like [dogAgeProperty, animalAgeProperty, thingAgeProperty].
+      var v = obj[k];
+      var ptc = ctx.getClassByName(findFirst(p, "propertyType"));
+      if (!ptc.err && ptc.result) {
+        if (findFirst(p, "class") == "propertyArray") {
+          v = _.map(v, function(vx) {
+              var r = renderObjWithClass(ctx, vx, ptc.result);
+              return r.err || r.result;
+            }).join("<hr/>");
+        } else {
+          var r = renderObjWithClass(ctx, v, ptc.result);
+          v = r.err || r.result;
+        }
+      }
+      if (k == "class" && !v) {
+        v = cls.name;
+      }
+      return "<li>" + k + ":" + v + "</li>";
+    }).join("\n");
+  return { result: "<ul>" + s + "</ul>" };
+}
+
+function findFirst(a, key) {
+  return (_.find(a, function(x) { return _.has(x, key); }) || {})[key];
 }
