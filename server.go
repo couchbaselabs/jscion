@@ -53,6 +53,10 @@ func main() {
 		}
 	}
 
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
+
+	http.HandleFunc("/index.html", handler)
 	http.HandleFunc("/", handler)
+
 	http.ListenAndServe(addr, nil)
 }
