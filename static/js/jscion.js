@@ -11,9 +11,7 @@ function jsion(data) {
   return _.clone(ctx);
 
   function getObj(ident) { return { err: null, result: data[ident] }; }
-  function getClass(obj, defaultClassName) {
-    return getClassByName(obj["class"] || defaultClassName);
-  }
+  function getClass(obj) { return getClassByName(obj.class); }
   function getClassByName(name) { return getObj("class-" + name); }
 
   function renderIdent(ident) {
