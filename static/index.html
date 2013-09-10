@@ -14,8 +14,9 @@ $(function() {
     dataType: "json",
     success: function(data) {
       var ctx = jsion(data);
-      var r = ctx.render("invoice-0001");
-      $("#container").html(r.err || r.result || "no render result");
+      var r = ctx.renderIdent("invoice-0001");
+      var h = r.err || r.result || "no render result";
+      $("#container").html(h);
     }
   });
 });

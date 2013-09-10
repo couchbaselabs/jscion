@@ -2,7 +2,7 @@ function jsion(data) {
   var ctx = { "get": get,
               "getClass": getClass,
               "getClassByName": getClassByName,
-              "render": render,
+              "renderIdent": renderIdent,
               "renderObj": renderObj,
               "renderObjWithClass": renderObjWithClass,
               "flattenHierarchy": flattenHierarchy,
@@ -15,7 +15,7 @@ function jsion(data) {
   }
   function getClassByName(name) { return get("class-" + name); }
 
-  function render(ident) {
+  function renderIdent(ident) {
     var o = get(ident);
     if (o.err || !o.result) {
       return { err: o.err || ("no object with ident: " + ident) };
