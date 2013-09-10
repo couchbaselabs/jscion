@@ -2,17 +2,46 @@ function jsion(data) {
   var ctx = { "getObj": getObj,
               "getClass": getClass,
               "getClassByName": getClassByName,
-              "renderIdent": renderIdent,
-              "renderObj": renderObj,
-              "renderObjWithClass": renderObjWithClass,
               "visitHierarchy": visitHierarchy,
               "flattenHierarchy": flattenHierarchy,
-              "flattenProperties": flattenProperties };
+              "flattenProperties": flattenProperties,
+              "renderIdent": renderIdent,
+              "renderObj": renderObj,
+              "renderObjWithClass": renderObjWithClass };
   return _.clone(ctx);
 
   function getObj(ident) { return { err: null, result: data[ident] }; }
   function getClass(obj) { return getClassByName(obj.class); }
   function getClassByName(name) { return getObj("class-" + name); }
+
+  function visitHierarchy(obj, upFuncName, parentName, visitorFunc) {
+    while (obj) {
+      visitorFunc(obj);
+      var p = ctx[upFuncName](obj[parentName]);
+      if (p.err) {
+        return p.err;
+      }
+      obj = p.result;
+    }
+  }
+
+  // Flatten collections from a object hierarchy into the out dict,
+  // where child values override parent values.  For classes, the
+  // collName can be "properties", "methods", "validations", etc., and
+  // the parentName can be "super".
+  function flattenHierarchy(obj, upFuncName, parentName, collName, out) {
+    visitHierarchy(obj, upFuncName, parentName, function(obj) {
+      _.each(obj[collName], function(x) {
+        out[x.name] = _.defaults(out[x.name] || {}, x)
+      });
+    });
+  }
+
+  function flattenProperties(cls) {
+    var out = {}
+    var err = flattenHierarchy(cls, "getClassByName", "super", "properties", out);
+    return { err: err, result: out };
+  }
 
   function renderIdent(ident) {
     var o = getObj(ident);
@@ -54,37 +83,8 @@ function jsion(data) {
         if (k == "class" && !v) {
           v = cls.name;
         }
-        return "<li>" + k + ":" + v + "</li>";
+        return "<li><label>" + k + "</label>:" + v + "</li>";
       }).join("\n");
     return { result: "<ul>" + s + "</ul>" };
-  }
-
-  function visitHierarchy(obj, upFuncName, parentName, visitorFunc) {
-    while (obj) {
-      visitorFunc(obj);
-      var p = ctx[upFuncName](obj[parentName]);
-      if (p.err) {
-        return p.err;
-      }
-      obj = p.result;
-    }
-  }
-
-  // Flatten collections from a object hierarchy into the out dict,
-  // where child values override parent values.  For classes, the
-  // collName can be "properties", "methods", "validations", etc., and
-  // the parentName can be "super".
-  function flattenHierarchy(obj, upFuncName, parentName, collName, out) {
-    visitHierarchy(obj, upFuncName, parentName, function(obj) {
-      _.each(obj[collName], function(x) {
-        out[x.name] = _.defaults(out[x.name] || {}, x)
-      });
-    });
-  }
-
-  function flattenProperties(cls) {
-    var out = {}
-    var err = flattenHierarchy(cls, "getClassByName", "super", "properties", out);
-    return { err: err, result: out };
   }
 }
