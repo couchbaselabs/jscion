@@ -1,5 +1,5 @@
 { "class": "type",
   "name": "typeName",
   "super": "string",
-  "template": "<a href=\"#type-<%= v %>\"><%= v %></a>"
+  "template": "<a href=\"#<%= _.find(['class-', 'type-'], function(n) { return (ctx.getObj(n + v) || {}).result; }) %><%= v %>\"><%= v %></a>"
 }
