@@ -1,12 +1,12 @@
 { "class": "invoice",
   "invoiceId": "invoice-0001",
   "invoiceLines": [
-    { "productId": "coffee-321",
+    { "productId": "product-321",
       "productPrice": 123.0,
       "quantity": 1.0,
       "lineTotal": 123.0
     },
-    { "productId": "tea-333",
+    { "productId": "product-444",
       "productPrice": 30.0,
       "quantity": 1.0,
       "lineTotal": 30.0
