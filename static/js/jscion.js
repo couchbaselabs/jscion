@@ -89,10 +89,9 @@ function jsion(data) {
             v = r.err || r.result;
           }
         }
-        if (k == "class" && !v) {
-          v = cls.name;
-        }
-        return ("<li class=\"" + pt + "\"><label>" + k + "</label>" +
+        v = (k == "class" && !v) ? cls.name : v;
+        return ("<li class=\"" + pt + "\">" +
+                "<label>" + k + "</label>" +
                 "<span>" + v + "</span></li>");
       }).join("\n");
     return { result: "<ul class=\"" + classImplements(cls.name).join(" ") + "\">" + s + "</ul>" };
