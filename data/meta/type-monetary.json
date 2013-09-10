@@ -1,0 +1,4 @@
+{ "class": "type",
+  "name": "monetary",
+  "super": "float"
+}

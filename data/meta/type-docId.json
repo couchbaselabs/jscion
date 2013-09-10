@@ -1,0 +1,4 @@
+{ "class": "type",
+  "name": "docId",
+  "super": "string"
+}

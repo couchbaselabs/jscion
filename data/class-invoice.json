@@ -3,7 +3,7 @@
   "super": "object",
   "properties": [
     { "name": "invoiceId",
-      "propertyType": "documentId"
+      "propertyType": "docId"
     },
     { "name": "grandTotal",
       "propertyType": "monetaryValue"

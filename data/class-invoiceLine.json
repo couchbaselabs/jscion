@@ -3,16 +3,16 @@
   "super": "object",
   "properties": [
     { "name": "productId",
-      "propertyType": "documentId"
+      "propertyType": "docId"
     },
     { "name": "productPrice",
-      "propertyType": "monetaryValue"
+      "propertyType": "monetary"
     },
     { "name": "quantity",
       "propertyType": "float"
     },
     { "name": "lineTotal",
-      "propertyType": "monetaryValue"
+      "propertyType": "monetary"
     }
   ]
 }
