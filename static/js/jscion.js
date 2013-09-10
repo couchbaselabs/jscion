@@ -72,7 +72,9 @@ function jsion(data) {
     if (f.err || !f.result) {
       return { err: f.err || ("no properties for cls: " + JSON.stringify(cls)) };
     }
-    var s = _.map(f.result, function(p, k) {
+    var keys = _.sortBy(_.keys(f.result), function(k) { return f.result[k].displayOrder; });
+    var s = _.map(keys, function(k) {
+        var p = f.result[k];
         var v = obj[k];
         var pc = p.class || "property";
         var pt = p.propertyType || "string";
