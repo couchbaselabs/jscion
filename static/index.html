@@ -28,19 +28,14 @@ function dumpIdentsByClass(ctx, idents) {
   var classes = {};
   _.each(idents, function(ident) {
     var cname = (ctx.getObj(ident).result || {}).class || "<none>";
-    var idents = classes[cname] || [];
-    idents.push(ident);
-    classes[cname] = idents;
+    var identsByClass = classes[cname] || [];
+    identsByClass.push(ident);
+    classes[cname] = identsByClass;
   });
   var h = _.map(classes, function(idents, cname) {
     var supers = [];
-    function fillSupers(cname) {
-      if (cname) {
-        supers.push(cname);
-        fillSupers((ctx.getClassByName(cname).result || {}).super);
-      }
-    }
-    fillSupers(cname);
+    ctx.visitHierarchy(ctx.getClassByName(cname).result, "getClassByName", "super",
+      function(cls) { supers.push(cls.name); });
     return "<li>[" + supers + "]:<ul><li>" + idents.join("</li><li>") + "</li></ul></li>";
   }).join("\n");
   $("#identsByClass").html("<ul>" + h + "</ul>");
