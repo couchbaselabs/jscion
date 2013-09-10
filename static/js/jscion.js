@@ -94,7 +94,9 @@ function jsion(data) {
           v = (k == "class" && !v) ? cls.name : v;
           var t = ((getObj("type-" + pt) || {}).result || {}).template;
           if (t) {
-            v = _.template(t, {v: v})
+            v = _.template(t, {v: v});
+          } else {
+            v = _.escape(v);
           }
         }
         return ("<li class=\"" + pt + "\">" +

@@ -6,7 +6,7 @@
       "propertyType": "docId"
     },
     { "name": "grandTotal",
-      "propertyType": "monetaryValue"
+      "propertyType": "monetary"
     },
     { "class": "propertyArray",
       "name": "invoiceLines",
