@@ -2,8 +2,14 @@
   "name": "property",
   "super": "metaObject",
   "properties": [
+    { "name": "name",
+      "propertyType": "string"
+    },
     { "name": "propertyType",
       "propertyType": "typeName"
+    },
+    { "name": "displayOrder",
+      "propertyType": "float"
     }
   ]
 }

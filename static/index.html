@@ -32,7 +32,8 @@ $(function() {
     dataType: "json",
     success: function(data) {
       var ctx = jsion(data);
-      var r = ctx.renderIdent("invoice-0001");
+      var ident = window.location.hash ? window.location.hash.substring(1) : null;
+      var r = ctx.renderIdent(ident || "invoice-0001");
       var h = r.err || r.result || "no render result";
       $("#container").html(h);
     }
