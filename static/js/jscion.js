@@ -2,6 +2,7 @@ function jsion(data) {
   var ctx = { "getObj": getObj,
               "getClass": getClass,
               "getClassByName": getClassByName,
+              "classImplements": classImplements,
               "visitHierarchy": visitHierarchy,
               "flattenHierarchy": flattenHierarchy,
               "flattenProperties": flattenProperties,
@@ -12,7 +13,14 @@ function jsion(data) {
 
   function getObj(ident) { return { err: null, result: data[ident] }; }
   function getClass(obj) { return getClassByName(obj.class); }
-  function getClassByName(name) { return getObj("class-" + name); }
+  function getClassByName(className) { return getObj("class-" + className); }
+
+  function classImplements(className) {
+    var res = []; // Returns array of className and super-classNames.
+    visitHierarchy(ctx.getClassByName(className).result, "getClassByName", "super",
+      function(cls) { res.push(cls.name); });
+    return res; // The res[0] == className.
+  }
 
   function visitHierarchy(obj, upFuncName, parentName, visitorFunc) {
     while (obj) {
@@ -75,7 +83,7 @@ function jsion(data) {
                 var r = renderObjWithClass(vx, ptc.result);
                 return r.err || r.result;
               }).join("</li><li>");
-            v = "<ul>" + (v ? ("<li>" + v + "</li>") : "") + "</ul>";
+            v = "<ul class=\"propertyArray\">" + (v ? ("<li>" + v + "</li>") : "") + "</ul>";
           } else {
             var r = renderObjWithClass(v, ptc.result);
             v = r.err || r.result;
@@ -84,9 +92,9 @@ function jsion(data) {
         if (k == "class" && !v) {
           v = cls.name;
         }
-        return "<li class=\"" + pt + "\"><label>" + k + "</label>" +
-          ":<span>" + v + "</span></li>";
+        return ("<li class=\"" + pt + "\"><label>" + k + "</label>" +
+                "<span>" + v + "</span></li>");
       }).join("\n");
-    return { result: "<ul class=\"" + cls.name + "\">" + s + "</ul>" };
+    return { result: "<ul class=\"" + classImplements(cls.name).join(" ") + "\">" + s + "</ul>" };
   }
 }

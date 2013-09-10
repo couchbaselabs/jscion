@@ -4,6 +4,23 @@
 </head>
 <body>
 <style>
+.object label {
+  display: inline-block;
+  min-width: 10em;
+  text-align: right;
+  margin-right: 1em;
+}
+.object label:after {
+  content:":";
+}
+.object ul, ul.object {
+  list-style: none;
+}
+ul.object {
+  border-top: 1px solid #666;
+  border-left: 1px solid #666;
+  border-bottom: 1px solid #aaa;
+}
 </style>
 <div id="container"></div>
 <script src="js/underscore-1.5.2.min.js"></script>
