@@ -99,7 +99,7 @@ function jsion(data) {
             v = _.escape(v);
           }
         }
-        return ("<li class=\"" + pt + "\">" +
+        return ("<li class=\"" + pt + " " + k + "\">" +
                 "<label>" + k + "</label>" +
                 "<span>" + v + "</span></li>");
       }).join("\n");
