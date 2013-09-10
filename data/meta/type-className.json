@@ -1,4 +1,5 @@
 { "class": "type",
   "name": "className",
-  "super": "typeName"
+  "super": "typeName",
+  "template": "<a href=\"#class-<%= v %>\"><%= v %></a>"
 }

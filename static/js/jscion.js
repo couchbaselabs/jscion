@@ -90,8 +90,13 @@ function jsion(data) {
             var r = renderObjWithClass(v, ptc.result);
             v = r.err || r.result;
           }
+        } else {
+          v = (k == "class" && !v) ? cls.name : v;
+          var t = ((getObj("type-" + pt) || {}).result || {}).template;
+          if (t) {
+            v = _.template(t, {v: v})
+          }
         }
-        v = (k == "class" && !v) ? cls.name : v;
         return ("<li class=\"" + pt + "\">" +
                 "<label>" + k + "</label>" +
                 "<span>" + v + "</span></li>");
