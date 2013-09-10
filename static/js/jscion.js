@@ -100,30 +100,28 @@ function jsion(data) {
     var s = _.map(keys, function(k) {
         var p = f.result[k];
         var v = obj[k];
-        var pc = p.class || "property";
-        var pt = p.propertyType || "string";
-        var ptc = getClassByName(pt);
-        if (!ptc.err && ptc.result) {
-          if (pc == "propertyArray") {
+        var c = getClassByName(p.propertyType).result;
+        if (c) {
+          if (p.class == "propertyArray") {
             v = _.map(v, function(vx) {
-                var r = renderObjWithClass(vx, ptc.result);
+                var r = renderObjWithClass(vx, c);
                 return r.err || r.result;
               }).join("</li><li>");
             v = "<ul class=\"propertyArray\">" + (v ? ("<li>" + v + "</li>") : "") + "</ul>";
           } else {
-            var r = renderObjWithClass(v, ptc.result);
+            var r = renderObjWithClass(v, c);
             v = r.err || r.result;
           }
         } else {
           v = (k == "class" && !v) ? cls.name : v;
-          var t = (getTypeByName(pt).result || {}).template;
+          var t = (getTypeByName(p.propertyType).result || {}).template;
           if (t) {
-            v = _.template(t, {ctx: ctx, property: p, v: v});
+            v = _.template(t, { ctx: ctx, property: p, v: v });
           } else {
             v = _.escape(v);
           }
         }
-        return ("<li class=\"" + pt + " " + k + "\">" +
+        return ("<li class=\"" + p.propertyType + " " + k + "\">" +
                 "<label>" + k + "</label>" +
                 "<span>" + v + "</span></li>");
       }).join("\n");
