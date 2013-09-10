@@ -74,7 +74,8 @@ function jsion(data) {
             v = _.map(v, function(vx) {
                 var r = renderObjWithClass(vx, ptc.result);
                 return r.err || r.result;
-              }).join("<hr/>");
+              }).join("</li><li>");
+            v = "<ul>" + (v ? ("<li>" + v + "</li>") : "") + "</ul>";
           } else {
             var r = renderObjWithClass(v, ptc.result);
             v = r.err || r.result;
@@ -83,8 +84,9 @@ function jsion(data) {
         if (k == "class" && !v) {
           v = cls.name;
         }
-        return "<li><label>" + k + "</label>:" + v + "</li>";
+        return "<li class=\"" + pt + "\"><label>" + k + "</label>" +
+          ":<span>" + v + "</span></li>";
       }).join("\n");
-    return { result: "<ul>" + s + "</ul>" };
+    return { result: "<ul class=\"" + cls.name + "\">" + s + "</ul>" };
   }
 }
