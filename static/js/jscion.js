@@ -8,7 +8,7 @@ function jsion(data) {
               "visitHierarchy": visitHierarchy,
               "flattenHierarchy": flattenHierarchy,
               "flattenProperties": flattenProperties };
-  return ctx;
+  return _.clone(ctx);
 
   function getObj(ident) { return { err: null, result: data[ident] }; }
   function getClass(obj, defaultClassName) {
