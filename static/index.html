@@ -3,9 +3,9 @@
   <title>jscion</title>
 </head>
 <body>
+<style>
+</style>
 <div id="container"></div>
-<hr/>
-<div id="identsByClass"></div>
 <script src="js/underscore-1.5.2.min.js"></script>
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/jscion.js"></script>
@@ -19,27 +19,9 @@ $(function() {
       var r = ctx.renderIdent("invoice-0001");
       var h = r.err || r.result || "no render result";
       $("#container").html(h);
-      dumpIdentsByClass(ctx, _.keys(data))
     }
   });
 });
-
-function dumpIdentsByClass(ctx, idents) {
-  var classes = {};
-  _.each(idents, function(ident) {
-    var cname = (ctx.getObj(ident).result || {}).class || "<none>";
-    var identsByClass = classes[cname] || [];
-    identsByClass.push(ident);
-    classes[cname] = identsByClass;
-  });
-  var h = _.map(classes, function(idents, cname) {
-    var supers = [];
-    ctx.visitHierarchy(ctx.getClassByName(cname).result, "getClassByName", "super",
-      function(cls) { supers.push(cls.name); });
-    return "<li>[" + supers + "]:<ul><li>" + idents.join("</li><li>") + "</li></ul></li>";
-  }).join("\n");
-  $("#identsByClass").html("<ul>" + h + "</ul>");
-}
 </script>
 </body>
 </html>
