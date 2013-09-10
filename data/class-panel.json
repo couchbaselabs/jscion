@@ -1,0 +1,9 @@
+{ "class": "class",
+  "name": "panel",
+  "super": "object",
+  "properties": [
+    { "name": "title",
+      "propertyType": "string"
+    }
+  ]
+}
