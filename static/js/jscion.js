@@ -1,5 +1,5 @@
 function jsion(data) {
-  var ctx = { "get": get,
+  var ctx = { "getObj": getObj,
               "getClass": getClass,
               "getClassByName": getClassByName,
               "renderIdent": renderIdent,
@@ -9,14 +9,14 @@ function jsion(data) {
               "flattenProperties": flattenProperties };
   return ctx;
 
-  function get(ident) { return { err: null, result: data[ident] }; }
+  function getObj(ident) { return { err: null, result: data[ident] }; }
   function getClass(obj, defaultClassName) {
     return getClassByName(obj["class"] || defaultClassName);
   }
-  function getClassByName(name) { return get("class-" + name); }
+  function getClassByName(name) { return getObj("class-" + name); }
 
   function renderIdent(ident) {
-    var o = get(ident);
+    var o = getObj(ident);
     if (o.err || !o.result) {
       return { err: o.err || ("no object with ident: " + ident) };
     }
