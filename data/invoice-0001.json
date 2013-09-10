@@ -1,5 +1,5 @@
 { "class": "invoice",
-  "invoiceId": "0001",
+  "invoiceId": "invoice-0001",
   "invoiceLines": [
     { "productId": "coffee-321",
       "productPrice": 123.0,
