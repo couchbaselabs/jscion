@@ -1,3 +1,4 @@
 { "class": "type",
-  "name": "float"
+  "name": "float",
+  "defaultValue": 0.0
 }

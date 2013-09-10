@@ -8,6 +8,9 @@
     { "name": "super",
       "propertyType": "typeName"
     },
+    { "name": "defaultValue",
+      "propertyType": null
+    },
     { "name": "template",
       "propertyType": "string"
     }

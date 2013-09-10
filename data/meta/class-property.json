@@ -8,6 +8,9 @@
     { "name": "propertyType",
       "propertyType": "typeName"
     },
+    { "name": "defaultValue",
+      "propertyType": null
+    },
     { "name": "displayOrder",
       "propertyType": "float"
     }

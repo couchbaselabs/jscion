@@ -2,6 +2,8 @@ function jsion(data) {
   var ctx = { "getObj": getObj,
               "getClass": getClass,
               "getClassByName": getClassByName,
+              "getTypeByName": getTypeByName,
+              "newObj": newObj,
               "classImplements": classImplements,
               "visitHierarchy": visitHierarchy,
               "flattenHierarchy": flattenHierarchy,
@@ -14,6 +16,28 @@ function jsion(data) {
   function getObj(ident) { return { err: null, result: data[ident] }; }
   function getClass(obj) { return getClassByName(obj.class); }
   function getClassByName(className) { return getObj("class-" + className); }
+  function getTypeByName(typeName) { return getObj("type-" + typeName); }
+
+  function newObj(className) {
+    var c = getClassByName(className);
+    if (c.err || !c.result) {
+      return { err: c.err || ("no class for className: " + className) };
+    }
+    var o = {};
+    var f = flattenProperties(c.result);
+    if (f.err) {
+      return f;
+    }
+    _.each(f.result, function(p, k) { o[k] = propertyDefaultValue(p); });
+    return { result: o };
+  }
+
+  function propertyDefaultValue(p) {
+    var v = (newObj(p.propertyType).result ||
+             (getTypeByName(p.propertyType).result || {}).defaultValue);
+    return _.clone(p.defaultValue ||
+                   (p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v)));
+  }
 
   function classImplements(className) {
     var res = []; // Returns array of className and super-classNames.
@@ -92,7 +116,7 @@ function jsion(data) {
           }
         } else {
           v = (k == "class" && !v) ? cls.name : v;
-          var t = ((getObj("type-" + pt) || {}).result || {}).template;
+          var t = (getTypeByName(pt).result || {}).template;
           if (t) {
             v = _.template(t, {ctx: ctx, property: p, v: v});
           } else {
