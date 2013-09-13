@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -14,11 +15,11 @@ import (
 var addr = flag.String("addr", ":8080",
 	"HTTP/REST listen address")
 var dataPath = flag.String("dataPath", "./data",
-	"Data directory")
+	"data directory")
 var dataSuffix = flag.String("dataSuffix", ".json",
-	"Suffix for data files")
+	"suffix for data files")
 var staticPath = flag.String("staticPath", "./static",
-	"Path to static web UI content")
+	"path to static web UI content")
 
 func main() {
 	flag.Parse()
@@ -28,7 +29,11 @@ func main() {
 	})
 
 	dataHandler := func(w http.ResponseWriter, r *http.Request) {
-		d, _ := json.Marshal(content(*dataPath, *dataSuffix, map[string]interface{}{}))
+		d, err := json.Marshal(content(*dataPath, *dataSuffix, map[string]interface{}{}))
+		if err != nil {
+			log.Printf("error: parsing file: %s, err: %v\n", *dataPath, err)
+			return
+		}
 		w.Write(d)
 	}
 
