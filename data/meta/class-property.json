@@ -3,13 +3,28 @@
   "super": "metaObject",
   "properties": [
     { "name": "name",
-      "propertyType": "string"
+      "propertyType": "string",
+      "nullAllowed": false
     },
     { "name": "propertyType",
       "propertyType": "typeName"
     },
+    { "name": "nullAllowed",
+      "propertyType": "bool",
+      "defaultValue": true
+    },
     { "name": "defaultValue",
       "propertyType": null
+    },
+    { "name": "minValue",
+      "propertyType": null
+    },
+    { "name": "maxValue",
+      "propertyType": null
+    },
+    { "class": "propertyArray",
+      "name": "valueChoices",
+      "propertyType": "string"
     },
     { "name": "displayOrder",
       "propertyType": "float"
