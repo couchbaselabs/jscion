@@ -92,6 +92,9 @@ function jsion(data) {
   }
 
   function renderObjWithClass(obj, cls) {
+    if (obj == null) {
+      return { result: null };
+    }
     var f = flattenProperties(cls);
     if (f.err || !f.result) {
       return { err: f.err || ("no properties for cls: " + JSON.stringify(cls)) };
