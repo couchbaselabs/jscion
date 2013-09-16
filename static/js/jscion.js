@@ -1,9 +1,13 @@
+// Depends on underscore.js.
+//
 function jsion(data) {
   var ctx = { "getObj": getObj,
               "getClass": getClass,
               "getClassByName": getClassByName,
               "getTypeByName": getTypeByName,
               "newObj": newObj,
+              "findObj": _.partial(_.find, data),
+              "filterObjs": _.partial(_.filter, data),
               "classImplements": classImplements,
               "visitHierarchy": visitHierarchy,
               "flattenHierarchy": flattenHierarchy,
