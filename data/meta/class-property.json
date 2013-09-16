@@ -7,7 +7,8 @@
       "nullAllowed": false
     },
     { "name": "propertyKind",
-      "propertyKind": "kindName"
+      "propertyKind": "kindName",
+      "nullAllowed": false
     },
     { "name": "nullAllowed",
       "propertyKind": "bool",
