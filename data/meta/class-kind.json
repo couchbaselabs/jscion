@@ -3,10 +3,12 @@
   "super": "metaObject",
   "properties": [
     { "name": "name",
-      "propertyKind": "kindName"
+      "propertyKind": "kindName",
+      "editTemplate": "<a href=\"#<%- _.find(['class-', 'type-'], function(n) { return (ctx.getObj(n + v) || {}).result; }) %><%- v %>\"><%= v %></a>"
     },
     { "name": "super",
-      "propertyKind": "kindName"
+      "propertyKind": "kindName",
+      "editTemplate": "<a href=\"#<%- _.find(['class-', 'type-'], function(n) { return (ctx.getObj(n + v) || {}).result; }) %><%- v %>\"><%= v %></a>"
     }
   ]
 }

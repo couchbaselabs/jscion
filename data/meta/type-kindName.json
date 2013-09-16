@@ -2,5 +2,5 @@
   "name": "kindName",
   "super": "string",
   "viewTemplate": "<a href=\"#<%- _.find(['class-', 'type-'], function(n) { return (ctx.getObj(n + v) || {}).result; }) %><%- v %>\"><%= v %></a>",
-  "editTemplate": "<select><%= _.map(ctx.filterObjs(function(o) { return o.class == 'class' || o.class == 'type'; }).result || [], function(kind) { return '<option' + (kind.name == v ? ' selected' : '') + '>' + _.escape(kind.name) + '</option>'; }) %></select>"
+  "editTemplate": "<select><%= _.map(_.sortBy(ctx.filterObjs(function(o) { return o.class == 'class' || o.class == 'type'; }).result || [], 'name'), function(kind) { return '<option' + (kind.name == v ? ' selected' : '') + '>' + _.escape(kind.name) + '</option>'; }) %></select>"
 }

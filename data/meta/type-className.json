@@ -1,5 +1,5 @@
 { "class": "type",
   "name": "className",
   "super": "kindName",
-  "editTemplate": "<select><%= _.map(ctx.filterObjs(function(o) { return o.class == 'class'; }).result || [], function(cls) { return '<option' + (cls.name == v ? ' selected' : '') + '>' + _.escape(cls.name) + '</option>'; }) %></select>"
+  "editTemplate": "<select><%= _.map(_.sortBy(ctx.filterObjs(function(o) { return o.class == 'class'; }).result || [], 'name'), function(cls) { return '<option' + (cls.name == v ? ' selected' : '') + '>' + _.escape(cls.name) + '</option>'; }) %></select>"
 }
