@@ -86,12 +86,12 @@ function jsion(data) {
     return { err: err, result: out };
   }
 
-  function renderIdent(ident) {
+  function renderIdent(ident, opts) {
     var o = getObj(ident);
     if (o.err || !o.result) {
       return { err: o.err || ("no object with ident: " + ident) };
     }
-    return renderObj(o.result);
+    return renderObj(o.result, opts);
   }
 
   function renderObj(obj, opts) {

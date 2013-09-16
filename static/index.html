@@ -22,8 +22,14 @@ $(function() {
 $(window).bind('hashchange', redraw);
 
 function redraw() {
-  var ident = window.location.hash ? window.location.hash.substring(1) : null;
-  var r = g_ctx.renderIdent(ident || "uiPanel-start");
+  // A target looks like "ident,key0=val0,key1=val1".
+  var target = window.location.hash ? window.location.hash.substring(1) : "uiPanel-start";
+  var ident = target.split(",")[0];
+  var opts = _.reduce(_.tail(target.split(",")), function(o, kv) {
+    o[kv.split('=')[0]] = kv.split('=')[1];
+    return o;
+  }, {})
+  var r = g_ctx.renderIdent(ident || "uiPanel-start", opts);
   var h = r.err || r.result || "no render result";
   $("#container").html(h);
 }
