@@ -20,13 +20,16 @@
       "defaultValue": true
     },
     { "name": "defaultValue",
-      "propertyKind": "any"
+      "propertyKind": "any",
+      "nullAllowed": true
     },
     { "name": "minValue",
-      "propertyKind": "any"
+      "propertyKind": "any",
+      "nullAllowed": true
     },
     { "name": "maxValue",
-      "propertyKind": "any"
+      "propertyKind": "any",
+      "nullAllowed": true
     },
     { "class": "propertyArray",
       "name": "valueChoices",
