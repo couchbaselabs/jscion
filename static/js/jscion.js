@@ -113,28 +113,29 @@ function jsion(data) {
     var keys = _.sortBy(_.keys(f.result), function(k) { return f.result[k].displayOrder; });
     var s = _.map(keys, function(k) {
         var p = f.result[k];
-        var v = obj[k];
         var c = getClassByName(p.propertyKind).result;
-        if (c) {
-          if (p.class == "propertyArray") {
-            v = _.map(v, function(vx) {
+        var t = getTypeByName(p.propertyKind).result;
+        var v = obj[k];
+        if (p.class != "propertyArray") {
+          v = [v];
+        }
+        va = _.map(v, function(vx) {
+            if (c) {
                 var r = renderObjWithClass(vx, (getClass(vx) || {}).result || c);
                 return r.err || r.result;
-              }).join("</li><li>");
-            v = "<ul class=\"propertyArray\">" + (v ? ("<li>" + v + "</li>") : "") + "</ul>";
-          } else {
-            var r = renderObjWithClass(v, c);
-            v = r.err || r.result;
-          }
+            }
+            vx = (k == "class" && !vx) ? cls.name : vx;
+            var vt = (flattenType(t || {}).result || {}).viewTemplate;
+            if (vt) {
+              return _.template(vt, { ctx: ctx, property: p, v: vx });
+            }
+            return _.escape(vx);
+          });
+        if (p.class == "propertyArray") {
+          v = va.join("</li><li>");
+          v = "<ul class=\"propertyArray\">" + (v ? ("<li>" + v + "</li>") : "") + "</ul>";
         } else {
-          v = (k == "class" && !v) ? cls.name : v;
-          var x = flattenType((getTypeByName(p.propertyKind)).result || {});
-          var t = (x.result || {}).viewTemplate;
-          if (t) {
-            v = _.template(t, { ctx: ctx, property: p, v: v });
-          } else {
-            v = _.escape(v);
-          }
+          v = va.join("");
         }
         return ("<li class=\"" + p.propertyKind + " " + k + "\">" +
                 "<label>" + k + "</label>" +
