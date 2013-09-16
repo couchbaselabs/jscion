@@ -94,15 +94,16 @@ function jsion(data) {
     return renderObj(o.result);
   }
 
-  function renderObj(obj) {
+  function renderObj(obj, opts) {
     var c = getClass(obj);
     if (c.err || !c.result) {
       return { err: c.err || ("no class for obj: " + JSON.stringify(obj)) };
     }
-    return renderObjWithClass(obj, c.result);
+    return renderObjWithClass(obj, c.result, opts);
   }
 
-  function renderObjWithClass(obj, cls) {
+  function renderObjWithClass(obj, cls, opts) {
+    opts = opts || {};
     if (obj == null) {
       return { result: null };
     }
@@ -118,12 +119,12 @@ function jsion(data) {
         function renderValue(vx) {
           var c = getClassByName(p.propertyKind).result;
           if (c) {
-            var r = renderObjWithClass(vx, (getClass(vx) || {}).result || c);
+            var r = renderObjWithClass(vx, (getClass(vx) || {}).result || c, opts);
             return r.err || r.result;
           }
           var t = getTypeByName(p.propertyKind).result;
           vx = (k == "class" && !vx) ? cls.name : vx;
-          var vt = (flattenType(t || {}).result || {}).viewTemplate;
+          var vt = (flattenType(t || {}).result || {})[(opts.mode || "view") + "Template"];
           if (vt) {
             return _.template(vt, { ctx: ctx, property: p, v: vx });
           }
