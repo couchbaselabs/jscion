@@ -113,29 +113,28 @@ function jsion(data) {
     var keys = _.sortBy(_.keys(f.result), function(k) { return f.result[k].displayOrder; });
     var s = _.map(keys, function(k) {
         var p = f.result[k];
-        var c = getClassByName(p.propertyKind).result;
-        var t = getTypeByName(p.propertyKind).result;
         var v = obj[k];
-        if (p.class != "propertyArray") {
-          v = [v];
+
+        function renderValue(vx) {
+          var c = getClassByName(p.propertyKind).result;
+          if (c) {
+            var r = renderObjWithClass(vx, (getClass(vx) || {}).result || c);
+            return r.err || r.result;
+          }
+          var t = getTypeByName(p.propertyKind).result;
+          vx = (k == "class" && !vx) ? cls.name : vx;
+          var vt = (flattenType(t || {}).result || {}).viewTemplate;
+          if (vt) {
+            return _.template(vt, { ctx: ctx, property: p, v: vx });
+          }
+          return _.escape(vx);
         }
-        va = _.map(v, function(vx) {
-            if (c) {
-                var r = renderObjWithClass(vx, (getClass(vx) || {}).result || c);
-                return r.err || r.result;
-            }
-            vx = (k == "class" && !vx) ? cls.name : vx;
-            var vt = (flattenType(t || {}).result || {}).viewTemplate;
-            if (vt) {
-              return _.template(vt, { ctx: ctx, property: p, v: vx });
-            }
-            return _.escape(vx);
-          });
+
         if (p.class == "propertyArray") {
-          v = va.join("</li><li>");
+          v = _.map(v, renderValue).join("</li><li>");
           v = "<ul class=\"propertyArray\">" + (v ? ("<li>" + v + "</li>") : "") + "</ul>";
         } else {
-          v = va.join("");
+          v = renderValue(v);
         }
         return ("<li class=\"" + p.propertyKind + " " + k + "\">" +
                 "<label>" + k + "</label>" +
