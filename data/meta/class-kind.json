@@ -3,10 +3,10 @@
   "super": "metaObject",
   "properties": [
     { "name": "name",
-      "propertyType": "kindName"
+      "propertyKind": "kindName"
     },
     { "name": "super",
-      "propertyType": "kindName"
+      "propertyKind": "kindName"
     }
   ]
 }

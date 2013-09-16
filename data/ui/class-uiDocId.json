@@ -3,7 +3,7 @@
   "super": "uiPart",
   "properties": [
     { "name": "src",
-      "propertyType": "docId"
+      "propertyKind": "docId"
     }
   ]
 }

@@ -3,7 +3,7 @@
   "super": null,
   "properties": [
     { "name": "class",
-      "propertyType": "className",
+      "propertyKind": "className",
       "displayOrder": -1000
     }
   ]

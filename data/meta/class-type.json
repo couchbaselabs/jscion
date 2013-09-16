@@ -3,16 +3,16 @@
   "super": "kind",
   "properties": [
     { "name": "name",
-      "propertyType": "typeName"
+      "propertyKind": "typeName"
     },
     { "name": "super",
-      "propertyType": "typeName"
+      "propertyKind": "typeName"
     },
     { "name": "defaultValue",
-      "propertyType": null
+      "propertyKind": null
     },
     { "name": "viewTemplate",
-      "propertyType": "string"
+      "propertyKind": "string"
     }
   ]
 }

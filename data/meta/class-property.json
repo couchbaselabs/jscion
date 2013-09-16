@@ -3,35 +3,35 @@
   "super": "metaObject",
   "properties": [
     { "name": "name",
-      "propertyType": "string",
+      "propertyKind": "string",
       "nullAllowed": false
     },
-    { "name": "propertyType",
-      "propertyType": "kindName"
+    { "name": "propertyKind",
+      "propertyKind": "kindName"
     },
     { "name": "nullAllowed",
-      "propertyType": "bool",
+      "propertyKind": "bool",
       "defaultValue": true
     },
     { "name": "subKindAllowed",
-      "propertyType": "bool",
+      "propertyKind": "bool",
       "defaultValue": true
     },
     { "name": "defaultValue",
-      "propertyType": null
+      "propertyKind": null
     },
     { "name": "minValue",
-      "propertyType": null
+      "propertyKind": null
     },
     { "name": "maxValue",
-      "propertyType": null
+      "propertyKind": null
     },
     { "class": "propertyArray",
       "name": "valueChoices",
-      "propertyType": "string"
+      "propertyKind": "string"
     },
     { "name": "displayOrder",
-      "propertyType": "float"
+      "propertyKind": "float"
     }
   ]
 }

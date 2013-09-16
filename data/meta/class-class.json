@@ -3,14 +3,14 @@
   "super": "kind",
   "properties": [
     { "name": "name",
-      "propertyType": "className"
+      "propertyKind": "className"
     },
     { "name": "super",
-      "propertyType": "className"
+      "propertyKind": "className"
     },
     { "class": "propertyArray",
       "name": "properties",
-      "propertyType": "property"
+      "propertyKind": "property"
     }
   ]
 }

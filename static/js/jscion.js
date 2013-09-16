@@ -34,8 +34,8 @@ function jsion(data) {
   }
 
   function propertyDefaultValue(p) {
-    var v = (newObj(p.propertyType).result ||
-             (getTypeByName(p.propertyType).result || {}).defaultValue);
+    var v = (newObj(p.propertyKind).result ||
+             (getTypeByName(p.propertyKind).result || {}).defaultValue);
     return _.clone(p.defaultValue ||
                    (p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v)));
   }
@@ -114,7 +114,7 @@ function jsion(data) {
     var s = _.map(keys, function(k) {
         var p = f.result[k];
         var v = obj[k];
-        var c = getClassByName(p.propertyType).result;
+        var c = getClassByName(p.propertyKind).result;
         if (c) {
           if (p.class == "propertyArray") {
             v = _.map(v, function(vx) {
@@ -128,7 +128,7 @@ function jsion(data) {
           }
         } else {
           v = (k == "class" && !v) ? cls.name : v;
-          var x = flattenType((getTypeByName(p.propertyType)).result || {});
+          var x = flattenType((getTypeByName(p.propertyKind)).result || {});
           var t = (x.result || {}).viewTemplate;
           if (t) {
             v = _.template(t, { ctx: ctx, property: p, v: v });
@@ -136,7 +136,7 @@ function jsion(data) {
             v = _.escape(v);
           }
         }
-        return ("<li class=\"" + p.propertyType + " " + k + "\">" +
+        return ("<li class=\"" + p.propertyKind + " " + k + "\">" +
                 "<label>" + k + "</label>" +
                 "<span>" + v + "</span></li>");
       }).join("\n");

@@ -4,7 +4,7 @@
   "properties": [
     { "class": "propertyArray",
       "name": "parts",
-      "propertyType": "uiPart"
+      "propertyKind": "uiPart"
     }
   ]
 }

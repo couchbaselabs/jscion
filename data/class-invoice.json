@@ -3,14 +3,14 @@
   "super": "object",
   "properties": [
     { "name": "invoiceId",
-      "propertyType": "docId"
+      "propertyKind": "docId"
     },
     { "name": "grandTotal",
-      "propertyType": "monetary"
+      "propertyKind": "monetary"
     },
     { "class": "propertyArray",
       "name": "invoiceLines",
-      "propertyType": "invoiceLine"
+      "propertyKind": "invoiceLine"
     }
   ]
 }
