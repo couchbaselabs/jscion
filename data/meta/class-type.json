@@ -11,7 +11,7 @@
     { "name": "defaultValue",
       "propertyType": null
     },
-    { "name": "template",
+    { "name": "viewTemplate",
       "propertyType": "string"
     }
   ]

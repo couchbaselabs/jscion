@@ -127,7 +127,7 @@ function jsion(data) {
           }
         } else {
           v = (k == "class" && !v) ? cls.name : v;
-          var t = (flattenType((getTypeByName(p.propertyType)).result || {}).result || {}).template;
+          var t = (flattenType((getTypeByName(p.propertyType)).result || {}).result || {}).viewTemplate;
           if (t) {
             v = _.template(t, { ctx: ctx, property: p, v: v });
           } else {

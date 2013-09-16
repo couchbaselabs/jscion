@@ -2,5 +2,5 @@
   "name": "monetary",
   "super": "float",
   "defaultValue": 0.0,
-  "template": "<%= (v || 0).toFixed(2) %>"
+  "viewTemplate": "<%= (v || 0).toFixed(2) %>"
 }
