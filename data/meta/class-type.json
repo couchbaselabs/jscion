@@ -9,7 +9,7 @@
       "propertyKind": "typeName"
     },
     { "name": "defaultValue",
-      "propertyKind": null
+      "propertyKind": "any"
     },
     { "name": "viewTemplate",
       "propertyKind": "string"

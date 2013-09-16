@@ -18,13 +18,13 @@
       "defaultValue": true
     },
     { "name": "defaultValue",
-      "propertyKind": null
+      "propertyKind": "any"
     },
     { "name": "minValue",
-      "propertyKind": null
+      "propertyKind": "any"
     },
     { "name": "maxValue",
-      "propertyKind": null
+      "propertyKind": "any"
     },
     { "class": "propertyArray",
       "name": "valueChoices",
