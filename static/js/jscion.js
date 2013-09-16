@@ -122,13 +122,10 @@ function jsion(data) {
             var r = renderObjWithClass(vx, (getClass(vx) || {}).result || c, opts);
             return r.err || r.result;
           }
-          var t = getTypeByName(p.propertyKind).result;
           vx = (k == "class" && !vx) ? cls.name : vx;
-          var vt = (flattenType(t || {}).result || {})[(opts.mode || "view") + "Template"];
-          if (vt) {
-            return _.template(vt, { ctx: ctx, property: p, v: vx });
-          }
-          return _.escape(vx);
+          var t = getTypeByName(p.propertyKind || "any").result || {};
+          var vt = (flattenType(t).result || {})[(opts.mode || "view") + "Template"];
+          return _.template(vt, { ctx: ctx, property: p, v: vx });
         }
 
         if (p.class == "propertyArray") {
