@@ -6,8 +6,8 @@ function jsion(data) {
               "getClassByName": getClassByName,
               "getTypeByName": getTypeByName,
               "newObj": newObj,
-              "findObj": _.partial(_.find, data),
-              "filterObjs": _.partial(_.filter, data),
+              "findObj": findObj,
+              "filterObjs": filterObjs,
               "classImplements": classImplements,
               "visitHierarchy": visitHierarchy,
               "flattenHierarchy": flattenHierarchy,
@@ -22,6 +22,9 @@ function jsion(data) {
   function getClass(obj) { return getClassByName(obj.class); }
   function getClassByName(className) { return getObj("class-" + className); }
   function getTypeByName(typeName) { return getObj("type-" + typeName); }
+
+  function findObj(fn) { return { result: _.find(data, fn) }; }
+  function filterObjs(fn) { return { result: _.filter(data, fn) }; }
 
   function newObj(className) {
     var c = getClassByName(className);
