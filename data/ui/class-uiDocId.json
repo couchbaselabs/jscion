@@ -1,5 +1,5 @@
 { "class": "class",
-  "name": "uiLink",
+  "name": "uiDocId",
   "super": "uiPart",
   "properties": [
     { "name": "src",
