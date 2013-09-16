@@ -13,6 +13,10 @@
       "propertyType": "bool",
       "defaultValue": true
     },
+    { "name": "subKindAllowed",
+      "propertyType": "bool",
+      "defaultValue": true
+    },
     { "name": "defaultValue",
       "propertyType": null
     },
