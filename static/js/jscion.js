@@ -125,7 +125,7 @@ function jsion(data) {
           vx = (k == "class" && !vx) ? cls.name : vx;
           var t = getTypeByName(p.propertyKind || "any").result || {};
           var vt = (flattenType(t).result || {})[(opts.mode || "view") + "Template"];
-          return _.template(vt, { ctx: ctx, property: p, v: vx });
+          return _.template(vt, { ctx: ctx, property: p, type: t, o: obj, k: k, v: vx });
         }
 
         if (p.class == "propertyArray") {

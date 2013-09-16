@@ -1,5 +1,6 @@
 { "class": "type",
   "name": "bool",
   "super": "any",
-  "defaultValue": false
+  "defaultValue": false,
+  "editTemplate": "<select><option value=\"true\" <%= v ? \"selected\" : \"\"%>>true</option><option value=\"false\" <%= (v == false) ? \"selected\" : \"\"%>>false</option><option value=\"\" <%= _.isUndefined(v) || _.isNull(v) ? \"selected\" : \"\"%>>undefined</option></select>"
 }
