@@ -1,5 +1,4 @@
 { "class": "type",
   "name": "className",
-  "super": "typeName",
-  "template": "<a href=\"#class-<%= v %>\"><%= v %></a>"
+  "super": "kindName"
 }

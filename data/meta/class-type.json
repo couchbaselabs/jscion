@@ -1,6 +1,6 @@
 { "class": "class",
   "name": "type",
-  "super": "metaObject",
+  "super": "kind",
   "properties": [
     { "name": "name",
       "propertyType": "typeName"

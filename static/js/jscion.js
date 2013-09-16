@@ -62,16 +62,26 @@ function jsion(data) {
   // collName can be "properties", "methods", "validations", etc., and
   // the parentName can be "super".
   function flattenHierarchy(obj, upFuncName, parentName, collName, out) {
-    visitHierarchy(obj, upFuncName, parentName, function(obj) {
-      _.each(obj[collName], function(x) {
-        out[x.name] = _.defaults(out[x.name] || {}, x)
+    return visitHierarchy(obj, upFuncName, parentName, function(obj) {
+        _.each(obj[collName], function(x) {
+            out[x.name] = _.defaults(out[x.name] || {}, x);
+          });
       });
-    });
   }
 
   function flattenProperties(cls) {
-    var out = {}
+    var out = {};
     var err = flattenHierarchy(cls, "getClassByName", "super", "properties", out);
+    return { err: err, result: out };
+  }
+
+  function flattenType(type) {
+    var out = {};
+    var err = visitHierarchy(type, "getTypeByName", "super", function(obj) {
+        _.each(obj, function(v, k) {
+            out[k] = _.isUndefined(out[k]) ? v : out[k];
+          });
+      });
     return { err: err, result: out };
   }
 
@@ -117,7 +127,7 @@ function jsion(data) {
           }
         } else {
           v = (k == "class" && !v) ? cls.name : v;
-          var t = (getTypeByName(p.propertyType).result || {}).template;
+          var t = (flattenType((getTypeByName(p.propertyType)).result || {}).result || {}).template;
           if (t) {
             v = _.template(t, { ctx: ctx, property: p, v: v });
           } else {
