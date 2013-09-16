@@ -4,6 +4,28 @@
     { "class": "uiDocId",
       "title": "an invoice",
       "src": "invoice-0001"
+    },
+    { "class": "uiPanel",
+      "title": "a subpanel",
+      "parts": [
+        { "class": "uiDocId",
+          "title": "the same invoice",
+          "src": "invoice-0001"
+        }
+      ]
+    },
+    { "class": "uiPanel",
+      "title": "another subpanel",
+      "parts": [
+        { "class": "uiDocId",
+          "title": "the same invoice",
+          "src": "invoice-0001"
+        },
+        { "class": "uiDocId",
+          "title": "the same invoice",
+          "src": "invoice-0001"
+        }
+      ]
     }
   ]
 }

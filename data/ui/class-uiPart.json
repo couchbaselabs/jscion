@@ -3,7 +3,8 @@
   "super": "object",
   "properties": [
     { "name": "title",
-      "propertyType": "string"
+      "propertyType": "string",
+      "displayOrder": -1
     }
   ]
 }
