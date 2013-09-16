@@ -8,6 +8,7 @@ function jsion(data) {
               "visitHierarchy": visitHierarchy,
               "flattenHierarchy": flattenHierarchy,
               "flattenProperties": flattenProperties,
+              "flattenType": flattenType,
               "renderIdent": renderIdent,
               "renderObj": renderObj,
               "renderObjWithClass": renderObjWithClass };
