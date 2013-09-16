@@ -37,6 +37,9 @@
     },
     { "name": "displayOrder",
       "propertyKind": "float"
+    },
+    { "name": "editTemplate",
+      "propertyKind": "string"
     }
   ]
 }
