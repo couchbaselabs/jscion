@@ -1,4 +1,5 @@
 { "class": "type",
   "name": "float",
+  "super": "any",
   "defaultValue": 0.0
 }

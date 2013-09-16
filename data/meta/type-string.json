@@ -1,3 +1,4 @@
 { "class": "type",
-  "name": "string"
+  "name": "string",
+  "super": "any"
 }

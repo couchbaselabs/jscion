@@ -31,7 +31,7 @@ func main() {
 	dataHandler := func(w http.ResponseWriter, r *http.Request) {
 		d, err := json.Marshal(content(*dataPath, *dataSuffix, map[string]interface{}{}))
 		if err != nil {
-			log.Printf("error: parsing file: %s, err: %v\n", *dataPath, err)
+			log.Printf("error: marshaling content: %s, err: %v\n", *dataPath, err)
 			return
 		}
 		w.Write(d)
@@ -58,6 +58,7 @@ func content(root, suffix string, res map[string]interface{}) map[string]interfa
 		var val interface{}
 		err = json.Unmarshal(b, &val)
 		if err != nil {
+			log.Printf("error: parsing file: %s, err: %v\n", path, err)
 			return err
 		}
 		res[key] = val
