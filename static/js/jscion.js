@@ -118,7 +118,7 @@ function jsion(data) {
         if (c) {
           if (p.class == "propertyArray") {
             v = _.map(v, function(vx) {
-                var r = renderObjWithClass(vx, c);
+                var r = renderObjWithClass(vx, (getClass(vx) || {}).result || c);
                 return r.err || r.result;
               }).join("</li><li>");
             v = "<ul class=\"propertyArray\">" + (v ? ("<li>" + v + "</li>") : "") + "</ul>";
@@ -128,7 +128,8 @@ function jsion(data) {
           }
         } else {
           v = (k == "class" && !v) ? cls.name : v;
-          var t = (flattenType((getTypeByName(p.propertyType)).result || {}).result || {}).viewTemplate;
+          var x = flattenType((getTypeByName(p.propertyType)).result || {});
+          var t = (x.result || {}).viewTemplate;
           if (t) {
             v = _.template(t, { ctx: ctx, property: p, v: v });
           } else {

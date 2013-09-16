@@ -1,5 +1,9 @@
 { "class": "uiPanel",
   "title": "welcome",
   "parts": [
+    { "class": "uiDocId",
+      "title": "an invoice",
+      "src": "invoice-0001"
+    }
   ]
 }

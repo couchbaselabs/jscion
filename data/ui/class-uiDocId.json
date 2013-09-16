@@ -1,0 +1,9 @@
+{ "class": "class",
+  "name": "uiLink",
+  "super": "uiPart",
+  "properties": [
+    { "name": "src",
+      "propertyType": "docId"
+    }
+  ]
+}
