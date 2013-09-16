@@ -1,5 +1,5 @@
 { "class": "type",
   "name": "docId",
   "super": "string",
-  "viewTemplate": "<a href=\"#<%= v %>\"><%= v %></a>"
+  "viewTemplate": "<a href=\"#<%- v %>\"><%- v %></a>"
 }

@@ -1,4 +1,4 @@
 { "class": "type",
   "name": "any",
-  "viewTemplate": "<%= v %>"
+  "viewTemplate": "<%- v %>"
 }
