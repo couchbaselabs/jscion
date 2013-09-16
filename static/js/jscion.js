@@ -132,14 +132,15 @@ function jsion(data) {
 
         if (p.class == "propertyArray") {
           v = _.map(v, renderValue).join("</li><li>");
-          v = "<ul class=\"propertyArray\">" + (v ? ("<li>" + v + "</li>") : "") + "</ul>";
+          v = v ? ("<li>" + v + "</li>") : "";
+          v = '<ul class="propertyArray">' + v + "</ul>";
         } else {
           v = renderValue(v);
         }
         return ("<li class=\"" + p.propertyKind + " " + k + "\">" +
-                "<label>" + k + "</label>" +
-                "<span>" + v + "</span></li>");
+                "<label>" + k + "</label><span>" + v + "</span></li>");
       }).join("\n");
-    return { result: "<ul class=\"" + classImplements(cls.name).join(" ") + "\">" + s + "</ul>" };
+    var r = '<ul class="' + classImplements(cls.name).join(" ") + '">' + s + "</ul>";
+    return { result: r };
   }
 }
