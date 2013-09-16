@@ -23,7 +23,7 @@ $(window).bind('hashchange', redraw);
 
 function redraw() {
   var ident = window.location.hash ? window.location.hash.substring(1) : null;
-  var r = g_ctx.renderIdent(ident || "invoice-0001");
+  var r = g_ctx.renderIdent(ident || "uiPanel-start");
   var h = r.err || r.result || "no render result";
   $("#container").html(h);
 }

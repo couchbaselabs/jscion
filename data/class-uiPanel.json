@@ -1,0 +1,10 @@
+{ "class": "class",
+  "name": "uiPanel",
+  "super": "uiPart",
+  "properties": [
+    { "class": "propertyArray",
+      "name": "parts",
+      "propertyType": "uiPart"
+    }
+  ]
+}
