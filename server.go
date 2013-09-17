@@ -29,7 +29,18 @@ func main() {
 	})
 
 	http.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {
-		m, err := contentJSON(*dataPath, *dataSuffix, map[string]interface{}{})
+		m := map[string]interface{}{}
+		err := content(*dataPath, *dataSuffix, func(path, name string, b []byte) error {
+			key := name[0:len(name)-len(*dataSuffix)]
+			var val interface{}
+			err := json.Unmarshal(b, &val)
+			if err != nil {
+				log.Printf("error: parsing JSON file: %s, err: %v\n", path, err)
+				return err
+			}
+			m[key] = val
+			return nil
+		})
 		if err != nil {
 			log.Printf("error: collecting json: %s, err: %v\n", *dataPath, err)
 			return
@@ -54,20 +65,6 @@ func main() {
 	http.Handle("/", http.FileServer(http.Dir(*staticPath)))
 
 	http.ListenAndServe(*addr, nil)
-}
-
-func contentJSON(root, suffix string, res map[string]interface{}) (map[string]interface{}, error) {
-	return res, content(root, suffix, func(path, name string, b []byte) error {
-		key := name[0:len(name)-len(suffix)]
-		var val interface{}
-		err := json.Unmarshal(b, &val)
-		if err != nil {
-			log.Printf("error: parsing JSON file: %s, err: %v\n", path, err)
-			return err
-		}
-		res[key] = val
-		return nil
-	})
 }
 
 // Reads files in a directory tree into a map.

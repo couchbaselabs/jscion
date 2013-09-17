@@ -13,8 +13,7 @@
 var g_ctx;
 
 $(function() {
-  $.ajax({ url: "/data.json",
-           dataType: "json",
+  $.ajax({ url: "/data.json", dataType: "json",
            success: function(data) { g_ctx = jsion(data); redraw(); }
          });
 });
