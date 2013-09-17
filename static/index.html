@@ -2,7 +2,7 @@
 <head>
   <title>jscion</title>
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-  <link href="jscion.css" rel="stylesheet" media="screen">
+  <link href="data.css" rel="stylesheet" media="screen">
 </head>
 <body>
 <div id="container"></div>
@@ -13,7 +13,7 @@
 var g_ctx;
 
 $(function() {
-  $.ajax({ url: "/all.json",
+  $.ajax({ url: "/data.json",
            dataType: "json",
            success: function(data) { g_ctx = jsion(data); redraw(); }
          });

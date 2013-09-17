@@ -28,18 +28,27 @@ func main() {
 		fmt.Printf("  -%s=%s\n", f.Name, f.Value)
 	})
 
-	http.HandleFunc("/all.json", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {
 		m, err := contentJSON(*dataPath, *dataSuffix, map[string]interface{}{})
 		if err != nil {
-			log.Printf("error: collecting content: %s, err: %v\n", *dataPath, err)
+			log.Printf("error: collecting json: %s, err: %v\n", *dataPath, err)
 			return
 		}
 		d, err := json.Marshal(m)
 		if err != nil {
-			log.Printf("error: marshaling content: %s, err: %v\n", *dataPath, err)
+			log.Printf("error: marshaling json: %s, err: %v\n", *dataPath, err)
 			return
 		}
 		w.Write(d)
+	})
+
+	http.HandleFunc("/data.css", func(w http.ResponseWriter, r *http.Request) {
+		content(*dataPath, ".css", func(path, name string, css []byte) error {
+			w.Write([]byte(fmt.Sprintf("/* %s */\n", path)))
+			w.Write(css)
+			w.Write([]byte("\n"))
+			return nil
+		})
 	})
 
 	http.Handle("/", http.FileServer(http.Dir(*staticPath)))
