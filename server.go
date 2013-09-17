@@ -28,7 +28,7 @@ func main() {
 		fmt.Printf("  -%s=%s\n", f.Name, f.Value)
 	})
 
-	http.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/all.json", func(w http.ResponseWriter, r *http.Request) {
 		m, err := contentJSON(*dataPath, *dataSuffix, map[string]interface{}{})
 		if err != nil {
 			log.Printf("error: collecting content: %s, err: %v\n", *dataPath, err)
