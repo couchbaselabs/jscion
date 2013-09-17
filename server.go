@@ -23,15 +23,13 @@ var staticPath = flag.String("staticPath", "./static",
 
 func main() {
 	flag.Parse()
-	fmt.Printf("%s\n", os.Args[0])
-	flag.VisitAll(func(f *flag.Flag) {
-		fmt.Printf("  -%s=%s\n", f.Name, f.Value)
-	})
+	log.Printf("%s\n", os.Args[0])
+	flag.VisitAll(func(f *flag.Flag) { log.Printf("  -%s=%s\n", f.Name, f.Value) })
 
 	http.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {
 		m := map[string]interface{}{}
 		err := content(*dataPath, *dataSuffix, func(path, name string, b []byte) error {
-			key := name[0:len(name)-len(*dataSuffix)]
+			key := name[0 : len(name)-len(*dataSuffix)]
 			var val interface{}
 			err := json.Unmarshal(b, &val)
 			if err != nil {
