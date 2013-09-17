@@ -51,14 +51,11 @@ func main() {
 		w.Write(d)
 	})
 
-	http.HandleFunc("/data.css", func(w http.ResponseWriter, r *http.Request) {
-		content(*dataPath, ".css", func(path, name string, css []byte) error {
-			w.Write([]byte(fmt.Sprintf("/* %s */\n", path)))
-			w.Write(css)
-			w.Write([]byte("\n"))
-			return nil
-		})
-	})
+	http.HandleFunc("/data.css",
+		suffixHandler(*dataPath, ".css", "/* %s.css */", "/* %s.css */"))
+
+	http.HandleFunc("/data.ract",
+		suffixHandler(*dataPath, ".ract", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
 
 	http.Handle("/", http.FileServer(http.Dir(*staticPath)))
 
@@ -77,4 +74,17 @@ func content(root, suffix string, visitor func(path, name string, b []byte) erro
 		}
 		return visitor(path, f.Name(), b)
 	})
+}
+
+func suffixHandler(root, suffix, beg, end string) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		content(root, suffix, func(path, name string, b []byte) error {
+			base := name[0 : len(name)-len(suffix)]
+			w.Write([]byte(fmt.Sprintf(beg + "\n", base)))
+			w.Write(b)
+			w.Write([]byte(fmt.Sprintf(end + "\n", base)))
+			w.Write([]byte("\n"))
+			return nil
+		})
+	}
 }
