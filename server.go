@@ -67,7 +67,7 @@ func main() {
 	http.ListenAndServe(*addr, nil)
 }
 
-// Reads files in a directory tree into a map.
+// Visits every file in a directory tree that matches a name suffix.
 func content(root, suffix string, visitor func(path, name string, b []byte) error) error {
 	return filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
 		if f.IsDir() || !strings.HasSuffix(path, suffix) {
