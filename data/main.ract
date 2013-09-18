@@ -1,0 +1,7 @@
+<ul class="object">
+  {{#propertyKeys}}
+    <li>
+      <label>{{.}}</label><span>{{{ctx.renderValue(obj, ., obj[.], cls, properties[.], opts)}}}</span>
+    </li>
+  {{/propertyKeys}}
+</ul>

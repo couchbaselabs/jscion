@@ -12,10 +12,7 @@ function jsion(data) {
               "visitHierarchy": visitHierarchy,
               "flattenHierarchy": flattenHierarchy,
               "flattenProperties": flattenProperties,
-              "flattenType": flattenType,
-              "renderIdent": renderIdent,
-              "renderObj": renderObj,
-              "renderObjWithClass": renderObjWithClass };
+              "flattenType": flattenType };
   return _.clone(ctx);
 
   function getObj(ident) { return { err: null, result: data[ident] }; }
@@ -91,62 +88,5 @@ function jsion(data) {
           });
       });
     return { err: err, result: out };
-  }
-
-  function renderIdent(ident, opts) {
-    var o = getObj(ident);
-    if (o.err || !o.result) {
-      return { err: o.err || ("no object with ident: " + ident) };
-    }
-    return renderObj(o.result, opts);
-  }
-
-  function renderObj(obj, opts) {
-    var c = getClass(obj);
-    if (c.err || !c.result) {
-      return { err: c.err || ("no class for obj: " + JSON.stringify(obj)) };
-    }
-    return renderObjWithClass(obj, c.result, opts);
-  }
-
-  function renderObjWithClass(obj, cls, opts) {
-    opts = opts || {};
-    if (obj == null) {
-      return { result: null };
-    }
-    var f = flattenProperties(cls);
-    if (f.err || !f.result) {
-      return { err: f.err || ("no properties for cls: " + JSON.stringify(cls)) };
-    }
-    var keys = _.sortBy(_.keys(f.result), function(k) { return f.result[k].displayOrder; });
-    var s = _.map(keys, function(k) {
-        var p = f.result[k];
-        var v = obj[k];
-
-        function renderValue(vx) {
-          var c = getClassByName(p.propertyKind).result;
-          if (c) {
-            var r = renderObjWithClass(vx, (getClass(vx) || {}).result || c, opts);
-            return r.err || r.result;
-          }
-          vx = (k == "class" && !vx) ? cls.name : vx;
-          var n = (opts.mode || "view") + "Template";
-          var t = getTypeByName(p.propertyKind || "any").result || {};
-          var tm = p[n] || ((flattenType(t).result || {})[n]);
-          return _.template(tm, { ctx: ctx, property: p, type: t, o: obj, k: k, v: vx });
-        }
-
-        if (p.class == "propertyArray") {
-          v = _.map(v, renderValue).join("</li><li>");
-          v = v ? ("<li>" + v + "</li>") : "";
-          v = '<ul class="propertyArray">' + v + "</ul>";
-        } else {
-          v = renderValue(v);
-        }
-        return ("<li class=\"" + p.propertyKind + " " + k + "\">" +
-                "<label>" + k + "</label><span>" + v + "</span></li>");
-      }).join("\n");
-    var r = '<ul class="' + classImplements(cls.name).join(" ") + '">' + s + "</ul>";
-    return { result: r };
   }
 }

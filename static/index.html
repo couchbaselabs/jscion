@@ -10,13 +10,22 @@
 <script src="js/jquery-1.10.2.min.js"></script>
 <script src="js/Ractive-legacy.js"></script>
 <script src="js/jscion.js"></script>
+<script src="js/jscionRactive.js"></script>
 <script>
 var g_ctx;
+var g_tmpl;
+var g_ractive;
 
 $(function() {
-  $.ajax({ url: "/data.json", dataType: "json",
-           success: function(data) { g_ctx = jsion(data); redraw(); }
-         });
+  $.ajax({ url: "/data.ract", success: recvTmpl });
+  function recvTmpl(tmpl) {
+    $.ajax({ url: "/data.json", success: recvData, dataType: "json" });
+    function recvData(data) {
+      g_ctx = jsion(data);
+      g_tmpl = tmpl;
+      redraw();
+    }
+  }
 });
 
 $(window).bind('hashchange', redraw);
@@ -24,14 +33,21 @@ $(window).bind('hashchange', redraw);
 function redraw() {
   // A target looks like "ident,key0=val0,key1=val1".
   var target = window.location.hash ? window.location.hash.substring(1) : "uiPanel-start";
-  var ident = target.split(",")[0];
-  var opts = _.reduce(_.tail(target.split(",")), function(o, kv) {
-    o[kv.split('=')[0]] = kv.split('=')[1];
-    return o;
-  }, {})
-  var r = g_ctx.renderIdent(ident || "uiPanel-start", opts);
-  var h = r.err || r.result || "no render result";
-  $("#container").html(h);
+  var ident = target.split(",")[0] || "uiPanel-start";
+  var opts = _.reduce(_.tail(target.split(",")),
+                      function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; }, {});
+  var o = g_ctx.getObj(ident);
+  if (o.err || !o.result) {
+    $("#container").html("error: no obj with ident: " + ident + ", err: " + o.err);
+    return;
+  }
+  var t = "{{#obj}}\n{{>" + o.result.class + "}}\n{{/obj}}";
+  var r = jsionRactive(g_ctx);
+  g_ractive = new Ractive({ el: "#container",
+                            data: { ctx: g_ctx, renderers: r.renderers,
+                                    obj: o.result, opts: opts },
+                            partials: r.partials,
+                            template: t + "\n" + g_tmpl });
 }
 </script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
