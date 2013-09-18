@@ -13,13 +13,11 @@ function jsionRactive(ctx) {
 
         var fname = cls.name + "_" + k;
         renderers[fname] = function(obj, opts) {
-          opts = opts || {};
-          var v = obj[k];
-          var vx = (k == "class" && !v) ? cls.name : v;
+          var v = (k == "class" && !obj[k]) ? cls.name : obj[k];
           var t = ctx.getTypeByName(p.propertyKind || "any").result || {};
-          var n = (opts.mode || "view") + "Template";
-          var tm = p[n] || ((ctx.flattenType(t).result || {})[n]);
-          return _.template(tm, { ctx: ctx, property: p, type: t, k: k, o: obj, v: vx });
+          var n = ((opts || {}).mode || "view") + "Template";
+          var m = p[n] || ((ctx.flattenType(t).result || {})[n]);
+          return _.template(m, { ctx: ctx, property: p, type: t, k: k, o: obj, v: v });
         }
 
         var c = ctx.getClassByName(p.propertyKind).result;

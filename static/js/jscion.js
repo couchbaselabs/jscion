@@ -85,9 +85,7 @@ function jsion(data) {
   function flattenType(type) {
     var out = {};
     var err = visitHierarchy(type, "getTypeByName", "super", function(obj) {
-        _.each(obj, function(v, k) {
-            out[k] = _.isUndefined(out[k]) ? v : out[k];
-          });
+        _.each(obj, function(v, k) { out[k] = _.isUndefined(out[k]) ? v : out[k]; });
       });
     return { err: err, result: out };
   }
