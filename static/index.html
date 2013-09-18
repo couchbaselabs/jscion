@@ -17,15 +17,11 @@ var g_tmpl;
 var g_ractive;
 
 $(function() {
-  $.ajax({ url: "/data.ract", success: recvTmpl });
-  function recvTmpl(tmpl) {
-    $.ajax({ url: "/data.json", success: recvData, dataType: "json" });
-    function recvData(data) {
-      g_ctx = jsion(data);
-      g_tmpl = tmpl;
-      redraw();
-    }
-  }
+  $.ajax({ url: "/data.ract", success: function(tmpl) {
+    $.ajax({ url: "/data.json", dataType: "json", success: function(data) {
+      g_ctx = jsion(data); g_tmpl = tmpl; redraw();
+    }});
+  }});
 });
 
 $(window).bind('hashchange', redraw);

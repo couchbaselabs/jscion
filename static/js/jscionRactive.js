@@ -3,8 +3,7 @@
 function jsionRactive(ctx) {
   var classes = ctx.filterObjs(function(o) { return o.class == "class"; }).result;
   var renderers = {};
-  return { partials: _.object(_.map(classes, makeRenderer)),
-           renderers: renderers };
+  return { partials: _.object(_.map(classes, makeRenderer)), renderers: renderers };
 
   function makeRenderer(cls) {
     var props = ctx.flattenProperties(cls).result;
@@ -23,18 +22,16 @@ function jsionRactive(ctx) {
           return _.template(tm, { ctx: ctx, property: p, type: t, k: k, o: obj, v: vx });
         }
 
-        var v = "{{{renderers." + fname + "(.,opts)}}}";
         var c = ctx.getClassByName(p.propertyKind).result;
-        if (c) {
-          v = makeRenderer(c)[1];
-        }
+        var v = c ? makeRenderer(c)[1] : ("{{{renderers." + fname + "(.,opts)}}}");
         if (p.class == "propertyArray") {
-          v = '<ul class="propertyArray">\n' +
-              "{{#." + k + "}}\n<li>" + v + "</li>\n{{/." + k + "}}\n</ul>";
+          v = '<ul class="propertyArray">\n{{#.' + k + "}}\n" +
+              "<li>" + v + "</li>\n{{/." + k + "}}\n</ul>";
         }
         return ('<li class="' + p.propertyKind + " " + k + '">' +
                 "<label>" + k + "</label><span>" + v + "</span></li>");
       }).join("\n");
+
     return [cls.name,
             '<ul class="' + ctx.classImplements(cls.name).join(" ") + '">' + s + "</ul>"];
   }
