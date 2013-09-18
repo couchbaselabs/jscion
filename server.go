@@ -51,9 +51,10 @@ func main() {
 		w.Write(d)
 	})
 
+	http.HandleFunc("/data.js",
+		suffixHandler(*dataPath, ".js", "/* %s.js */", "/* %s.js */"))
 	http.HandleFunc("/data.css",
 		suffixHandler(*dataPath, ".css", "/* %s.css */", "/* %s.css */"))
-
 	http.HandleFunc("/data.ract",
 		suffixHandler(*dataPath, ".ract", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
 
