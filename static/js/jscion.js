@@ -1,7 +1,8 @@
 // Depends on underscore.js.
 //
 function jsion(data) {
-  var ctx = { "getObj": getObj,
+  var ctx = { "setObj": setObj,
+              "getObj": getObj,
               "getClass": getClass,
               "getClassByName": getClassByName,
               "getTypeByName": getTypeByName,
@@ -15,6 +16,7 @@ function jsion(data) {
               "flattenType": flattenType };
   return _.clone(ctx);
 
+  function setObj(ident, obj) { data[ident] = obj; return {}; }
   function getObj(ident) { return { err: null, result: data[ident] }; }
   function getClass(obj) { return getClassByName(obj.class); }
   function getClassByName(className) { return getObj("class-" + className); }
