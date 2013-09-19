@@ -38,13 +38,12 @@ function redraw() {
     $("#container").html("error: no obj with ident: " + ident + ", err: " + o.err);
     return;
   }
-  var t = "{{#obj}}\n{{>" + o.result.class + "}}\n{{/obj}}";
   var r = jsionRactive(g_ctx);
   g_ractive = new Ractive({ el: "#container",
                             data: { ctx: g_ctx, renderers: r.renderers,
                                     obj: o.result, opts: opts },
                             partials: r.partials,
-                            template: t + "\n" + g_tmpl });
+                            template: "{{>main}}\n" + g_tmpl });
 }
 </script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
