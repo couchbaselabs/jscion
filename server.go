@@ -21,7 +21,7 @@ var appsPath = flag.String("appsPath", "./apps",
 var staticPath = flag.String("staticPath", "./static",
 	"path to static web UI content")
 
-const APP_CONF_NAME = "__app.conf"
+const APP_INFO_NAME = "app-info.json"
 
 func main() {
 	flag.Parse()
@@ -97,7 +97,7 @@ func content(root, app, suffix string, visitor func(name string, b []byte) error
 		if err != nil {
 			return err
 		}
-		aci, err := readAppConfInclude(dir)
+		aci, err := readAppInfoInclude(dir)
 		for _, app := range aci {
 			err = w(app)
 			if err != nil {
@@ -139,9 +139,9 @@ func withApp(orig func(http.ResponseWriter, *http.Request,
 	}
 }
 
-func readAppConfInclude(dir string) ([]string, error) {
+func readAppInfoInclude(dir string) ([]string, error) {
 	r := []string{}
-	j, err := ioutil.ReadFile(filepath.Join(dir, APP_CONF_NAME))
+	j, err := ioutil.ReadFile(filepath.Join(dir, APP_INFO_NAME))
 	if err != nil {
 		return r, err
 	}

@@ -1,0 +1,13 @@
+{ "class": "class",
+  "name": "app",
+  "super": "object",
+  "properties": [
+    { "name": "description",
+      "propertyKind": "string"
+    },
+    { "class": "propertyArray",
+      "name": "include",
+      "propertyKind": "string"
+    }
+  ]
+}
