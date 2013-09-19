@@ -5,3 +5,7 @@
   padding: 1em 1em 1em 1em;
   background-color: #999;
 }
+.header a, .footer a {
+  color: white;
+  font-weight: bold;
+}
