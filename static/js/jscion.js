@@ -1,5 +1,4 @@
-// Depends on underscore.js.
-//
+// Creates a jsion ctx around the data object.
 function jsion(data) {
   var ctx = { "setObj": setObj,
               "getObj": getObj,

@@ -1,5 +1,4 @@
-// Depends on underscore.js.
-//
+// Generates Ractive partials and renderer functions.
 function jsionRactive(ctx) {
   var res = { partials: {}, renderers: {} };
   _.each(ctx.filterObjs(function(o) { return o.class == "class"; }).result, visit);
