@@ -1,0 +1,24 @@
+.object label {
+  display: inline-block;
+  min-width: 8em;
+  text-align: right;
+  margin-right: 1em;
+}
+.object label:after {
+  content:":";
+}
+.object ul, ul.object {
+  list-style: none;
+}
+ul.object {
+  padding: 1em 0 1em 0;
+  border: 1px solid #888;
+}
+
+.header {
+  margin-bottom: 1em;
+}
+.header, .footer {
+  padding: 1em 1em 1em 1em;
+  background-color: #999;
+}

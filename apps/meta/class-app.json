@@ -8,6 +8,12 @@
     { "class": "propertyArray",
       "name": "include",
       "propertyKind": "string"
+    },
+    { "name": "startIdent",
+      "propertyKind": "string"
+    },
+    { "name": "startPartial",
+      "propertyKind": "string"
     }
   ]
 }

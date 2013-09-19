@@ -12,7 +12,7 @@ function jsionRactive(ctx) {
 
         var fname = cls.name + "_" + k;
         res.renderers[fname] = function(obj, opts) {
-          var v = (k == "class" && !obj[k]) ? cls.name : obj[k];
+          var v = _.isObject(obj) ? ((k == "class" && !obj[k]) ? cls.name : obj[k]) : obj;
           var t = ctx.getTypeByName(p.propertyKind || "any").result || {};
           var n = ((opts || {}).mode || "view") + "Template";
           var m = p[n] || ((ctx.flattenType(t).result || {})[n]);
