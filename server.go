@@ -35,7 +35,8 @@ func main() {
 func start(addr, dataPath, dataSuffix, staticPath string) {
 	r := mux.NewRouter()
 	sr := r.PathPrefix("/app/{app}/").Subrouter()
-	sr.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {
+	sr.HandleFunc("/data.json",
+		withApp(func(w http.ResponseWriter, r *http.Request, app string) {
 		m := map[string]interface{}{}
 		err := content(dataPath, dataSuffix, func(path, name string, b []byte) error {
 			key := name[0 : len(name)-len(dataSuffix)]
@@ -58,15 +59,15 @@ func start(addr, dataPath, dataSuffix, staticPath string) {
 			return
 		}
 		w.Write(d)
-	})
+		}))
 	sr.HandleFunc("/data.js",
 		suffixHandler(dataPath, ".js", "/* %s.js */", "/* %s.js */"))
 	sr.HandleFunc("/data.css",
 		suffixHandler(dataPath, ".css", "/* %s.css */", "/* %s.css */"))
 	sr.HandleFunc("/data.ract",
 		suffixHandler(dataPath, ".ract", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
-	sr.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, staticPath+"/index.html")
+    sr.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, staticPath + "/index.html")
 	})
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir(staticPath)))
 
@@ -88,14 +89,22 @@ func content(root, suffix string, visitor func(path, name string, b []byte) erro
 }
 
 func suffixHandler(root, suffix, beg, end string) func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
+	return withApp(func(w http.ResponseWriter, r *http.Request, app string) {
 		content(root, suffix, func(path, name string, b []byte) error {
 			base := name[0 : len(name)-len(suffix)]
-			w.Write([]byte(fmt.Sprintf(beg+"\n", base)))
+			w.Write([]byte(fmt.Sprintf(beg + "\n", base)))
 			w.Write(b)
-			w.Write([]byte(fmt.Sprintf(end+"\n", base)))
+			w.Write([]byte(fmt.Sprintf(end + "\n", base)))
 			w.Write([]byte("\n"))
 			return nil
 		})
+	})
+}
+
+func withApp(orig func(http.ResponseWriter, *http.Request,
+	string)) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+        // TODO: Auth checks.
+		orig(w, r, mux.Vars(r)["app"])
 	}
 }
