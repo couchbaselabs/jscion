@@ -10,6 +10,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 var addr = flag.String("addr", ":8080",
@@ -25,11 +27,16 @@ func main() {
 	flag.Parse()
 	log.Printf("%s\n", os.Args[0])
 	flag.VisitAll(func(f *flag.Flag) { log.Printf("  -%s=%s\n", f.Name, f.Value) })
+	start(*addr, *dataPath, *dataSuffix, *staticPath)
+}
 
-	http.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {
+func start(addr, dataPath, dataSuffix, staticPath string) {
+	r := mux.NewRouter()
+
+	r.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {
 		m := map[string]interface{}{}
-		err := content(*dataPath, *dataSuffix, func(path, name string, b []byte) error {
-			key := name[0 : len(name)-len(*dataSuffix)]
+		err := content(dataPath, dataSuffix, func(path, name string, b []byte) error {
+			key := name[0 : len(name)-len(dataSuffix)]
 			var val interface{}
 			err := json.Unmarshal(b, &val)
 			if err != nil {
@@ -40,27 +47,27 @@ func main() {
 			return nil
 		})
 		if err != nil {
-			log.Printf("error: collecting json: %s, err: %v\n", *dataPath, err)
+			log.Printf("error: collecting json: %s, err: %v\n", dataPath, err)
 			return
 		}
 		d, err := json.Marshal(m)
 		if err != nil {
-			log.Printf("error: marshaling json: %s, err: %v\n", *dataPath, err)
+			log.Printf("error: marshaling json: %s, err: %v\n", dataPath, err)
 			return
 		}
 		w.Write(d)
 	})
 
-	http.HandleFunc("/data.js",
-		suffixHandler(*dataPath, ".js", "/* %s.js */", "/* %s.js */"))
-	http.HandleFunc("/data.css",
-		suffixHandler(*dataPath, ".css", "/* %s.css */", "/* %s.css */"))
-	http.HandleFunc("/data.ract",
-		suffixHandler(*dataPath, ".ract", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
+	r.HandleFunc("/data.js",
+		suffixHandler(dataPath, ".js", "/* %s.js */", "/* %s.js */"))
+	r.HandleFunc("/data.css",
+		suffixHandler(dataPath, ".css", "/* %s.css */", "/* %s.css */"))
+	r.HandleFunc("/data.ract",
+		suffixHandler(dataPath, ".ract", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
 
-	http.Handle("/", http.FileServer(http.Dir(*staticPath)))
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir(staticPath)))
 
-	http.ListenAndServe(*addr, nil)
+	http.ListenAndServe(addr, r)
 }
 
 // Visits every file in a directory tree that matches a name suffix.
