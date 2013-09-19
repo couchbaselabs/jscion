@@ -1,6 +1,8 @@
 // Creates a jsion ctx around the data object.
-function jsion(data) {
+// The optional ctxNext allows chaining.
+function jsion(data, ctxNext) {
   var ctx = { "setObj": setObj,
+              "delObj": delObj,
               "getObj": getObj,
               "getClass": getClass,
               "getClassByName": getClassByName,
@@ -14,10 +16,25 @@ function jsion(data) {
               "flattenProperties": flattenProperties,
               "flattenHierarchy": flattenHierarchy,
               "visitHierarchy": visitHierarchy };
+  var deleted = {}; // Used to shadow the ctxNext.
   return _.clone(ctx);
 
-  function setObj(ident, obj) { data[ident] = obj; return {}; }
-  function getObj(ident) { return { err: null, result: data[ident] }; }
+  function setObj(ident, obj) {
+    delete deleted[ident];
+    data[ident] = obj;
+    return {};
+  }
+  function delObj(ident) {
+    delete data[ident];
+    deleted[ident] = true;
+  }
+  function getObj(ident) {
+    var obj = data[ident];
+    if (!obj && !deleted[ident] && ctxNext) {
+      return ctxNext.getObj(ident);
+    }
+    return { err: null, result: obj };
+  }
   function getClass(obj) { return getClassByName(obj.class); }
   function getClassByName(className) { return getObj("class-" + className); }
   function getTypeByName(typeName) { return getObj("type-" + typeName); }

@@ -10,7 +10,7 @@
       "propertyKind": "string"
     },
     { "name": "startIdent",
-      "propertyKind": "string"
+      "propertyKind": "docId"
     },
     { "name": "startPartial",
       "propertyKind": "string"

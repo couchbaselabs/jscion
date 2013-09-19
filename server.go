@@ -74,6 +74,7 @@ func start(addr, appsPath, staticPath string) {
 }
 
 // Visits every file in a directory tree that matches a name suffix.
+// And, follow the app info include metadata to bring in files from included apps.
 func content(root, app, suffix string, visitor func(name string, b []byte) error) error {
 	m := map[string][]byte{}
 	var w func(app string) error
