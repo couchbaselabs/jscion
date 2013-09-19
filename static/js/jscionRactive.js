@@ -1,10 +1,9 @@
 // Depends on underscore.js.
 //
 function jsionRactive(ctx) {
-  var partials = {};
-  var renderers = {};
+  var res = { partials: {}, renderers: {} };
   _.each(ctx.filterObjs(function(o) { return o.class == "class"; }).result, visit);
-  return { partials: partials, renderers: renderers };
+  return res;
 
   function visit(cls) {
     var props = ctx.flattenProperties(cls).result;
@@ -13,7 +12,7 @@ function jsionRactive(ctx) {
         var p = props[k];
 
         var fname = cls.name + "_" + k;
-        renderers[fname] = function(obj, opts) {
+        res.renderers[fname] = function(obj, opts) {
           var v = (k == "class" && !obj[k]) ? cls.name : obj[k];
           var t = ctx.getTypeByName(p.propertyKind || "any").result || {};
           var n = ((opts || {}).mode || "view") + "Template";
@@ -22,7 +21,7 @@ function jsionRactive(ctx) {
         }
 
         var c = ctx.getClassByName(p.propertyKind).result;
-        var v = c ? ("{{>" + c.name + "}}") : ("{{{renderers." + fname + "(.,opts)}}}");
+        var v = c ? ("{{>__" + c.name + "}}") : ("{{{renderers." + fname + "(.,opts)}}}");
         if (p.class == "propertyArray") {
           v = '<ul class="propertyArray">\n{{#.' + k + "}}\n" +
               "<li>" + v + "</li>\n{{/." + k + "}}\n</ul>";
@@ -31,7 +30,15 @@ function jsionRactive(ctx) {
                 "<label>" + k + "</label><span>" + v + "</span></li>");
       }).join("\n");
 
-    partials[cls.name] =
+    res.partials[cls.name] =
       '<ul class="' + ctx.classImplements(cls.name).join(" ") + '">' + s + "</ul>";
+    res.partials["__" + cls.name] =
+      _.map(ctx.filterObjs(function(o) { return (o.class == "class" &&
+                                                 (o.name == cls.name ||
+                                                  o.super == cls.name)); }).result,
+        function(c) {
+          return "{{# .class == '" + c.name + "'}}\n{{>" + c.name + "}}\n{{/}}";
+        }
+      ).join("\n") + "\n{{# !.class}}\n{{>" + cls.name + "}}\n{{/}}";
   }
 }
