@@ -36,12 +36,12 @@ func start(addr, appsPath, staticPath string) {
 	sr.HandleFunc("/init.json",
 		withApp(func(w http.ResponseWriter, r *http.Request, app string) {
 			m := map[string]interface{}{}
-			err := content(appsPath, ".json", func(path, name string, b []byte) error {
+			err := content(appsPath, app, ".json", func(name string, b []byte) error {
 				key := name[0 : len(name)-len(".json")]
 				var val interface{}
 				err := json.Unmarshal(b, &val)
 				if err != nil {
-					log.Printf("error: parsing JSON file: %s, err: %v\n", path, err)
+					log.Printf("error: parsing JSON file: %s, err: %v\n", name, err)
 					return err
 				}
 				m[key] = val
@@ -72,22 +72,40 @@ func start(addr, appsPath, staticPath string) {
 }
 
 // Visits every file in a directory tree that matches a name suffix.
-func content(root, suffix string, visitor func(path, name string, b []byte) error) error {
-	return filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
-		if f.IsDir() || !strings.HasSuffix(path, suffix) {
+func content(root, app, suffix string, visitor func(name string, b []byte) error) error {
+	m := map[string][]byte{}
+	w := func(app string) error {
+		return filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
+			if f.IsDir() || !strings.HasSuffix(path, suffix) {
+				return nil
+			}
+			b, ok := m[f.Name()]
+			if ok || b != nil {
+				return nil
+			}
+			b, err = ioutil.ReadFile(path)
+			if err != nil {
+				return err
+			}
+			m[f.Name()] = b
 			return nil
-		}
-		b, err := ioutil.ReadFile(path)
-		if err != nil {
+		})
+	}
+	err := w(app)
+	if err != nil {
+		return err
+	}
+	for name, b := range m {
+		if err := visitor(name, b); err != nil {
 			return err
 		}
-		return visitor(path, f.Name(), b)
-	})
+	}
+	return nil
 }
 
 func suffixHandler(root, suffix, beg, end string) func(http.ResponseWriter, *http.Request) {
 	return withApp(func(w http.ResponseWriter, r *http.Request, app string) {
-		content(root, suffix, func(path, name string, b []byte) error {
+		content(root, app, suffix, func(name string, b []byte) error {
 			base := name[0 : len(name)-len(suffix)]
 			w.Write([]byte(fmt.Sprintf(beg+"\n", base)))
 			w.Write(b)
