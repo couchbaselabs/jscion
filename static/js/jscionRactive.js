@@ -30,9 +30,9 @@ function jsionRactive(ctx) {
                 "<label>" + k + "</label><span>" + v + "</span></li>");
       }).join("\n");
 
-    res.partials[cls.name] =
+    res.partials[cls.name] = // Partial for the class.
       '<ul class="' + ctx.classImplements(cls.name).join(" ") + '">' + s + "</ul>";
-    res.partials["__" + cls.name] =
+    res.partials["__" + cls.name] = // Partial for the class and its direct subclasses.
       _.map(ctx.filterObjs(function(o) { return (o.class == "class" &&
                                                  (o.name == cls.name ||
                                                   o.super == cls.name)); }).result,
