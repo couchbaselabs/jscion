@@ -9,7 +9,7 @@ function jsion(data) {
               "newObj": newObj,
               "findObj": findObj,
               "filterObjs": filterObjs,
-              "classImplements": classImplements,
+              "classSupers": classSupers,
               "flattenType": flattenType,
               "flattenProperties": flattenProperties,
               "flattenHierarchy": flattenHierarchy,
@@ -46,7 +46,7 @@ function jsion(data) {
                    (p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v)));
   }
 
-  function classImplements(className) {
+  function classSupers(className) {
     var res = []; // Returns array of className and super-classNames.
     visitHierarchy(ctx.getClassByName(className).result, "getClassByName", "super",
       function(cls) { res.push(cls.name); });
