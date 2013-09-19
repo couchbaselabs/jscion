@@ -1,3 +1,4 @@
 <div class="header">
-  header
+  {{ fetch("app-info", "appInfo") }}
+  <a href="#{{ appInfo.startIdent }}">home</a>
 </div>

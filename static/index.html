@@ -43,13 +43,18 @@ function redraw() {
     return;
   }
 
+
   g_jractive = jsionRactive(g_ctx);
   console.log(g_jractive);
   g_ractive = new Ractive({ el: "#container",
                             data: { ctx: g_ctx, renderers: g_jractive.renderers,
-                                    obj: o.result, opts: opts },
+                                    obj: o.result, opts: opts, fetch: fetch },
                             partials: g_jractive.partials,
                             template: "{{>" + (a.startPartial || "main") + "}}\n" + g_tmpl });
+
+  function fetch(ident, into, using) {
+    setTimeout(function() { g_ractive[using || "set"](into || ident, g_ctx.getObj(ident).result); }, 10);
+  }
 }
 </script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
