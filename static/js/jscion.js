@@ -9,6 +9,7 @@ function jsion(data) {
               "newObj": newObj,
               "findObj": findObj,
               "filterObjs": filterObjs,
+              "classSubs": classSubs,
               "classSupers": classSupers,
               "flattenType": flattenType,
               "flattenProperties": flattenProperties,
@@ -44,6 +45,15 @@ function jsion(data) {
              (getTypeByName(p.propertyKind).result || {}).defaultValue);
     return _.clone(p.defaultValue ||
                    (p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v)));
+  }
+
+  function classSubs(className) {
+    return _.pluck(_.filter(filterObjs(function(o) { return o.class == "class"; }).result,
+                            function(cls) {
+                              return _.find(classSupers(cls.name),
+                                            function(n) { return n == className; });
+                            }),
+                   "name");
   }
 
   function classSupers(className) {
