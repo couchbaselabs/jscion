@@ -21,7 +21,7 @@ var g_jractive;
 $(function() {
   $.ajax({ url: "init.ract", success: function(tmpl) {
     $.ajax({ url: "init.json", dataType: "json", success: function(data) {
-      g_ctx = jsion(data); g_tmpl = tmpl; redraw();
+      g_ctx = jscion(data); g_tmpl = tmpl; redraw();
     }});
   }});
 });

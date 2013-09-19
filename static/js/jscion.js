@@ -1,6 +1,6 @@
-// Creates a jsion ctx around the data object.
+// Creates a jscion ctx around the data object.
 // The optional ctxNext allows chaining.
-function jsion(data, ctxNext) {
+function jscion(data, ctxNext) {
   var ctx = { "setObj": setObj,
               "delObj": delObj,
               "getObj": getObj,
