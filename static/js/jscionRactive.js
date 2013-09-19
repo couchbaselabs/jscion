@@ -33,12 +33,9 @@ function jsionRactive(ctx) {
     res.partials[cls.name] = // Partial for the class.
       '<ul class="' + ctx.classSupers(cls.name).join(" ") + '">' + s + "</ul>";
     res.partials["__" + cls.name] = // Partial for the class and its direct subclasses.
-      _.map(ctx.filterObjs(function(o) { return (o.class == "class" &&
-                                                 (o.name == cls.name ||
-                                                  o.super == cls.name)); }).result,
-        function(c) {
-          return "{{# .class == '" + c.name + "'}}\n{{>" + c.name + "}}\n{{/}}";
-        }
-      ).join("\n") + "\n{{# !.class}}\n{{>" + cls.name + "}}\n{{/}}";
+      _.map(ctx.classSubs(cls.name),
+            function(cn) {
+              return "{{# .class == '" + cn + "'}}\n{{>" + cn + "}}\n{{/}}";
+            }).join("\n") + "\n{{# !.class}}\n{{>" + cls.name + "}}\n{{/}}";
   }
 }
