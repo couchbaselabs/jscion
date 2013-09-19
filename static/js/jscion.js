@@ -10,10 +10,10 @@ function jsion(data) {
               "findObj": findObj,
               "filterObjs": filterObjs,
               "classImplements": classImplements,
-              "visitHierarchy": visitHierarchy,
-              "flattenHierarchy": flattenHierarchy,
+              "flattenType": flattenType,
               "flattenProperties": flattenProperties,
-              "flattenType": flattenType };
+              "flattenHierarchy": flattenHierarchy,
+              "visitHierarchy": visitHierarchy };
   return _.clone(ctx);
 
   function setObj(ident, obj) { data[ident] = obj; return {}; }
@@ -53,15 +53,18 @@ function jsion(data) {
     return res; // The res[0] == className.
   }
 
-  function visitHierarchy(obj, upFuncName, parentName, visitorFunc) {
-    while (obj) {
-      visitorFunc(obj);
-      var p = ctx[upFuncName](obj[parentName]);
-      if (p.err) {
-        return p.err;
-      }
-      obj = p.result;
-    }
+  function flattenType(type) {
+    var out = {};
+    var err = visitHierarchy(type, "getTypeByName", "super", function(obj) {
+        _.each(obj, function(v, k) { out[k] = _.isUndefined(out[k]) ? v : out[k]; });
+      });
+    return { err: err, result: out };
+  }
+
+  function flattenProperties(cls) {
+    var out = {};
+    var err = flattenHierarchy(cls, "getClassByName", "super", "properties", out);
+    return { err: err, result: out };
   }
 
   // Flatten collections from a object hierarchy into the out dict,
@@ -76,17 +79,14 @@ function jsion(data) {
       });
   }
 
-  function flattenProperties(cls) {
-    var out = {};
-    var err = flattenHierarchy(cls, "getClassByName", "super", "properties", out);
-    return { err: err, result: out };
-  }
-
-  function flattenType(type) {
-    var out = {};
-    var err = visitHierarchy(type, "getTypeByName", "super", function(obj) {
-        _.each(obj, function(v, k) { out[k] = _.isUndefined(out[k]) ? v : out[k]; });
-      });
-    return { err: err, result: out };
+  function visitHierarchy(obj, upFuncName, parentName, visitorFunc) {
+    while (obj) {
+      visitorFunc(obj);
+      var p = ctx[upFuncName](obj[parentName]);
+      if (p.err) {
+        return p.err;
+      }
+      obj = p.result;
+    }
   }
 }
