@@ -1,4 +1,15 @@
-<div class="header">
-  {{ fetch("app-info", "appInfo") }}
-  <a href="#{{ appInfo.startIdent }}">home</a>
+{{ fetch("app-info", "appInfo") }}
+
+<div class="navbar navbar-inverse navbar-fixed-top header">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#{{ appInfo.startIdent }}">home</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li><a href="#search">search</a></li>
+          <li><a href="#help">help</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>

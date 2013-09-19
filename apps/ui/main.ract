@@ -1,7 +1,9 @@
 {{>main_header}}
 
-{{#obj}}
-  {{>__object}}
-{{/obj}}
+<div class="container main">
+  {{#obj}}
+    {{>__object}}
+  {{/obj}}
+</div>
 
 {{>main_footer}}

@@ -1,11 +1,3 @@
-.header {
-  margin-bottom: 1em;
-}
-.header, .footer {
-  padding: 1em 1em 1em 1em;
-  background-color: #999;
-}
-.header a, .footer a {
-  color: white;
-  font-weight: bold;
+.main {
+  margin-top: 3em;
 }

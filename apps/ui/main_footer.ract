@@ -1,3 +1,13 @@
-<div class="footer">
-  <a href="#{{ appInfo.startIdent }}">home</a>
+<div class="navbar navbar-inverse navbar-fixed-bottom footer">
+  <div class="navbar-inner">
+    <div class="container">
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li><a href="#{{ appInfo.startIdent }}">home</a></li>
+          <li><a href="#contact">contact</a></li>
+          <li><a href="#help">help</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
