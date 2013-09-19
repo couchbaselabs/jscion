@@ -21,6 +21,8 @@ var appsPath = flag.String("appsPath", "./apps",
 var staticPath = flag.String("staticPath", "./static",
 	"path to static web UI content")
 
+const APP_CONF_NAME = "__app.conf"
+
 func main() {
 	flag.Parse()
 	log.Printf("%s\n", os.Args[0])
@@ -74,8 +76,10 @@ func start(addr, appsPath, staticPath string) {
 // Visits every file in a directory tree that matches a name suffix.
 func content(root, app, suffix string, visitor func(name string, b []byte) error) error {
 	m := map[string][]byte{}
-	w := func(app string) error {
-		return filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
+	var w func(app string) error
+	w = func(app string) error {
+		dir := filepath.Join(root, app)
+		err := filepath.Walk(dir, func(path string, f os.FileInfo, err error) error {
 			if f.IsDir() || !strings.HasSuffix(path, suffix) {
 				return nil
 			}
@@ -90,6 +94,17 @@ func content(root, app, suffix string, visitor func(name string, b []byte) error
 			m[f.Name()] = b
 			return nil
 		})
+		if err != nil {
+			return err
+		}
+		aci, err := readAppConfInclude(dir)
+		for _, app := range aci {
+			err = w(app)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
 	}
 	err := w(app)
 	if err != nil {
@@ -122,4 +137,21 @@ func withApp(orig func(http.ResponseWriter, *http.Request,
 		// TODO: Auth checks.
 		orig(w, r, mux.Vars(r)["app"])
 	}
+}
+
+func readAppConfInclude(dir string) ([]string, error) {
+	r := []string{}
+	j, err := ioutil.ReadFile(filepath.Join(dir, APP_CONF_NAME))
+	if err != nil {
+		return r, err
+	}
+	var conf map[string]interface{}
+	err = json.Unmarshal(j, &conf)
+	if err != nil {
+		return r, err
+	}
+	for _, s := range conf["include"].([]interface{}) {
+		r = append(r, s.(string))
+	}
+	return r, nil
 }
