@@ -14,10 +14,11 @@ ul.object {
   padding: 1em 0 1em 0;
   border: 1px solid #888;
 }
+
+.header {
+  margin-bottom: 1em;
+}
 .header, .footer {
   padding: 1em 1em 1em 1em;
   background-color: #999;
-}
-.header {
-  margin-bottom: 1em;
 }
