@@ -33,7 +33,7 @@ func main() {
 func start(addr, appsPath, staticPath string) {
 	r := mux.NewRouter()
 	sr := r.PathPrefix("/apps/{app}/").Subrouter()
-	sr.HandleFunc("/data.json",
+	sr.HandleFunc("/init.json",
 		withApp(func(w http.ResponseWriter, r *http.Request, app string) {
 			m := map[string]interface{}{}
 			err := content(appsPath, ".json", func(path, name string, b []byte) error {
@@ -58,17 +58,16 @@ func start(addr, appsPath, staticPath string) {
 			}
 			w.Write(d)
 		}))
-	sr.HandleFunc("/data.js",
+	sr.HandleFunc("/init.js",
 		suffixHandler(appsPath, ".js", "/* %s.js */", "/* %s.js */"))
-	sr.HandleFunc("/data.css",
+	sr.HandleFunc("/init.css",
 		suffixHandler(appsPath, ".css", "/* %s.css */", "/* %s.css */"))
-	sr.HandleFunc("/data.ract",
+	sr.HandleFunc("/init.ract",
 		suffixHandler(appsPath, ".ract", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
 	sr.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, staticPath+"/index.html")
 	})
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir(staticPath)))
-
 	http.ListenAndServe(addr, r)
 }
 

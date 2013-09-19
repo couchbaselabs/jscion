@@ -2,7 +2,7 @@
 <head>
   <title>jscion</title>
   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-  <link href="data.css" rel="stylesheet" media="screen">
+  <link href="init.css" rel="stylesheet" media="screen">
 </head>
 <body>
 <div id="container"></div>
@@ -11,15 +11,15 @@
 <script src="/js/Ractive-legacy.js"></script>
 <script src="/js/jscion.js"></script>
 <script src="/js/jscionRactive.js"></script>
-<script src="data.js"></script>
+<script src="init.js"></script>
 <script>
 var g_ctx;
 var g_tmpl;
 var g_ractive;
 
 $(function() {
-  $.ajax({ url: "data.ract", success: function(tmpl) {
-    $.ajax({ url: "data.json", dataType: "json", success: function(data) {
+  $.ajax({ url: "init.ract", success: function(tmpl) {
+    $.ajax({ url: "init.json", dataType: "json", success: function(data) {
       g_ctx = jsion(data); g_tmpl = tmpl; redraw();
     }});
   }});
