@@ -27,13 +27,15 @@ func main() {
 	flag.Parse()
 	log.Printf("%s\n", os.Args[0])
 	flag.VisitAll(func(f *flag.Flag) { log.Printf("  -%s=%s\n", f.Name, f.Value) })
+
+	log.Printf("serving: /app/{app}/")
 	start(*addr, *dataPath, *dataSuffix, *staticPath)
 }
 
 func start(addr, dataPath, dataSuffix, staticPath string) {
 	r := mux.NewRouter()
-
-	r.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {
+	sr := r.PathPrefix("/app/{app}/").Subrouter()
+	sr.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {
 		m := map[string]interface{}{}
 		err := content(dataPath, dataSuffix, func(path, name string, b []byte) error {
 			key := name[0 : len(name)-len(dataSuffix)]
@@ -57,14 +59,15 @@ func start(addr, dataPath, dataSuffix, staticPath string) {
 		}
 		w.Write(d)
 	})
-
-	r.HandleFunc("/data.js",
+	sr.HandleFunc("/data.js",
 		suffixHandler(dataPath, ".js", "/* %s.js */", "/* %s.js */"))
-	r.HandleFunc("/data.css",
+	sr.HandleFunc("/data.css",
 		suffixHandler(dataPath, ".css", "/* %s.css */", "/* %s.css */"))
-	r.HandleFunc("/data.ract",
+	sr.HandleFunc("/data.ract",
 		suffixHandler(dataPath, ".ract", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
-
+	sr.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, staticPath+"/index.html")
+	})
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir(staticPath)))
 
 	http.ListenAndServe(addr, r)
@@ -88,9 +91,9 @@ func suffixHandler(root, suffix, beg, end string) func(w http.ResponseWriter, r 
 	return func(w http.ResponseWriter, r *http.Request) {
 		content(root, suffix, func(path, name string, b []byte) error {
 			base := name[0 : len(name)-len(suffix)]
-			w.Write([]byte(fmt.Sprintf(beg + "\n", base)))
+			w.Write([]byte(fmt.Sprintf(beg+"\n", base)))
 			w.Write(b)
-			w.Write([]byte(fmt.Sprintf(end + "\n", base)))
+			w.Write([]byte(fmt.Sprintf(end+"\n", base)))
 			w.Write([]byte("\n"))
 			return nil
 		})
