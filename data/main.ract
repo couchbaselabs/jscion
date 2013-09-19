@@ -1,3 +1,7 @@
+{{>ui_header}}
+
 {{#obj}}
   {{>__object}}
 {{/obj}}
+
+{{>ui_footer}}
