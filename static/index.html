@@ -17,7 +17,6 @@
 var g_ctx;
 var g_tmpl;
 var g_ractive;
-var g_jractive;
 
 $(function() {
   $.ajax({ url: "init.ract", success: function(tmpl) {
@@ -33,9 +32,11 @@ function redraw() {
   redrawTarget(window.location.hash ? window.location.hash.substring(1) : "");
 }
 
-function redrawTarget(target) { // A target looks like "ident,key0=val0,key1=val1".
+function redrawTarget(target) { // A target looks like "tmpl:ident,key0=val0,key1=val1".
   var app = (g_ctx.getObj("app-info").result || {});
-  var ident = target.split(",")[0] || app.startIdent || "app-info";
+  var ti = target.split(",")[0].split(":");
+  var tmpl = ti[ti.length - 2] || app.startPartial || "main";
+  var ident = ti[ti.length - 1] || app.startIdent || "app-info";
   var opts = _.reduce(_.tail(target.split(",")),
                       function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; },
                       { mode: "view" });
@@ -46,12 +47,13 @@ function redrawTarget(target) { // A target looks like "ident,key0=val0,key1=val
     return;
   }
 
-  g_jractive = jsionRactive(g_ctx);
-  console.log(g_jractive);
-  g_ractive = new Ractive({ el: "#container", partials: g_jractive.partials,
-                            data: { ctx: g_ctx, renderers: g_jractive.renderers,
+  jr = jsionRactive(g_ctx);
+  console.log(jr);
+  g_ractive = new Ractive({ el: "#container",
+                            partials: jr.partials,
+                            data: { ctx: g_ctx, renderers: jr.renderers,
                                     obj: o.result, opts: opts, fetch: fetch },
-                            template: "{{>" + (app.startPartial || "main}") + "}}\n" + g_tmpl });
+                            template: "{{>" + tmpl + "}}\n" + g_tmpl });
 
   function fetch(into, ident, using) {
     setTimeout(function() { g_ractive[using || "set"](into, g_ctx.getObj(ident || into).result); }, 10);
