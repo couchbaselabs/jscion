@@ -2,12 +2,7 @@
   <div class="navbar-inner">
     <div class="container">
         <ul class="nav">
-          {{# opts.mode == 'view' }}
-            <li><button class="btn btn-small" on-click='design'>design</button></li>
-          {{/}}
-          {{# opts.mode == 'edit' }}
-            <li><button class="btn btn-small" on-click='run'>run</button></li>
-          {{/}}
+          <li><a href="#class-{{obj.class}}">design</a></li>
           <li><a href="#contact">contact</a></li>
           <li><a href="#help">help</a></li>
         </ul>
