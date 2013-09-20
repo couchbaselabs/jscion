@@ -1,4 +1,4 @@
 { "class": "app",
-  "include": ["ui", "meta"],
+  "include": ["base", "meta"],
   "startIdent": "uiPanel-start"
 }
