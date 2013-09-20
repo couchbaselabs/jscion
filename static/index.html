@@ -53,7 +53,7 @@ function redrawTarget(target) { // A target looks like "tmpl:ident,key0=val0,key
                             partials: jr.partials,
                             data: { ctx: g_ctx, renderers: jr.renderers,
                                     obj: o.result, opts: opts, fetch: fetch },
-                            template: "{{>" + tmpl + "}}\n" + g_tmpl });
+                            template: "{{>" + tmpl + "}}\n\n" + g_tmpl });
 
   function fetch(into, ident, using) {
     setTimeout(function() { g_ractive[using || "set"](into, g_ctx.getObj(ident || into).result); }, 10);

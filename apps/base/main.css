@@ -1,15 +1,3 @@
 .main {
   margin-top: 3em;
 }
-
-.page.opts_mode_view {
-  border: 0px none;
-}
-.page.opts_mode_view li label, .page.opts_mode_view li span {
-  display: none;
-}
-.page.opts_mode_view li.title span, .page.opts_mode_view li.content span {
-  display: block;
-  padding: 1em 1em;
-  font-size: 20pt;
-}
