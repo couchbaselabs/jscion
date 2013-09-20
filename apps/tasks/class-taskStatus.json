@@ -1,0 +1,9 @@
+{ "class": "class",
+  "name": "taskStatus",
+  "super": "object",
+  "properties": [
+    { "name": "name",
+      "propertyKind": "string"
+    }
+  ]
+}
