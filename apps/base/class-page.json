@@ -1,0 +1,9 @@
+{ "class": "class",
+  "name": "page",
+  "super": "uiPart",
+  "properties": [
+    { "name": "content",
+      "propertyKind": "string"
+    }
+  ]
+}
