@@ -1,13 +1,16 @@
 <div class="navbar navbar-inverse navbar-fixed-bottom footer">
   <div class="navbar-inner">
     <div class="container">
-      <div class="nav-collapse collapse">
         <ul class="nav">
-          <li><a href="#{{ appInfo.startIdent }}">home</a></li>
+          {{# opts.mode == 'view' }}
+            <li><button class="btn btn-small" on-click='design'>design</button></li>
+          {{/}}
+          {{# opts.mode == 'edit' }}
+            <li><button class="btn btn-small" on-click='run'>run</button></li>
+          {{/}}
           <li><a href="#contact">contact</a></li>
           <li><a href="#help">help</a></li>
         </ul>
-      </div>
     </div>
   </div>
 </div>

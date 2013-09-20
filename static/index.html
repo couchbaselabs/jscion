@@ -37,7 +37,8 @@ function redrawTarget(target) { // A target looks like "ident,key0=val0,key1=val
   var app = (g_ctx.getObj("app-info").result || {});
   var ident = target.split(",")[0] || app.startIdent || "app-info";
   var opts = _.reduce(_.tail(target.split(",")),
-                      function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; }, {});
+                      function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; },
+                      { mode: "view" });
 
   var o = g_ctx.getObj(ident);
   if (o.err || !o.result) {
