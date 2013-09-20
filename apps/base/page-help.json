@@ -1,0 +1,4 @@
+{ "class": "page",
+  "title": "help",
+  "content": "The base app holds utility and basic base classes and assets.  To override, copy these to your own app."
+}
