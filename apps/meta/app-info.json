@@ -1,4 +1,4 @@
 { "class": "app",
   "include": [],
-  "startPartial": "meta"
+  "startTmpl": "meta"
 }

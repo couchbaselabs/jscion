@@ -19,7 +19,7 @@ var g_tmpl;
 var g_ractive;
 
 $(function() {
-  $.ajax({ url: "init.ract", success: function(tmpl) {
+  $.ajax({ url: "init.tmpl", success: function(tmpl) {
     $.ajax({ url: "init.json", dataType: "json", success: function(data) {
       g_ctx = jscion(data); g_tmpl = tmpl; redraw();
     }});
@@ -35,7 +35,7 @@ function redraw() {
 function redrawTarget(target) { // A target looks like "tmpl:ident,key0=val0,key1=val1".
   var app = (g_ctx.getObj("app-info").result || {});
   var ti = target.split(",")[0].split(":");
-  var tmpl = ti[ti.length - 2] || app.startPartial || "main";
+  var tmpl = ti[ti.length - 2] || app.startTmpl || "main";
   var ident = ti[ti.length - 1] || app.startIdent || "app-info";
   var opts = _.reduce(_.tail(target.split(",")),
                       function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; },

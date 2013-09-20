@@ -64,8 +64,8 @@ func start(addr, appsPath, staticPath string) {
 		suffixHandler(appsPath, ".js", "/* %s.js */", "/* %s.js */"))
 	sr.HandleFunc("/init.css",
 		suffixHandler(appsPath, ".css", "/* %s.css */", "/* %s.css */"))
-	sr.HandleFunc("/init.ract",
-		suffixHandler(appsPath, ".ract", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
+	sr.HandleFunc("/init.tmpl",
+		suffixHandler(appsPath, ".tmpl", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
 	sr.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, staticPath+"/index.html")
 	})

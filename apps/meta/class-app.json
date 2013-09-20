@@ -12,7 +12,7 @@
     { "name": "startIdent",
       "propertyKind": "docId"
     },
-    { "name": "startPartial",
+    { "name": "startTmpl",
       "propertyKind": "string"
     }
   ]
