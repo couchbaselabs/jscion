@@ -30,11 +30,12 @@ $(function() {
 $(window).bind('hashchange', redraw);
 
 function redraw() {
-  var a = (g_ctx.getObj("app-info").result || {});
+  redrawTarget(window.location.hash ? window.location.hash.substring(1) : "");
+}
 
-  // A target looks like "ident,key0=val0,key1=val1".
-  var target = window.location.hash ? window.location.hash.substring(1) : "";
-  var ident = target.split(",")[0] || a.startIdent || "app-info";
+function redrawTarget(target) { // A target looks like "ident,key0=val0,key1=val1".
+  var app = (g_ctx.getObj("app-info").result || {});
+  var ident = target.split(",")[0] || app.startIdent || "app-info";
   var opts = _.reduce(_.tail(target.split(",")),
                       function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; }, {});
 
@@ -44,17 +45,15 @@ function redraw() {
     return;
   }
 
-
   g_jractive = jsionRactive(g_ctx);
   console.log(g_jractive);
-  g_ractive = new Ractive({ el: "#container",
+  g_ractive = new Ractive({ el: "#container", partials: g_jractive.partials,
                             data: { ctx: g_ctx, renderers: g_jractive.renderers,
                                     obj: o.result, opts: opts, fetch: fetch },
-                            partials: g_jractive.partials,
-                            template: "{{>" + (a.startPartial || "main") + "}}\n" + g_tmpl });
+                            template: "{{>" + (app.startPartial || "main}") + "}}\n" + g_tmpl });
 
-  function fetch(ident, into, using) {
-    setTimeout(function() { g_ractive[using || "set"](into || ident, g_ctx.getObj(ident).result); }, 10);
+  function fetch(into, ident, using) {
+    setTimeout(function() { g_ractive[using || "set"](into, g_ctx.getObj(ident || into).result); }, 10);
   }
 }
 </script>

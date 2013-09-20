@@ -1,4 +1,4 @@
-{{ fetch("app-info", "appInfo") }}
+{{ fetch("appInfo", "app-info") }}
 
 <div class="navbar navbar-inverse navbar-fixed-top header">
   <div class="navbar-inner">
