@@ -30,7 +30,8 @@ function jsionRactive(ctx) {
       }).join("\n");
 
     res.partials[cls.name] = // Partial for the class.
-      '<ul class="' + ctx.classSupers(cls.name).join(" ") + '">' + s + "</ul>";
+      '<ul class="' + ctx.classSupers(cls.name).join(" ") + ' opts_mode_{{opts.mode}}">'
+      + s + "</ul>";
     res.partials["__" + cls.name] = // Partial for the class and its direct subclasses.
       _.map(ctx.classSubs(cls.name),
             function(cn) {
