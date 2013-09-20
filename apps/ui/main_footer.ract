@@ -2,7 +2,7 @@
   <div class="navbar-inner">
     <div class="container">
         <ul class="nav">
-          <li><a href="#class-{{obj.class}}">design</a></li>
+          <li><a href="#class-{{obj.class}}">meta</a></li>
           <li><a href="#contact">contact</a></li>
           <li><a href="#help">help</a></li>
         </ul>
