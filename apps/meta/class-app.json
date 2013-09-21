@@ -9,11 +9,11 @@
       "name": "include",
       "propertyKind": "string"
     },
-    { "name": "startIdent",
-      "propertyKind": "docId"
-    },
-    { "name": "startTmpl",
+    { "name": "defaultController",
       "propertyKind": "string"
+    },
+    { "name": "defaultIdent",
+      "propertyKind": "docId"
     }
   ]
 }
