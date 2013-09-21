@@ -1,4 +1,9 @@
 input.newTask {
-    width: 70%;
-    margin: 1em 1em 1em 1em;
+    width: 60%;
+    margin: 1em 1em 1em 0;
+}
+
+.task {
+    width: 100%;
+    position: fixed;
 }

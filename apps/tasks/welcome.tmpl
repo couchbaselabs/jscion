@@ -4,23 +4,25 @@
   <div class="row">
     <input on-change="newTask" class="newTask"
            placeholder="what needs to be done or fixed?"/>
+    <h2>tasks: {{ tasks.length }}</h2>
   </div>
-  <div class="row">
-    <div class="span6">
-      <div>
-          <h2>tasks: {{ tasks.length }}</h2>
-          <ul>
-            {{#tasks}}
-              {{.title}}
-              {{>task}}
-            {{/tasks}}
-          </ul>
-      </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span4">
+      <ul>
+        {{#tasks}}
+          <li>{{.title}}</li>
+        {{/tasks}}
+      </ul>
     </div>
-    <div class="span6">
-      {{#obj}}
-        {{>task}}
-      {{/obj}}
+    <div class="span8">
+      <div class="task">
+        {{#obj}}
+          {{>task}}
+        {{/obj}}
+      </div>
     </div>
   </div>
 </div>
