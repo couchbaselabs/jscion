@@ -81,6 +81,7 @@ function jscionStart(data, tmpl, el) {
       ir = ir || iRactive;
       ir.template = ir.template || ("{{>" + template + "}}\n\n" + ir.data.templates),
       g_ractive = ractive = new Ractive(ir);
+      return ractive;
     }
 
     function fetch(into, ident, using) {
