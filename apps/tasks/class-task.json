@@ -7,6 +7,9 @@
     },
     { "name": "status",
       "propertyKind": "taskStatus"
+    },
+    { "name": "description",
+      "propertyKind": "string"
     }
   ]
 }

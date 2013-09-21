@@ -11,18 +11,20 @@
       <div class="span3">
         <ul>
           {{#tasks}}
-            <li><a on-click="showTask">{{.title}}</a></li>
+            <li intro="slide"><a on-click="showTask">{{.title}}</a></li>
           {{/tasks}}
         </ul>
       </div>
       <div class="span7">
-        <div class="task">
-          {{#obj}}
-            {{# .class == "task" }}
-              {{>task}}
-            {{/}}
-          {{/obj}}
-        </div>
+        {{#obj}}
+          {{# .class == "task" }}
+            <div class="task">
+              <div>{{.title}}</div>
+              <div>status:{{.status}}</div>
+              <div>description:{{.description}}</div>
+            </div>
+          {{/}}
+        {{/obj}}
       </div>
     </div>
   </div>
