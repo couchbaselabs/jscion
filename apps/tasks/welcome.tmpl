@@ -1,7 +1,7 @@
 {{>main_header}}
 
 <div class="main">
-  <h2>tasks: {{ tasks.length }}</h2>
+  <h1>tasks: {{ tasks.length }}</h1>
   <input on-change="newTask" class="newTask"
          placeholder="what needs to be done or fixed?"/>
 
@@ -10,7 +10,7 @@
       <div class="span3">
         <ul>
           {{#tasks}}
-            <li>{{.title}}</li>
+            <li><a on-click="showTask">{{.title}}</a></li>
           {{/tasks}}
         </ul>
       </div>

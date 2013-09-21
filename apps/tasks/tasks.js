@@ -10,6 +10,11 @@ function start(ctx, ui) {
         ractive.get("tasks").unshift(task);
         ractive.set("obj", task);
         setTimeout(function () { event.node.focus(); }, 0 );
-      }
+      },
+      "showTask": function(event) {
+        ractive.set("obj", _.find(tasks, function(task) {
+              return task.title == event.node.text;
+            }));
+      },
     });
 }
