@@ -1,6 +1,7 @@
 {{>main_header}}
 
 <div class="main">
+{{# obj.class == "task" || obj.class == "app" }}
   <h1>tasks: {{ tasks.length }}</h1>
   <input on-change="newTask" class="newTask"
          placeholder="what needs to be done or fixed?"/>
@@ -25,6 +26,11 @@
       </div>
     </div>
   </div>
+{{/}}
+
+{{# obj.class != "task" && obj.class != "app" }}
+  {{#obj}}{{>__object}}{{/obj}}
+{{/}}
 </div>
 
 {{>main_footer}}

@@ -64,7 +64,8 @@ function jscionStart(data, tmpl, el) {
     var jRactive = jsionRactive(g_ctx);
     var iRactive = { el: el, partials: jRactive.partials, template: null,
                      data: { app: app, target: target, controller: controller, ident: ident,
-                             ctx: g_ctx, templates: g_tmpl, renderers: jRactive.renderers,
+                             ctx: g_ctx, templates: g_tmpl,
+                             renderers: jRactive.renderers, partials: jRactive.partials,
                              obj: o.result, opts: opts, fetch: fetch, render: render } };
 
     if (_.isFunction(window[controller])) {
