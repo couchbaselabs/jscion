@@ -33,58 +33,61 @@ var g_ractive;
 $(function() {
   $.ajax({ url: "init.tmpl", success: function(tmpl) {
     $.ajax({ url: "init.json", dataType: "json", success: function(data) {
-      g_ctx = jscion(data); g_tmpl = tmpl; redraw();
+      jscionStart(data, tmpl, "#container");
     }});
   }});
 });
 
-$(window).bind('hashchange', redraw);
+function jscionStart(data, tmpl, el) {
+  var ctx = jscion(data);
+  g_ctx = ctx;
+  g_tmpl = tmpl;
+  var app = g_ctx.getObj("app-info").result || {};
+  $(window).bind('hashchange', redraw);
+  redraw();
 
-function redraw() {
-  redrawTarget(window.location.hash ? window.location.hash.substring(1) : "");
-}
-
-function redrawTarget(target) { // A target looks like "controller:ident,key0=val0,key1=val1".
-  var app = (g_ctx.getObj("app-info").result || {});
-  var ci = target.split(",")[0].split(":");
-  var controller = ci[ci.length - 2] || app.defaultController || "main";
-  var ident = ci[ci.length - 1] || app.defaultIdent || "app-info";
-  var opts = _.reduce(_.tail(target.split(",")),
-                      function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; },
-                      { mode: "view" });
-
-
-  var o = g_ctx.getObj(ident);
-
-  var ractive;
-  var jRactive = jsionRactive(g_ctx);
-  var iRactive = { el: "#container",
-                   partials: jRactive.partials,
-                   template: null,
-                   data: { app: app, target: target, controller: controller, ident: ident, opts: opts,
-                           ctx: g_ctx, templates: g_tmpl, renderers: jRactive.renderers,
-                           obj: o.result, fetch: fetch, render: render }
-                 };
-
-  if (_.isFunction(window[controller])) {
-    return window[controller](iRactive);
+  function redraw() {
+    redrawTarget(window.location.hash ? window.location.hash.substring(1) : "");
   }
 
-  if (o.err || !o.result) {
-    return $("#container").html("error: no obj from controller:" + controller +
-                                ", ident: " + ident + ", err: " + o.err);
-  }
-  render();
+  function redrawTarget(target) { // Example target: "controller:ident,key0=val0,key1=val1".
+    var ci = target.split(",")[0].split(":");
+    var controller = ci[ci.length - 2] || app.defaultController || "main";
+    var ident = ci[ci.length - 1] || app.defaultIdent || "app-info";
+    var opts = _.reduce(_.tail(target.split(",")),
+                        function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; },
+                        { mode: "view" });
 
-  function render(template, ir) {
-    template = template || controller;
-    ir = ir || iRactive;
-    ir.template = ir.template || ("{{>" + template + "}}\n\n" + ir.data.templates),
-    g_ractive = ractive = new Ractive(ir);
-  }
+    var o = g_ctx.getObj(ident);
 
-  function fetch(into, ident, using) {
-    setTimeout(function() { ractive[using || "set"](into, g_ctx.getObj(ident || into).result); }, 10);
+    var ractive;
+    var jRactive = jsionRactive(g_ctx);
+    var iRactive = { el: el, partials: jRactive.partials, template: null,
+                     data: { app: app, target: target, controller: controller, ident: ident,
+                             ctx: g_ctx, templates: g_tmpl, renderers: jRactive.renderers,
+                             obj: o.result, opts: opts, fetch: fetch, render: render } };
+
+    if (_.isFunction(window[controller])) {
+      return window[controller](iRactive);
+    }
+    if (o.err || !o.result) {
+      return $("#container").html("error: no obj from controller:" + controller +
+                                  ", ident: " + ident + ", err: " + o.err);
+    }
+    render();
+
+    function render(template, ir) {
+      template = template || controller;
+      ir = ir || iRactive;
+      ir.template = ir.template || ("{{>" + template + "}}\n\n" + ir.data.templates),
+      g_ractive = ractive = new Ractive(ir);
+    }
+
+    function fetch(into, ident, using) {
+      setTimeout(function() {
+        ractive[using || "set"](into, g_ctx.getObj(ident || into).result);
+      }, 10);
+    }
   }
 }
 </script>
