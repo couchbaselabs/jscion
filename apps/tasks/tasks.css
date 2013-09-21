@@ -6,4 +6,6 @@ input.newTask {
 .task {
     width: 100%;
     position: fixed;
+    border-left: 1px solid #666;
+    padding-left: 2em;
 }
