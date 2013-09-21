@@ -5,7 +5,7 @@ function start(ctx, ui) {
       "newTask": function(event) {
         var task = ctx.newObj("task").result;
         task.title = event.node.value;
-        console.log(task);
+        task.createdAt = task.updatedAt = new Date().toJSON();
         event.node.value = "";
         ractive.get("tasks").unshift(task);
         ractive.set("obj", task);

@@ -8,6 +8,12 @@
     { "name": "status",
       "propertyKind": "taskStatus"
     },
+    { "name": "createdAt",
+      "propertyKind": "string"
+    },
+    { "name": "updatedAt",
+      "propertyKind": "string"
+    },
     { "name": "description",
       "propertyKind": "string"
     }

@@ -20,8 +20,10 @@
           {{# .class == "task" }}
             <div class="task">
               <div>{{.title}}</div>
-              <div>status:{{.status}}</div>
-              <div>description:{{.description}}</div>
+              <div>status: {{.status}}</div>
+              <div>created at: {{.createdAt}}</div>
+              <div>updated at: {{.updatedAt}}</div>
+              <div>description: {{.description}}</div>
             </div>
           {{/}}
         {{/obj}}
