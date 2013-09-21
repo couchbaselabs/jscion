@@ -68,7 +68,7 @@ function jscionStart(data, tmpl, el) {
                              obj: o.result, opts: opts, fetch: fetch, render: render } };
 
     if (_.isFunction(window[controller])) {
-      return window[controller](iRactive);
+      return window[controller](g_ctx, iRactive.data, iRactive);
     }
     if (o.err || !o.result) {
       return $("#container").html("error: no obj from controller:" + controller +
