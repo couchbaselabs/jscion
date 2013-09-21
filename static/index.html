@@ -32,31 +32,49 @@ function redraw() {
   redrawTarget(window.location.hash ? window.location.hash.substring(1) : "");
 }
 
-function redrawTarget(target) { // A target looks like "tmpl:ident,key0=val0,key1=val1".
+function redrawTarget(target) { // A target looks like "controller:ident,key0=val0,key1=val1".
   var app = (g_ctx.getObj("app-info").result || {});
-  var ti = target.split(",")[0].split(":");
-  var tmpl = ti[ti.length - 2] || app.startTmpl || "main";
-  var ident = ti[ti.length - 1] || app.startIdent || "app-info";
+  var ci = target.split(",")[0].split(":");
+  var controller = ci[ci.length - 2] || app.defaultController || "main";
+  var ident = ci[ci.length - 1] || app.defaultIdent || "app-info";
   var opts = _.reduce(_.tail(target.split(",")),
                       function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; },
                       { mode: "view" });
 
+
   var o = g_ctx.getObj(ident);
-  if (o.err || !o.result) {
-    $("#container").html("error: no obj with ident: " + ident + ", err: " + o.err);
+
+  var ractive;
+  var jRactive = jsionRactive(g_ctx);
+  var iRactive = { el: "#container",
+                   partials: jRactive.partials,
+                   template: null,
+                   data: { app: app, target: target, controller: controller, ident: ident, opts: opts,
+                           ctx: g_ctx, templates: g_tmpl, renderers: jRactive.renderers,
+                           obj: o.result, fetch: fetch, render: render }
+                 };
+
+  if (_.isFunction(window[controller])) {
+    window[controller](iRactive);
     return;
   }
 
-  jr = jsionRactive(g_ctx);
-  console.log(jr);
-  g_ractive = new Ractive({ el: "#container",
-                            partials: jr.partials,
-                            data: { ctx: g_ctx, renderers: jr.renderers,
-                                    obj: o.result, opts: opts, fetch: fetch },
-                            template: "{{>" + tmpl + "}}\n\n" + g_tmpl });
+  if (o.err || !o.result) {
+    $("#container").html("error: no obj from controller:" + controller +
+                         ", ident: " + ident + ", err: " + o.err);
+    return;
+  }
+  render();
+
+  function render(template, ir) {
+    template = template || controller;
+    ir = ir || iRactive;
+    ir.template = ir.template || ("{{>" + template + "}}\n\n" + ir.data.templates),
+    g_ractive = ractive = new Ractive(ir);
+  }
 
   function fetch(into, ident, using) {
-    setTimeout(function() { g_ractive[using || "set"](into, g_ctx.getObj(ident || into).result); }, 10);
+    setTimeout(function() { ractive[using || "set"](into, g_ctx.getObj(ident || into).result); }, 10);
   }
 }
 </script>
