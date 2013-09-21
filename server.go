@@ -81,7 +81,7 @@ func content(root, app, suffix string, visitor func(name string, b []byte) error
 	w = func(app string) error {
 		dir := filepath.Join(root, app)
 		err := filepath.Walk(dir, func(path string, f os.FileInfo, err error) error {
-			if f.IsDir() || !strings.HasSuffix(path, suffix) {
+			if f.IsDir() || !strings.HasSuffix(path, suffix) || strings.Index(path, " ") > 0 {
 				return nil
 			}
 			b, ok := m[f.Name()]

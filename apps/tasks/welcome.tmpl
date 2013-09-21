@@ -1,21 +1,27 @@
 {{>main_header}}
 
 <div class="container main">
-  <h1>
-    welcome
-  </h1>
-  <div>
-    <label>new task:
-      <input on-change="newTask"
-             placeholder="what needs to be done?"/>
-    </label>
+  <div class="row">
+    <input on-change="newTask" class="newTask"
+           placeholder="what needs to be done or fixed?"/>
   </div>
-  <div>
-    <ul>
-      {{#tasks}}
+  <div class="row">
+    <div class="span6">
+      <div>
+          <h2>tasks: {{ tasks.length }}</h2>
+          <ul>
+            {{#tasks}}
+              {{.title}}
+              {{>task}}
+            {{/tasks}}
+          </ul>
+      </div>
+    </div>
+    <div class="span6">
+      {{#obj}}
         {{>task}}
-      {{/tasks}}
-    </ul>
+      {{/obj}}
+    </div>
   </div>
 </div>
 

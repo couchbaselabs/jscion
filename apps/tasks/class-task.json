@@ -2,7 +2,7 @@
   "name": "task",
   "super": "object",
   "properties": [
-    { "name": "task",
+    { "name": "title",
       "propertyKind": "string"
     },
     { "name": "status",

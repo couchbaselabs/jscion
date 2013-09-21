@@ -4,7 +4,7 @@ function start(ctx, ui) {
   ractive.on({
       "newTask": function(event) {
         var task = ctx.newObj("task").result;
-        task.task = event.node.value;
+        task.title = event.node.value;
         event.node.value = "";
         ractive.get("tasks").unshift(task);
         setTimeout(function () { event.node.focus(); }, 0 );
