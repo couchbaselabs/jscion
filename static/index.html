@@ -67,14 +67,12 @@ function redrawTarget(target) { // A target looks like "controller:ident,key0=va
                  };
 
   if (_.isFunction(window[controller])) {
-    window[controller](iRactive);
-    return;
+    return window[controller](iRactive);
   }
 
   if (o.err || !o.result) {
-    $("#container").html("error: no obj from controller:" + controller +
-                         ", ident: " + ident + ", err: " + o.err);
-    return;
+    return $("#container").html("error: no obj from controller:" + controller +
+                                ", ident: " + ident + ", err: " + o.err);
   }
   render();
 
