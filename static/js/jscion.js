@@ -65,6 +65,7 @@ function jscion(data, ctxNext) {
       return f;
     }
     _.each(f.result, function(p, k) { o[k] = propertyDefaultValue(p); });
+    o.class = className;
     return { result: o };
   }
 
