@@ -1,6 +1,6 @@
-function main(ctx, ui) {
-  var tasks = ui.tasks = ui.tasks || [];
-  var ractive = ui.render("tasks");
+function main(ctx, session) {
+  var tasks = session.tasks = session.tasks || [];
+  var ractive = session.render("tasks");
   ractive.on({
       "newTask": function(event) {
         var task = ctx.newObj("task").result;
