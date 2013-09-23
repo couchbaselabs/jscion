@@ -12,13 +12,22 @@ function main(ctx, session) {
         event.node.focus();
       },
       "showTask": function(event) {
-        renderTask(render,
-                   _.find(tasks,
-                          function(task) { return task.createdAt == event.node.id; }));
+        renderTask(render, findTask(tasks, event.node.id));
+      },
+      "saveEdit": function() {
+        var edit = render.get("edit_obj");
+        var orig = findTask(render.get("tasks"), edit.createdAt);
+        _.extend(orig, edit);
+        renderTask(render, orig);
+        render.update("tasks");
       },
       "toggleEdit": function() { render.set("edit", !render.get("edit")); },
       "toggleComment": function() { render.set("comment", !render.get("comment")); }
     });
+}
+
+function findTask(tasks, createdAt) {
+  return _.find(tasks, function(task) { return task.createdAt == createdAt; });
 }
 
 function renderTask(render, task) {
