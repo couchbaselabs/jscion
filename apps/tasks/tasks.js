@@ -21,7 +21,10 @@ function main(ctx, session) {
         renderTask(render, orig);
         render.update("tasks");
       },
-      "editTask": function() { render.set("edit", !render.get("edit")); },
+      "editTask": function() {
+        render.set({ "edit": !render.get("edit"),
+                     edit_obj: _.clone(render.get("obj")) });
+      },
       "wantComment": function() { render.set("comment", !render.get("comment")); }
     });
 }
