@@ -22,26 +22,37 @@
               <div>
                 <div class="control">
                   <button class="btn" on-click="toggleEdit">{{ edit ? 'cancel edit' : 'edit' }}</button>
+                  {{#edit}}
+                    <br/>
+                    <button class="btn" on-click="saveEdit" intro="fade:slow">save edit</button>
+                  {{/edit}}
                 </div>
-                {{^edit}}{{.title}}{{/edit}}
-                {{#edit}}<input value="{{.title}}"/>{{/edit}}
+                {{.title}}
+                {{#edit}}
+                  <br/>
+                  <input value="{{.title}}" intro="fade:slow"/>
+                {{/edit}}
               </div>
               <div>status: {{.status}}</div>
               <div>created at: {{.createdAt}}</div>
               <div>updated at: {{.updatedAt}}</div>
               <div>description:
                 {{^edit}}{{.description}}{{/edit}}
-                {{#edit}}<textarea>{{.description}}</textarea>{{/edit}}
+                {{#edit}}<textarea intro="fade:slow">{{.description}}</textarea>{{/edit}}
               </div>
               <div>
                 <div class="control">
                   <button class="btn" on-click="toggleComment">{{ comment ? 'cancel' : 'add' }} comment</button>
+                  {{#comment}}
+                    <br/>
+                    <button class="btn" on-click="saveComment" intro="fade:slow">save comment</button>
+                  {{/comment}}
                 </div>
                 comments:
               </div>
               {{#comment}}
                 <div>
-                  <textarea placeholder="your comment here"></textarea>
+                  <textarea placeholder="your new comment here" intro="fade:slow"></textarea>
                 </div>
               {{/comment}}
               <div>

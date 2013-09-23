@@ -9,7 +9,9 @@ input.newTask {
     border-left: 1px solid #666;
     padding-left: 2em;
 }
-
 .task .control {
     float: right;
+}
+.task .control button {
+    width: 10em;
 }
