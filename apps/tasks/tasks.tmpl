@@ -48,7 +48,7 @@
                   </div>
                 {{/edit}}
               </div>
-              <div>
+              <div class="comments">
                 <div class="control">
                   <button class="btn" on-click="wantComment">{{ comment ? 'cancel' : 'add' }} comment</button>
                   {{#comment}}
@@ -57,13 +57,11 @@
                   {{/comment}}
                 </div>
                 comments:
-              </div>
-              {{#comment}}
-                <div intro="fade:slow">
-                  <textarea placeholder="your new comment here"></textarea>
-                </div>
-              {{/comment}}
-              <div>
+                {{#comment}}
+                  <div intro="fade:slow">
+                    <textarea placeholder="your new comment here"></textarea>
+                  </div>
+                {{/comment}}
                 <ul>
                   {{#.messages}}
                     <li>{{>taskMessage}}</li>

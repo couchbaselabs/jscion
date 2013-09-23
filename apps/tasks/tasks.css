@@ -20,3 +20,8 @@ input.newTask {
     min-width: 14em;
     width: 70%;
 }
+.task .comments {
+    margin-top: 2em;
+    border-top: 1px solid #aaa;
+    padding-top: 1em;
+}
