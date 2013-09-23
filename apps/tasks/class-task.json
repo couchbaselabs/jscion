@@ -9,10 +9,10 @@
       "propertyKind": "taskStatus"
     },
     { "name": "createdAt",
-      "propertyKind": "string"
+      "propertyKind": "dateTime"
     },
     { "name": "updatedAt",
-      "propertyKind": "string"
+      "propertyKind": "dateTime"
     },
     { "name": "description",
       "propertyKind": "string"
