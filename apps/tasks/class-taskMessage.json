@@ -1,0 +1,15 @@
+{ "class": "class",
+  "name": "taskMessage",
+  "super": "object",
+  "properties": [
+    { "name": "createdAt",
+      "propertyKind": "dateTime"
+    },
+    { "name": "updatedAt",
+      "propertyKind": "dateTime"
+    },
+    { "name": "message",
+      "propertyKind": "text"
+    }
+  ]
+}

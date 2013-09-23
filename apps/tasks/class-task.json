@@ -16,6 +16,10 @@
     },
     { "name": "description",
       "propertyKind": "text"
+    },
+    { "class": "propertyArray",
+      "name": "messages",
+      "propertyKind": "taskMessage"
     }
   ]
 }

@@ -24,6 +24,13 @@
               <div>created at: {{.createdAt}}</div>
               <div>updated at: {{.updatedAt}}</div>
               <div>description: {{.description}}</div>
+              <div>messages:
+                <ul>
+                  {{#.messages}}
+                    <li>{{>taskMessage}}</li>
+                  {{/.messages}}
+                </ul>
+              </div>
             </div>
           {{/}}
         {{/obj}}
