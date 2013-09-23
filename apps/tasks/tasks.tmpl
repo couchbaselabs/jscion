@@ -21,10 +21,10 @@
             <div class="task">
               <div>
                 <div class="control">
-                  <button class="btn" on-click="toggleEdit">{{ edit ? 'cancel edit' : 'edit' }}</button>
+                  <button class="btn" on-click="editTask">{{ edit ? 'cancel edit' : 'edit' }}</button>
                   {{#edit}}
                     <br/>
-                    <button class="btn" on-click="saveEdit" intro="fade:slow">save edit</button>
+                    <button class="btn" on-click="saveTask" intro="fade:slow">save edit</button>
                   {{/edit}}
                 </div>
                 {{.title}}
@@ -42,7 +42,7 @@
               </div>
               <div>
                 <div class="control">
-                  <button class="btn" on-click="toggleComment">{{ comment ? 'cancel' : 'add' }} comment</button>
+                  <button class="btn" on-click="wantComment">{{ comment ? 'cancel' : 'add' }} comment</button>
                   {{#comment}}
                     <br/>
                     <button class="btn" on-click="saveComment" intro="fade:slow">save comment</button>

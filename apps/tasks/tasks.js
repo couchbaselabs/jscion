@@ -14,15 +14,15 @@ function main(ctx, session) {
       "showTask": function(event) {
         renderTask(render, findTask(tasks, event.node.id));
       },
-      "saveEdit": function() {
+      "saveTask": function() {
         var edit = render.get("edit_obj");
         var orig = findTask(render.get("tasks"), edit.createdAt);
         _.extend(orig, edit);
         renderTask(render, orig);
         render.update("tasks");
       },
-      "toggleEdit": function() { render.set("edit", !render.get("edit")); },
-      "toggleComment": function() { render.set("comment", !render.get("comment")); }
+      "editTask": function() { render.set("edit", !render.get("edit")); },
+      "wantComment": function() { render.set("comment", !render.get("comment")); }
     });
 }
 
