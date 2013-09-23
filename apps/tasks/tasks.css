@@ -15,3 +15,8 @@ input.newTask {
 .task .control button {
     width: 10em;
 }
+.task .wide, .task input, .task textarea {
+    display: inline-block;
+    min-width: 14em;
+    width: 70%;
+}
