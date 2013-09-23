@@ -23,13 +23,14 @@
                 <div class="control">
                   <button class="btn" on-click="editTask">{{ edit ? 'cancel edit' : 'edit' }}</button>
                   {{#edit}}
-                    <br/>
-                    <button class="btn" on-click="saveTask" intro="fade:slow">save edit</button>
+                    <div intro="fade:slow" outro="fade">
+                      <button class="btn" on-click="saveTask">save edit</button>
+                    </div>
                   {{/edit}}
                 </div>
                 {{.title}}
                 {{#edit}}
-                  <div intro="fade:slow" outro="fade:slow">
+                  <div intro="fade:slow" outro="fade">
                     <input value="{{edit_obj.title}}"/>
                   </div>
                 {{/edit}}
@@ -56,7 +57,7 @@
                 comments:
               </div>
               {{#comment}}
-                <div intro="fade:slow" outro="fade:slow">
+                <div intro="fade:slow" outro="fade">
                   <textarea placeholder="your new comment here"></textarea>
                 </div>
               {{/comment}}
