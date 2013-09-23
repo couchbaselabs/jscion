@@ -30,7 +30,7 @@
                 {{.title}}
                 {{#edit}}
                   <br/>
-                  <input value="{{.title}}" intro="fade:slow"/>
+                  <input value="{{edit_obj.title}}" intro="fade:slow"/>
                 {{/edit}}
               </div>
               <div>status: {{.status}}</div>
@@ -38,7 +38,7 @@
               <div>updated at: {{.updatedAt}}</div>
               <div>description:
                 {{^edit}}{{.description}}{{/edit}}
-                {{#edit}}<textarea intro="fade:slow">{{.description}}</textarea>{{/edit}}
+                {{#edit}}<textarea intro="fade:slow">{{edit_obj.description}}</textarea>{{/edit}}
               </div>
               <div>
                 <div class="control">
