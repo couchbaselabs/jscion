@@ -22,8 +22,7 @@ function main(ctx, session) {
         render.update("tasks");
       },
       "editTask": function() {
-        render.set({ "edit": !render.get("edit"),
-                     edit_obj: _.clone(render.get("obj")) });
+        renderTask(render, render.get("obj"), { "edit": !render.get("edit") });
       },
       "wantComment": function() { render.set("comment", !render.get("comment")); }
     });
@@ -33,9 +32,9 @@ function findTask(tasks, createdAt) {
   return _.find(tasks, function(task) { return task.createdAt == createdAt; });
 }
 
-function renderTask(render, task) {
-  render.set({ "obj": task,
-               "edit_obj": _.clone(task),
-               "edit": false,
-               "comment": false });
+function renderTask(render, task, extras) {
+  render.set(_.defaults(extras || {}, { "obj": task,
+                                        "edit_obj": _.clone(task),
+                                        "edit": false,
+                                        "comment": false }));
 }
