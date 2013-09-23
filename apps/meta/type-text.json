@@ -1,0 +1,5 @@
+{ "class": "type",
+  "name": "text",
+  "super": "string",
+  "editTemplate": "<textarea><%= v %></textarea>"
+}
