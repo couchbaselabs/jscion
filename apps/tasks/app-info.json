@@ -1,4 +1,3 @@
 { "class": "app",
-  "include": ["base", "meta"],
-  "defaultController": "start"
+  "include": ["base", "meta"]
 }

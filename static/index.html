@@ -28,6 +28,7 @@
 
 var g_ctx;
 var g_tmpl;
+var g_session = {};
 var g_ractive;
 
 $(function() {
@@ -60,13 +61,14 @@ function jscionStart(data, tmpl, el) {
 
     var o = g_ctx.getObj(ident);
 
-    var ractive;
     var jRactive = jsionRactive(g_ctx);
-    var iRactive = { el: el, partials: jRactive.partials, template: null,
-                     data: { app: app, target: target, controller: controller, ident: ident,
-                             ctx: g_ctx, templates: g_tmpl,
-                             renderers: jRactive.renderers, partials: jRactive.partials,
-                             obj: o.result, opts: opts, fetch: fetch, render: render } };
+    var iRactive = { el: el, partials: jRactive.partials, template: null, data: g_session };
+    var ractive;
+
+    _.extend(g_session,
+      { app: app, target: target, controller: controller, ident: ident, opts: opts,
+        templates: g_tmpl, renderers: jRactive.renderers, partials: jRactive.partials,
+        ctx: g_ctx, obj: o.result || g_session.obj, fetch: fetch, render: render });
 
     if (_.isFunction(window[controller])) {
       return window[controller](g_ctx, iRactive.data, iRactive);

@@ -1,4 +1,4 @@
-function start(ctx, ui) {
+function main(ctx, ui) {
   var tasks = ui.tasks = ui.tasks || [];
   var ractive = ui.render("tasks");
   ractive.on({
