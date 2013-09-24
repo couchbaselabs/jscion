@@ -20,6 +20,14 @@ input.newTask {
     min-width: 14em;
     width: 70%;
 }
+.task label {
+    display: inline-block;
+    min-width: 5em;
+    margin-right: 1em;
+}
+.task label:after {
+    content:":";
+}
 .task .comments {
     margin-top: 2em;
     border-top: 1px solid #aaa;
