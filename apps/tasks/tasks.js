@@ -24,7 +24,9 @@ function main(ctx, session) {
       "editTask": function() {
         renderTask(render, render.get("obj"), { "edit": !render.get("edit") });
       },
-      "wantComment": function() { render.set("comment", !render.get("comment")); }
+      "wantComment": function() {
+        render.set("comment", !render.get("comment"));
+      }
     });
 }
 
