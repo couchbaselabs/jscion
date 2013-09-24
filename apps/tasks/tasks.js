@@ -26,9 +26,15 @@ function main(ctx, session) {
       },
       "editTask": function() {
         renderTask(render, render.get("obj"), { "edit": !render.get("edit") });
+        if (render.get("edit")) {
+          setTimeout(function() { $("#edit_obj_title").focus(); });
+        }
       },
-      "wantComment": function() {
+      "addComment": function() {
         render.set("comment", !render.get("comment"));
+        if (render.get("comment")) {
+          setTimeout(function() { $("#commentMessage").focus(); });
+        }
       },
       "saveComment": function() {
         var task = render.get("obj");

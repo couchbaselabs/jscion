@@ -34,7 +34,7 @@
                 </div>
                 {{#edit}}
                   <div intro="fade:slow">
-                    <input value="{{edit_obj.title}}"/>
+                    <input id="edit_obj_title" value="{{edit_obj.title}}"/>
                   </div>
                 {{/edit}}
               </div>
@@ -70,7 +70,7 @@
                 </ul>
                 <div>
                   <div class="control">
-                    <button class="btn" on-click="wantComment">{{ comment ? 'cancel' : 'add' }} comment</button>
+                    <button class="btn" on-click="addComment">{{ comment ? 'cancel' : 'add' }} comment</button>
                     {{#comment}}
                       <div intro="fade:slow">
                         <button class="btn" on-click="saveComment">save comment</button>
@@ -79,7 +79,7 @@
                   </div>
                   {{#comment}}
                     <div intro="fade:slow">
-                      <textarea value="{{commentMessage}}" placeholder="your new comment here"></textarea>
+                      <textarea id="commentMessage" value="{{commentMessage}}" placeholder="your new comment here"></textarea>
                     </div>
                   {{/comment}}
                 </div>
