@@ -3,15 +3,18 @@
 <div class="main">
 {{# obj.class == "task" || obj.class == "app" }}
   <h1>tasks: {{ tasks.length }}</h1>
-  <input on-change="newTask" class="newTask"
-         placeholder="what needs to be done or fixed?"/>
+  <input on-change="newTask" class="newTask" placeholder="what needs to be done or fixed?"/>
 
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span3">
         <ul>
           {{#tasks}}
-            <li intro="fade:slow"><a on-click="showTask" id="{{.createdAt}}">{{.title}}</a></li>
+            <li intro="fade:slow">
+              <a on-click="showTask" id="{{.createdAt}}">
+                {{.title}}
+              </a>
+            </li>
           {{/tasks}}
         </ul>
       </div>
@@ -21,10 +24,14 @@
             <div class="task">
               <div>
                 <div class="control">
-                  <button class="btn" on-click="editTask">{{ edit ? 'cancel edit' : 'edit' }}</button>
+                  <button class="btn" on-click="editTask">
+                    {{ edit ? 'cancel edit' : 'edit' }}
+                  </button>
                   {{#edit}}
                     <div intro="fade:slow">
-                      <button class="btn" on-click="saveTask">save edit</button>
+                      <button class="btn" on-click="saveTask">
+                        save edit
+                      </button>
                     </div>
                   {{/edit}}
                 </div>
