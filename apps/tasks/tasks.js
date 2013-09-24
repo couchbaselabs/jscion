@@ -29,6 +29,21 @@ function main(ctx, session) {
       },
       "wantComment": function() {
         render.set("comment", !render.get("comment"));
+      },
+      "saveComment": function() {
+        var task = render.get("obj");
+        if (task) {
+          var m = render.get("commentMessage").trim();
+          console.log(m);
+          if (m) {
+            var c = ctx.newObj("taskMessage").result;
+            c.createdAt = c.updatedAt = new Date().toJSON();
+            c.message = m;
+            task.messages = task.messages || [];
+            task.messages.push(c);
+          }
+        }
+        renderTask(render, task);
       }
     });
 }
@@ -41,5 +56,6 @@ function renderTask(render, task, extras) {
   render.set(_.defaults(extras || {}, { "obj": task,
                                         "edit_obj": _.clone(task),
                                         "edit": false,
-                                        "comment": false }));
+                                        "comment": false,
+                                        "commentMessage": "" }));
 }
