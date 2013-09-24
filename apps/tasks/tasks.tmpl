@@ -82,18 +82,18 @@
                 </ul>
                 <div>
                   <div class="control">
-                    <button class="btn" on-click="addComment">{{ comment ? 'cancel' : 'add' }} comment</button>
-                    {{#comment}}
+                    <button class="btn" on-click="addComment">{{ doComment ? 'cancel' : 'add' }} comment</button>
+                    {{#doComment}}
                       <div intro="fade:slow">
                         <button class="btn" on-click="saveComment">save comment</button>
                       </div>
-                    {{/comment}}
+                    {{/doComment}}
                   </div>
-                  {{#comment}}
+                  {{#doComment}}
                     <div intro="fade:slow">
                       <textarea id="commentMessage" value="{{commentMessage}}" placeholder="your new comment here"></textarea>
                     </div>
-                  {{/comment}}
+                  {{/doComment}}
                 </div>
               </div>
             </div>

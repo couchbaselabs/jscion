@@ -35,15 +35,15 @@ function main(ctx, session) {
         }
       },
       "addComment": function() {
-        renderTask(render, render.get("obj"), { "comment": !render.get("comment") });
-        if (render.get("comment")) {
+        renderTask(render, render.get("obj"), { "doComment": !render.get("doComment") });
+        if (render.get("doComment")) {
           setTimeout(function() { $("#commentMessage").focus(); });
         }
       },
       "saveComment": function() {
         var task = render.get("obj");
         if (task) {
-          var m = String(render.get("commentMessage") || "").trim();
+          var m = (render.get("commentMessage") + "").trim();
           if (m) {
             var c = ctx.newObj("taskMessage").result;
             c.createdAt = c.updatedAt = new Date().toJSON();
@@ -65,6 +65,6 @@ function renderTask(render, task, extras) {
   render.set(_.defaults(extras || {}, { "obj": task,
                                         "edit_obj": _.clone(task),
                                         "doEdit": false,
-                                        "comment": false,
+                                        "doComment": false,
                                         "commentMessage": "" }));
 }
