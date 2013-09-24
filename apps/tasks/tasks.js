@@ -29,8 +29,8 @@ function main(ctx, session) {
         render.update("tasks");
       },
       "editTask": function() {
-        renderTask(render, render.get("obj"), { "edit": !render.get("edit") });
-        if (render.get("edit")) {
+        renderTask(render, render.get("obj"), { "doEdit": !render.get("doEdit") });
+        if (render.get("doEdit")) {
           setTimeout(function() { $("#edit_obj_title").focus(); });
         }
       },
@@ -64,7 +64,7 @@ function findTask(tasks, createdAt) {
 function renderTask(render, task, extras) {
   render.set(_.defaults(extras || {}, { "obj": task,
                                         "edit_obj": _.clone(task),
-                                        "edit": false,
+                                        "doEdit": false,
                                         "comment": false,
                                         "commentMessage": "" }));
 }

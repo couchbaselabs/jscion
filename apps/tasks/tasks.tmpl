@@ -25,25 +25,25 @@
               <div>
                 <div class="control">
                   <button class="btn" on-click="editTask">
-                    {{ edit ? 'cancel edit' : 'edit' }}
+                    {{ doEdit ? 'cancel edit' : 'edit' }}
                   </button>
-                  {{#edit}}
+                  {{#doEdit}}
                     <div intro="fade:slow">
                       <button class="btn" on-click="saveTask">
                         save edit
                       </button>
                     </div>
-                  {{/edit}}
+                  {{/doEdit}}
                 </div>
                 <div class="wide">
                   <label>task</label>
                   {{.title}}
                 </div>
-                {{#edit}}
+                {{#doEdit}}
                   <div intro="fade:slow">
                     <input id="edit_obj_title" value="{{edit_obj.title}}"/>
                   </div>
-                {{/edit}}
+                {{/doEdit}}
               </div>
               <div>
                 <label>status</label>
@@ -64,12 +64,12 @@
               </div>
               <div>
                 <label>description</label>
-                {{^edit}}{{.description}}{{/edit}}
-                {{#edit}}
+                {{^doEdit}}{{.description}}{{/doEdit}}
+                {{#doEdit}}
                   <div intro="fade:slow">
                     <textarea value="{{edit_obj.description}}"/>
                   </div>
-                {{/edit}}
+                {{/doEdit}}
               </div>
               <div class="comments">
                 <label>comments</label>
