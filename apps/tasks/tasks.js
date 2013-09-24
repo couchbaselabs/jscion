@@ -1,6 +1,10 @@
 function main(ctx, session) {
+  session.statusChoices = session.statusChoices ||
+    _.clone(_.findWhere(ctx.getClassByName("task").result.properties, { "name": "status" }).valueChoices);
+
   var tasks = session.tasks = session.tasks || [];
   var render = session.render("tasks");
+
   render.on({
       "newTask": function(event) {
         var task = ctx.newObj("task").result;

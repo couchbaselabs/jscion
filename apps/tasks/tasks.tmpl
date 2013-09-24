@@ -48,6 +48,11 @@
               <div>
                 <label>status</label>
                 {{.status}}
+                <select>
+                  {{#statusChoices}}
+                    <option value="{{.}}">{{.}}</option>
+                  {{/statusChoices}}
+                </select>
               </div>
               <div>
                 <label>created at</label>
