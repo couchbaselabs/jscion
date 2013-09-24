@@ -60,20 +60,7 @@
                 {{/edit}}
               </div>
               <div class="comments">
-                <div class="control">
-                  <button class="btn" on-click="wantComment">{{ comment ? 'cancel' : 'add' }} comment</button>
-                  {{#comment}}
-                    <div intro="fade:slow">
-                      <button class="btn" on-click="saveComment">save comment</button>
-                    </div>
-                  {{/comment}}
-                </div>
                 <label>comments</label>
-                {{#comment}}
-                  <div intro="fade:slow">
-                    <textarea value="{{commentMessage}}" placeholder="your new comment here"></textarea>
-                  </div>
-                {{/comment}}
                 <ul>
                   {{#.messages}}
                     <li intro="fade:slow">
@@ -81,6 +68,21 @@
                     </li>
                   {{/.messages}}
                 </ul>
+                <div>
+                  <div class="control">
+                    <button class="btn" on-click="wantComment">{{ comment ? 'cancel' : 'add' }} comment</button>
+                    {{#comment}}
+                      <div intro="fade:slow">
+                        <button class="btn" on-click="saveComment">save comment</button>
+                      </div>
+                    {{/comment}}
+                  </div>
+                  {{#comment}}
+                    <div intro="fade:slow">
+                      <textarea value="{{commentMessage}}" placeholder="your new comment here"></textarea>
+                    </div>
+                  {{/comment}}
+                </div>
               </div>
             </div>
           {{/}}
