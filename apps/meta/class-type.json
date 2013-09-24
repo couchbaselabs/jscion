@@ -11,6 +11,10 @@
     { "name": "defaultValue",
       "propertyKind": "any"
     },
+    { "class": "propertyArray",
+      "name": "valueChoices",
+      "propertyKind": "string"
+    },
     { "name": "viewTemplate",
       "propertyKind": "string"
     }
