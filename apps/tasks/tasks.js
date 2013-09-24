@@ -19,7 +19,7 @@ function main(ctx, session) {
         renderTask(render, findTask(tasks, event.node.id));
       },
       "saveTask": function() {
-        var edit = render.get("edit_obj");
+        var edit = render.get("objEdit");
         var orig = findTask(render.get("tasks"), edit.createdAt);
         _.extend(orig, edit);
         _.each(_.keys(orig), function(k) {
@@ -31,7 +31,7 @@ function main(ctx, session) {
       "editTask": function() {
         renderTask(render, render.get("obj"), { "doEdit": !render.get("doEdit") });
         if (render.get("doEdit")) {
-          setTimeout(function() { $("#edit_obj_title").focus(); });
+          setTimeout(function() { $("#objEdit_title").focus(); });
         }
       },
       "addComment": function() {
@@ -63,7 +63,7 @@ function findTask(tasks, createdAt) {
 
 function renderTask(render, task, extras) {
   render.set(_.defaults(extras || {}, { "obj": task,
-                                        "edit_obj": _.clone(task),
+                                        "objEdit": _.clone(task),
                                         "doEdit": false,
                                         "doComment": false,
                                         "commentMessage": "" }));

@@ -41,7 +41,7 @@
                 </div>
                 {{#doEdit}}
                   <div intro="fade:slow">
-                    <input id="edit_obj_title" value="{{edit_obj.title}}"/>
+                    <input id="objEdit_title" value="{{objEdit.title}}"/>
                   </div>
                 {{/doEdit}}
               </div>
@@ -67,7 +67,7 @@
                 {{^doEdit}}{{.description}}{{/doEdit}}
                 {{#doEdit}}
                   <div intro="fade:slow">
-                    <textarea value="{{edit_obj.description}}"/>
+                    <textarea value="{{objEdit.description}}"/>
                   </div>
                 {{/doEdit}}
               </div>
