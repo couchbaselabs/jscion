@@ -1,5 +1,5 @@
 { "class": "type",
   "name": "taskStatus",
   "super": "string",
-  "defaultValue": "open"
+  "defaultValue": "new"
 }
