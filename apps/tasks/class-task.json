@@ -6,7 +6,11 @@
       "propertyKind": "string"
     },
     { "name": "status",
-      "propertyKind": "taskStatus"
+      "propertyKind": "taskStatus",
+      "defaultValue": "new",
+      "valueChoices": [
+        "new", "open", "resolved", "closed"
+      ]
     },
     { "name": "createdAt",
       "propertyKind": "dateTime"
