@@ -1,6 +1,5 @@
 function main(ctx, session) {
-  session.statusChoices = session.statusChoices ||
-    _.clone(_.findWhere(ctx.getClassByName("task").result.properties, { "name": "status" }).valueChoices);
+  session.statusChoices = session.statusChoices || findStatusChoices(ctx)
 
   var tasks = session.tasks = session.tasks || [];
   var render = session.render("tasks");
@@ -67,4 +66,8 @@ function renderTask(render, task, extras) {
                                         "doEdit": false,
                                         "doComment": false,
                                         "commentMessage": "" }));
+}
+
+function findStatusChoices(ctx) {
+  return _.findWhere(ctx.getClassByName("task").result.properties, { "name": "status" }).valueChoices;
 }
