@@ -18,6 +18,9 @@ function main(ctx, session) {
         var edit = render.get("edit_obj");
         var orig = findTask(render.get("tasks"), edit.createdAt);
         _.extend(orig, edit);
+        _.each(_.keys(orig), function(k) {
+            if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
+          });
         renderTask(render, orig);
         render.update("tasks");
       },
