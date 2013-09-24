@@ -35,7 +35,7 @@ function main(ctx, session) {
         }
       },
       "addComment": function() {
-        render.set("comment", !render.get("comment"));
+        renderTask(render, render.get("obj"), { "comment": !render.get("comment") });
         if (render.get("comment")) {
           setTimeout(function() { $("#commentMessage").focus(); });
         }
