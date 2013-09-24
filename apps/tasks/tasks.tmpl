@@ -38,16 +38,20 @@
                   </div>
                 {{/edit}}
               </div>
-              <div><label>status</label>
+              <div>
+                <label>status</label>
                 {{.status}}
               </div>
-              <div><label>created at</label>
+              <div>
+                <label>created at</label>
                 {{.createdAt}}
               </div>
-              <div><label>updated at</label>
+              <div>
+                <label>updated at</label>
                 {{.updatedAt}}
               </div>
-              <div><label>description</label>
+              <div>
+                <label>description</label>
                 {{^edit}}{{.description}}{{/edit}}
                 {{#edit}}
                   <div intro="fade:slow">
