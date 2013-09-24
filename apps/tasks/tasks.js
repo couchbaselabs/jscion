@@ -40,7 +40,7 @@ function main(ctx, session) {
             c.createdAt = c.updatedAt = new Date().toJSON();
             c.message = m;
             task.messages = task.messages || [];
-            task.messages.push(c);
+            task.messages.unshift(c);
           }
         }
         renderTask(render, task);

@@ -76,7 +76,9 @@
                 {{/comment}}
                 <ul>
                   {{#.messages}}
-                    <li>{{>taskMessage}}</li>
+                    <li intro="fade:slow">
+                      {{.updatedAt}} - {{.message}}
+                    </li>
                   {{/.messages}}
                 </ul>
               </div>
