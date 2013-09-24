@@ -43,8 +43,7 @@ function main(ctx, session) {
       "saveComment": function() {
         var task = render.get("obj");
         if (task) {
-          var m = render.get("commentMessage").trim();
-          console.log(m);
+          var m = String(render.get("commentMessage") || "").trim();
           if (m) {
             var c = ctx.newObj("taskMessage").result;
             c.createdAt = c.updatedAt = new Date().toJSON();
