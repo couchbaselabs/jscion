@@ -29,7 +29,8 @@
                   {{/edit}}
                 </div>
                 <div class="wide">
-                  <label>task</label>{{.title}}
+                  <label>task</label>
+                  {{.title}}
                 </div>
                 {{#edit}}
                   <div intro="fade:slow">
@@ -37,9 +38,15 @@
                   </div>
                 {{/edit}}
               </div>
-              <div><label>status</label>{{.status}}</div>
-              <div><label>created at</label>{{.createdAt}}</div>
-              <div><label>updated at</label>{{.updatedAt}}</div>
+              <div><label>status</label>
+                {{.status}}
+              </div>
+              <div><label>created at</label>
+                {{.createdAt}}
+              </div>
+              <div><label>updated at</label>
+                {{.updatedAt}}
+              </div>
               <div><label>description</label>
                 {{^edit}}{{.description}}{{/edit}}
                 {{#edit}}

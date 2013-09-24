@@ -22,7 +22,7 @@ input.newTask {
 }
 .task label {
     display: inline-block;
-    min-width: 5em;
+    min-width: 7em;
     margin-right: 1em;
 }
 .task label:after {
