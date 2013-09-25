@@ -22,15 +22,26 @@ function main(ctx, page) {
       "saveTask": function() {
         var edit = page.r.get("objEdit");
         var orig = findTask(ctx, page.r.get("tasks"), edit.ident);
-        _.extend(orig, edit);
+        var changes = [];
         _.each(_.keys(orig), function(k) {
-            if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
+            if (orig[k] != edit[k]) { changes.push(k); }
           });
+        if (changes.length > 0) {
+          edit.updatedAt = new Date().toJSON();
+          _.extend(orig, edit);
+          _.each(_.keys(orig), function(k) {
+              if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
+            });
+          var c = ctx.newObj("taskMessage").result;
+          c.createAt = c.updatedAt = new Date().toJSON();
+          c.message = "(" + changes.join(",") + " edited)";
+          orig.messages = orig.messages || [];
+          orig.messages.push(c);
+        }
         renderTask(page.r, orig);
         page.r.update("tasks");
       },
       "editTask": function() {
-        console.log("hi");
         renderTask(page.r, page.r.get("obj"), { "doEdit": !page.r.get("doEdit") });
         if (page.r.get("doEdit")) {
           setTimeout(function() { $("#objEdit_title").focus(); });
