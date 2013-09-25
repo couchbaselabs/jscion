@@ -10,7 +10,7 @@
       <div class="span3">
         <ul>
           {{#tasks}}
-            <li intro="fade:slow">
+            <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
               <a href="#{{.ident}}">
                 {{.title}}
               </a>

@@ -2,7 +2,9 @@ input.newTask {
     width: 80%;
     margin: .5em 1em 2em 0em;
 }
-
+li.current {
+    background: #dfd;
+}
 .task {
     width: 60%;
     position: fixed;
