@@ -1,3 +1,6 @@
+.main {
+    margin-bottom: 5em;
+}
 input.newTask {
     width: 80%;
     margin: .5em 1em 2em 0em;
