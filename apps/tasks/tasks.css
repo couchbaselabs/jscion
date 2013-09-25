@@ -13,7 +13,7 @@ input.newTask {
     vertical-align: top
 }
 .task .control {
-    float: right;
+    margin-top: 1em;
 }
 .task .control button {
     width: 10em;
@@ -21,7 +21,7 @@ input.newTask {
 .task input, .task textarea {
     display: inline-block;
     min-width: 14em;
-    width: 50%;
+    width: 70%;
 }
 .task label {
     display: inline-block;

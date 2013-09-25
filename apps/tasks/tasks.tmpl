@@ -23,18 +23,6 @@
           {{# .class == "task" }}
             <div class="task">
               <div>
-                <div class="control">
-                  <button class="btn" on-click="editTask">
-                    {{ doEdit ? 'cancel edit' : 'edit' }}
-                  </button>
-                  {{#doEdit}}
-                    <div intro="fade:slow">
-                      <button class="btn" on-click="saveTask">
-                        save edit
-                      </button>
-                    </div>
-                  {{/doEdit}}
-                </div>
                 <div>
                   <label>task</label>
                   {{^doEdit}}
@@ -77,6 +65,16 @@
                   </span>
                 {{/doEdit}}
               </div>
+              <div class="control">
+                {{#doEdit}}
+                  <button class="btn" on-click="saveTask">
+                    save edit
+                  </button>
+                {{/doEdit}}
+                <button class="btn" on-click="editTask">
+                  {{ doEdit ? 'cancel edit' : 'edit task' }}
+                </button>
+              </div>
               <div class="comments">
                 <label>comments</label>
                 <ul>
@@ -87,19 +85,15 @@
                   {{/.messages}}
                 </ul>
                 <div>
-                  <div class="control">
-                    <button class="btn" on-click="addComment">{{ doComment ? 'cancel' : 'add' }} comment</button>
-                    {{#doComment}}
-                      <div intro="fade:slow">
-                        <button class="btn" on-click="saveComment">save comment</button>
-                      </div>
-                    {{/doComment}}
-                  </div>
                   {{#doComment}}
-                    <div intro="fade:slow">
-                      <textarea id="commentMessage" value="{{commentMessage}}" placeholder="your new comment here"></textarea>
-                    </div>
+                    <textarea id="commentMessage" value="{{commentMessage}}" placeholder="your new comment here"></textarea>
                   {{/doComment}}
+                  <div class="control">
+                    {{#doComment}}
+                      <button class="btn" on-click="saveComment">save comment</button>
+                    {{/doComment}}
+                    <button class="btn" on-click="addComment">{{ doComment ? 'cancel' : 'add' }} comment</button>
+                  </div>
                 </div>
               </div>
             </div>
