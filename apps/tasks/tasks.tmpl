@@ -24,9 +24,11 @@
             <div class="task">
               <div>
                 <div>
-                  <label>task</label>
+                  <label>title</label>
                   {{^doEdit}}
-                    {{.title}}
+                    <a href="#{{.ident}}">
+                      {{.title}}
+                    </a>
                   {{/doEdit}}
                   {{#doEdit}}
                     <span intro="fade:slow">
