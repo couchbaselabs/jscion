@@ -9,10 +9,10 @@ li.current {
     background: #dfd;
 }
 .task {
-    width: 60%;
-    position: fixed;
     border-left: 1px solid #666;
     padding-left: 2em;
+    padding-bottom: 5em;
+    overflow-y: scroll;
 }
 .task * {
     vertical-align: top

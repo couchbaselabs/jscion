@@ -1,18 +1,16 @@
 <div class="task">
   <div>
-    <div>
-      <label>title</label>
-      {{^doEdit}}
-        <a href="#{{.ident}}">
-          {{.title}}
-        </a>
-      {{/doEdit}}
-      {{#doEdit}}
-        <span intro="fade:slow">
-          <input id="objEdit_title" value="{{objEdit.title}}"/>
-        </span>
-      {{/doEdit}}
-    </div>
+    <label>title</label>
+    {{^doEdit}}
+      <a href="#{{.ident}}">
+        {{.title}}
+      </a>
+    {{/doEdit}}
+    {{#doEdit}}
+      <span intro="fade:slow">
+        <input id="objEdit_title" value="{{objEdit.title}}"/>
+      </span>
+    {{/doEdit}}
   </div>
   <div>
     <label>status</label>
