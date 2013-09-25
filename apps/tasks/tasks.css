@@ -9,16 +9,19 @@ input.newTask {
     border-left: 1px solid #666;
     padding-left: 2em;
 }
+.task * {
+    vertical-align: top
+}
 .task .control {
     float: right;
 }
 .task .control button {
     width: 10em;
 }
-.task .wide, .task input, .task textarea {
+.task input, .task textarea {
     display: inline-block;
     min-width: 14em;
-    width: 70%;
+    width: 50%;
 }
 .task label {
     display: inline-block;
@@ -34,7 +37,5 @@ input.newTask {
     padding-top: 1em;
 }
 .task select {
-    display: block;
-    margin-left: 8em;
     width: 7em;
 }

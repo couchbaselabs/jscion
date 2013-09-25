@@ -35,24 +35,30 @@
                     </div>
                   {{/doEdit}}
                 </div>
-                <div class="wide">
+                <div>
                   <label>task</label>
-                  {{.title}}
+                  {{^doEdit}}
+                    {{.title}}
+                  {{/doEdit}}
+                  {{#doEdit}}
+                    <span intro="fade:slow">
+                      <input id="objEdit_title" value="{{objEdit.title}}"/>
+                    </span>
+                  {{/doEdit}}
                 </div>
-                {{#doEdit}}
-                  <div intro="fade:slow">
-                    <input id="objEdit_title" value="{{objEdit.title}}"/>
-                  </div>
-                {{/doEdit}}
               </div>
               <div>
                 <label>status</label>
-                {{.status}}
-                <select>
-                  {{#statusChoices}}
-                    <option value="{{.}}">{{.}}</option>
-                  {{/statusChoices}}
-                </select>
+                {{^doEdit}}
+                  {{.status}}
+                {{/doEdit}}
+                {{#doEdit}}
+                  <select value="{{objEdit.status}}">
+                    {{#statusChoices}}
+                      <option value="{{.}}">{{.}}</option>
+                    {{/statusChoices}}
+                  </select>
+                {{/doEdit}}
               </div>
               <div>
                 <label>created at</label>
@@ -66,9 +72,9 @@
                 <label>description</label>
                 {{^doEdit}}{{.description}}{{/doEdit}}
                 {{#doEdit}}
-                  <div intro="fade:slow">
+                  <span intro="fade:slow">
                     <textarea value="{{objEdit.description}}"/>
-                  </div>
+                  </span>
                 {{/doEdit}}
               </div>
               <div class="comments">
