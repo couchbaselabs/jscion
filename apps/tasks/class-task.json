@@ -2,6 +2,9 @@
   "name": "task",
   "super": "object",
   "properties": [
+    { "name": "ident",
+      "propertyKind": "docId"
+    },
     { "name": "title",
       "propertyKind": "string"
     },

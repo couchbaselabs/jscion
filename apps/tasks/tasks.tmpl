@@ -11,7 +11,7 @@
         <ul>
           {{#tasks}}
             <li intro="fade:slow">
-              <a on-click="showTask" id="{{.createdAt}}">
+              <a href="#{{.ident}}">
                 {{.title}}
               </a>
             </li>
