@@ -87,17 +87,14 @@ function findStatusChoices(ctx) {
 }
 
 function updateTask(ctx, page, orig, edit, msgSuffix) {
-  var changes = [];
-  _.each(_.keys(orig), function(k) {
-      if (orig[k] != edit[k]) { changes.push(k); }
-    });
+  var changes = _.compact(_.map(_.keys(orig), function(k) { return (orig[k] != edit[k]) && k; }));
   if (changes.length > 0) {
     edit.updatedAt = new Date().toJSON();
     _.extend(orig, edit);
     _.each(_.keys(orig), function(k) {
         if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
       });
-    var m = "(" + changes.join(",") + " edited" + (msgSuffix || "") + ")";
+    var m = "(" + changes.join(", ") + " edited" + (msgSuffix || "") + ")";
     var c = ctx.newChild(orig, "messages", { "message": m }).result;
     c.createAt = c.updatedAt = new Date().toJSON();
   }
