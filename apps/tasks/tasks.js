@@ -36,13 +36,11 @@ function main(ctx, page) {
         }
       },
       "saveComment": function() {
+        var msg = (page.r.get("commentMessage") + "").trim();
         var task = page.r.get("obj");
-        if (task) {
-          var m = (page.r.get("commentMessage") + "").trim();
-          if (m) {
-            var c = ctx.newChild(task, "messages", { "message": m }).result;
-            c.createdAt = c.updatedAt = new Date().toJSON();
-          }
+        if (task && msg) {
+          var c = ctx.newChild(task, "messages", { "message": msg }).result;
+          c.createdAt = c.updatedAt = new Date().toJSON();
         }
         renderTask(ctx, page.r, task);
       },
