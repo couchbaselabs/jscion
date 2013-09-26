@@ -56,7 +56,7 @@ function jscion(data, ctxNext) {
   function findObj(fn) { return { result: _.find(data, fn) }; }
   function filterObjs(fn) { return { result: _.filter(data, fn) }; }
 
-  function newObj(className) {
+  function newObj(className, initObj) {
     var c = getClassByName(className);
     if (c.err || !c.result) {
       return { err: c.err || ("no class for className: " + className) };
@@ -67,16 +67,16 @@ function jscion(data, ctxNext) {
     }
     var o = { class: className };
     _.each(f.result, function(p, k) { o[k] = o[k] || propertyDefaultValue(p); });
-    return { result: o };
+    return { result: _.extend(o, initObj) };
   }
 
-  function newChild(obj, arrayName) {
+  function newChild(obj, arrayName, initObj) {
     var c = newObj((getProperty(getClass(obj).result, arrayName).result || {}).propertyKind);
     if (c.err || !c.result) {
       return c;
     }
     obj[arrayName] = obj[arrayName] || [];
-    obj[arrayName].push(c.result);
+    obj[arrayName].push(_.extend(c.result, initObj));
     return c;
   }
 

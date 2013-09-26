@@ -33,9 +33,9 @@ function main(ctx, page) {
           _.each(_.keys(orig), function(k) {
               if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
             });
-          var c = ctx.newChild(orig, "messages").result;
+          var m = "(" + changes.join(",") + " edited)";
+          var c = ctx.newChild(orig, "messages", { "message": m }).result;
           c.createAt = c.updatedAt = new Date().toJSON();
-          c.message = "(" + changes.join(",") + " edited)";
         }
         renderTask(page.r, orig);
         page.r.update("tasks");
@@ -57,9 +57,8 @@ function main(ctx, page) {
         if (task) {
           var m = (page.r.get("commentMessage") + "").trim();
           if (m) {
-            var c = ctx.newChild(task, "messages").result;
+            var c = ctx.newChild(task, "messages", { "message": m }).result;
             c.createdAt = c.updatedAt = new Date().toJSON();
-            c.message = m;
           }
         }
         renderTask(page.r, task);
