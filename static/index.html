@@ -28,20 +28,20 @@
 // permissions and limitations under the License.
 
 var g_ctx;
-var g_page = {};
 var g_ractive;
 
 $(function() {
   $.ajax({ url: "init.tmpl", success: function(tmpl) {
     $.ajax({ url: "init.json", dataType: "json", success: function(data) {
-      jscionStart(data, tmpl, "#container");
+      jscionStart(data, tmpl, {}, "#container");
     }});
   }});
 });
 
-function jscionStart(data, tmpl, el) {
+function jscionStart(data, tmpl, page, el) {
   var ctx = g_ctx = jscion(data);
   var app = g_ctx.getObj("app-info").result || {};
+
   $(window).bind('hashchange', redraw);
   redraw();
 
@@ -59,13 +59,14 @@ function jscionStart(data, tmpl, el) {
 
     var o = ctx.getObj(ident);
     var j = jsionRactive(ctx);
-    var p = g_page = _.extend(g_page,
+
+    _.extend(page,
       { app: app, target: target, controller: controller, ident: ident, opts: opts,
         templates: tmpl, renderers: j.renderers, partials: j.partials,
-        ctx: g_ctx, obj: o.result || g_page.obj, fetch: fetch, render: render });
+        ctx: g_ctx, obj: o.result || page.obj, fetch: fetch, render: render });
 
     if (_.isFunction(window[controller])) {
-      return window[controller](ctx, p);
+      return window[controller](ctx, page);
     }
     if (o.err || !o.result) {
       return $("#container").html("error: no obj from controller:" + controller +
@@ -74,8 +75,8 @@ function jscionStart(data, tmpl, el) {
     render();
 
     function render(template) {
-      var x = { el: el, partials: p.partials, data: p,
-                template: "{{>" + (template || controller) + "}}\n\n" + p.templates };
+      var x = { el: el, partials: page.partials, data: page,
+                template: "{{>" + (template || controller) + "}}\n\n" + page.templates };
       var r = g_ractive = new Ractive(x);
       return r;
     }
