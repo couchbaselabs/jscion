@@ -8,8 +8,7 @@ function main(ctx, page) {
     page.r = page.render("tasks");
     page.r.on({
       "newTask": function(event) {
-        var task = ctx.newObj("task").result;
-        task.title = (event.node.value || "").trim();
+        var task = ctx.newObj("task", { "title": (event.node.value || "").trim() }).result;
         if (task.title) {
           task.createdAt = task.updatedAt = new Date().toJSON();
           task.ident = "task-" + task.createdAt.replace(/[^0-9]/g, '') +
