@@ -3,7 +3,7 @@
   <ul>
     {{#.messages:i}}
       <li intro="fade:slow">
-        <button class="btn btn-mini" on-click="deleteMessage" value="{{i}}">delete</button>
+        <button class="btn btn-mini btn-danger" on-click="deleteMessage" value="{{i}}">delete</button>
         {{.updatedAt}} - {{.message}}
       </li>
     {{/.messages}}
@@ -14,9 +14,9 @@
     {{/doComment}}
     <div class="control">
       {{#doComment}}
-        <button class="btn" on-click="saveComment">save comment</button>
+        <button class="btn btn-small" on-click="saveComment">save comment</button>
       {{/doComment}}
-      <button class="btn" on-click="addComment">{{ doComment ? 'cancel' : 'add' }} comment</button>
+      <button class="btn btn-small" on-click="addComment">{{ doComment ? 'cancel' : 'add' }} comment</button>
     </div>
   </div>
 </div>
