@@ -97,8 +97,7 @@ function jscion(data, ctxNext) {
   function classSubs(className) {
     return _.pluck(_.filter(filterObjs(function(o) { return o.class == "class"; }).result,
                             function(cls) {
-                              return _.find(classSupers(cls.name),
-                                            function(n) { return n == className; });
+                              return _.contains(classSupers(cls.name), className);
                             }),
                    "name");
   }
