@@ -33,11 +33,9 @@ function main(ctx, page) {
           _.each(_.keys(orig), function(k) {
               if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
             });
-          var c = ctx.newObj("taskMessage").result;
+          var c = ctx.newChild(orig, "messages");
           c.createAt = c.updatedAt = new Date().toJSON();
           c.message = "(" + changes.join(",") + " edited)";
-          orig.messages = orig.messages || [];
-          orig.messages.push(c);
         }
         renderTask(page.r, orig);
         page.r.update("tasks");
@@ -59,11 +57,9 @@ function main(ctx, page) {
         if (task) {
           var m = (page.r.get("commentMessage") + "").trim();
           if (m) {
-            var c = ctx.newObj("taskMessage").result;
+            var c = ctx.newChild(task, "messages");
             c.createdAt = c.updatedAt = new Date().toJSON();
             c.message = m;
-            task.messages = task.messages || [];
-            task.messages.push(c);
           }
         }
         renderTask(page.r, task);

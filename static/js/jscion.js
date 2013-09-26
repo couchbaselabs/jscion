@@ -19,7 +19,9 @@ function jscion(data, ctxNext) {
               "getClass": getClass,
               "getClassByName": getClassByName,
               "getTypeByName": getTypeByName,
+              "getProperty": getProperty,
               "newObj": newObj,
+              "newChild": newChild,
               "findObj": findObj,
               "filterObjs": filterObjs,
               "classSubs": classSubs,
@@ -67,6 +69,22 @@ function jscion(data, ctxNext) {
     _.each(f.result, function(p, k) { o[k] = propertyDefaultValue(p); });
     o.class = className;
     return { result: o };
+  }
+
+  function newChild(obj, propertyArrayName) {
+    var p = getProperty(getClass(obj).result, propertyArrayName).result || {};
+    var c = newObj(p.propertyKind).result;
+    if (c) {
+      obj[propertyArrayName] = obj[propertyArrayName] || [];
+      obj[propertyArrayName].push(c);
+    }
+    return c;
+  }
+
+  function getProperty(cls, propertyName) {
+    var res = flattenProperties(cls);
+    res.result = (res.result || {})[propertyName];
+    return res;
   }
 
   function propertyDefaultValue(p) {
