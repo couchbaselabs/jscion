@@ -29,7 +29,7 @@
 
 var g_ctx;
 var g_tmpl;
-var g_session = {};
+var g_page = {};
 var g_ractive;
 
 $(function() {
@@ -63,13 +63,13 @@ function jscionStart(data, tmpl, el) {
     var o = g_ctx.getObj(ident);
 
     var jRactive = jsionRactive(g_ctx);
-    var iRactive = { el: el, partials: jRactive.partials, template: null, data: g_session };
+    var iRactive = { el: el, partials: jRactive.partials, template: null, data: g_page };
     var ractive;
 
-    _.extend(g_session,
+    _.extend(g_page,
       { app: app, target: target, controller: controller, ident: ident, opts: opts,
         templates: g_tmpl, renderers: jRactive.renderers, partials: jRactive.partials,
-        ctx: g_ctx, obj: o.result || g_session.obj, fetch: fetch, render: render });
+        ctx: g_ctx, obj: o.result || g_page.obj, fetch: fetch, render: render });
 
     if (_.isFunction(window[controller])) {
       return window[controller](g_ctx, iRactive.data, iRactive);
