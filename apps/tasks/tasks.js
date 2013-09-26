@@ -33,7 +33,7 @@ function main(ctx, page) {
           _.each(_.keys(orig), function(k) {
               if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
             });
-          var c = ctx.newChild(orig, "messages");
+          var c = ctx.newChild(orig, "messages").result;
           c.createAt = c.updatedAt = new Date().toJSON();
           c.message = "(" + changes.join(",") + " edited)";
         }
@@ -57,7 +57,7 @@ function main(ctx, page) {
         if (task) {
           var m = (page.r.get("commentMessage") + "").trim();
           if (m) {
-            var c = ctx.newChild(task, "messages");
+            var c = ctx.newChild(task, "messages").result;
             c.createdAt = c.updatedAt = new Date().toJSON();
             c.message = m;
           }

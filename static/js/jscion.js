@@ -71,12 +71,11 @@ function jscion(data, ctxNext) {
     return { result: o };
   }
 
-  function newChild(obj, propertyArrayName) {
-    var p = getProperty(getClass(obj).result, propertyArrayName).result || {};
-    var c = newObj(p.propertyKind).result;
-    if (c) {
-      obj[propertyArrayName] = obj[propertyArrayName] || [];
-      obj[propertyArrayName].push(c);
+  function newChild(obj, arrayName) {
+    var c = newObj((getProperty(getClass(obj).result, arrayName).result || {}).propertyKind);
+    if (!c.err && c.result) {
+      obj[arrayName] = obj[arrayName] || [];
+      obj[arrayName].push(c.result);
     }
     return c;
   }
