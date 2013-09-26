@@ -15,7 +15,6 @@ function main(ctx, page) {
           task.ident = "task-" + task.createdAt.replace(/[^0-9]/g, '') +
             Math.round(Math.random() * 10000);
           page.r.get("tasks").unshift(task);
-          page.r.set("taskCountsByStatus", _.countBy(page.r.get("tasks"), "status"));
           renderTask(page.r, task);
           event.node.value = "";
           event.node.focus();
@@ -42,7 +41,6 @@ function main(ctx, page) {
         }
         renderTask(page.r, orig);
         page.r.update("tasks");
-        page.r.set("taskCountsByStatus", _.countBy(page.r.get("tasks"), "status"));
       },
       "editTask": function() {
         renderTask(page.r, page.r.get("obj"), { "doEdit": !page.r.get("doEdit") });
@@ -89,6 +87,7 @@ function renderTask(r, task, extras) {
                                    "doEdit": false,
                                    "doComment": false,
                                    "commentMessage": "" }));
+  r.set("taskCountsByStatus", _.countBy(r.get("tasks"), "status"));
 }
 
 function findStatusChoices(ctx) {
