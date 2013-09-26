@@ -1,0 +1,29 @@
+{ "class": "stateMachine",
+  "name": "typeStatus",
+  "transitions": [
+    { "from": "new",
+      "to": "open",
+      "on": "open"
+    },
+    { "from": "new",
+      "to": "resolved",
+      "on": "resolve"
+    },
+    { "from": "open",
+      "to": "resolved",
+      "on": "resolve"
+    },
+    { "from": "open",
+      "to": "new",
+      "on": "renew"
+    },
+    { "from": "resolved",
+      "to": "closed",
+      "on": "close"
+    },
+    { "from": "closed",
+      "to": "open",
+      "on": "reopen"
+    }
+  ]
+}

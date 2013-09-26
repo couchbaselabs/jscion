@@ -1,0 +1,13 @@
+{ "class": "class",
+  "name": "stateMachine",
+  "super": "object",
+  "properties": [
+    { "name": "name",
+      "propertyKind": "string"
+    },
+    { "class": "propertyArray",
+      "name": "transitions",
+      "propertyKind": "stateTransition"
+    }
+  ]
+}

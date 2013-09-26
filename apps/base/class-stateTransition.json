@@ -1,0 +1,15 @@
+{ "class": "class",
+  "name": "stateTransition",
+  "super": "object",
+  "properties": [
+    { "name": "from",
+      "propertyKind": "string"
+    },
+    { "name": "to",
+      "propertyKind": "string"
+    },
+    { "name": "on",
+      "propertyKind": "string"
+    }
+  ]
+}
