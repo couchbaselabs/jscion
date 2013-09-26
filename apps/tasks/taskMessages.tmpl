@@ -1,9 +1,9 @@
 <div class="messages">
   <label>messages</label>
   <ul>
-    {{#.messages}}
+    {{#.messages:i}}
       <li intro="fade:slow">
-        <button class="btn btn-mini">delete</button>
+        <button class="btn btn-mini" on-click="deleteMessage" value="{{i}}">delete</button>
         {{.updatedAt}} - {{.message}}
       </li>
     {{/.messages}}

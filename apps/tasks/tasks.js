@@ -44,6 +44,11 @@ function main(ctx, page) {
         }
         renderTask(ctx, page.r, task);
       },
+      "deleteMessage": function(event) {
+        var task = page.r.get("obj");
+        task.messages.splice(parseInt(event.node.value), 1);
+        renderTask(ctx, page.r, task);
+      },
       "changeTaskStatus": function(event) {
         var edit = page.r.get("objEdit");
         var newStatus =
