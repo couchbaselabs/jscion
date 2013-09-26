@@ -19,7 +19,7 @@
 .tasks li.current {
     background: #dfd;
 }
-.taskOuter {
+.taskPanel {
     position: absolute;
     width: 60%;
     left: 40%;
