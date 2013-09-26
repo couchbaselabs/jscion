@@ -19,7 +19,7 @@
       {{.status}}
       <div class="taskStatusTransitions">
         {{#taskStatusTransitions}}
-          <button class="btn btn-mini">{{.on}}</button>
+          <button class="btn btn-mini" on-click="changeTaskStatus" value="{{.on}}">{{.on}}</button>
         {{/taskStatusTransitions}}
       </div>
     {{/doEdit}}

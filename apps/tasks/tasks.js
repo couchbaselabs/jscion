@@ -22,23 +22,7 @@ function main(ctx, page) {
       },
       "saveTask": function() {
         var edit = page.r.get("objEdit");
-        var orig = findTask(ctx, page.r.get("tasks"), edit.ident);
-        var changes = [];
-        _.each(_.keys(orig), function(k) {
-            if (orig[k] != edit[k]) { changes.push(k); }
-          });
-        if (changes.length > 0) {
-          edit.updatedAt = new Date().toJSON();
-          _.extend(orig, edit);
-          _.each(_.keys(orig), function(k) {
-              if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
-            });
-          var m = "(" + changes.join(",") + " edited)";
-          var c = ctx.newChild(orig, "messages", { "message": m }).result;
-          c.createAt = c.updatedAt = new Date().toJSON();
-        }
-        renderTask(ctx, page.r, orig);
-        page.r.update("tasks");
+        updateTask(ctx, page, findTask(ctx, page.r.get("tasks"), edit.ident), edit);
       },
       "editTask": function() {
         renderTask(ctx, page.r, page.r.get("obj"), { "doEdit": !page.r.get("doEdit") });
@@ -62,6 +46,17 @@ function main(ctx, page) {
           }
         }
         renderTask(ctx, page.r, task);
+      },
+      "changeTaskStatus": function(event) {
+        var edit = page.r.get("objEdit");
+        var newStatus =
+          (_.findWhere((ctx.getObj("stateMachine-taskStatus").result || {}).transitions || [],
+                       { "from": edit.status, "on": event.node.value }) || {}).to;
+        if (newStatus) {
+          edit.status = newStatus;
+          updateTask(ctx, page, findTask(ctx, page.r.get("tasks"), edit.ident), edit,
+                     ", to " + newStatus);
+        }
       }
     });
   }
@@ -90,4 +85,23 @@ function renderTask(ctx, r, task, extras) {
 
 function findStatusChoices(ctx) {
   return _.findWhere(ctx.getClassByName("task").result.properties, { "name": "status" }).valueChoices;
+}
+
+function updateTask(ctx, page, orig, edit, msgSuffix) {
+  var changes = [];
+  _.each(_.keys(orig), function(k) {
+      if (orig[k] != edit[k]) { changes.push(k); }
+    });
+  if (changes.length > 0) {
+    edit.updatedAt = new Date().toJSON();
+    _.extend(orig, edit);
+    _.each(_.keys(orig), function(k) {
+        if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
+      });
+    var m = "(" + changes.join(",") + " edited" + (msgSuffix || "") + ")";
+    var c = ctx.newChild(orig, "messages", { "message": m }).result;
+    c.createAt = c.updatedAt = new Date().toJSON();
+  }
+  renderTask(ctx, page.r, orig);
+  page.r.update("tasks");
 }
