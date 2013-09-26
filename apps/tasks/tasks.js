@@ -3,7 +3,7 @@ function main(ctx, page) {
   page.tasks = page.tasks || [];
   page.obj = findTask(ctx, page.tasks, page.ident) || page.obj;
 
-  if (!page.r) {
+  if (!page.r || page.controller != page.prev.controller) {
     page.r = page.render("tasks");
     page.r.on({
       "newTask": function(event) {
