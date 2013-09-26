@@ -15,7 +15,7 @@ function main(ctx, page) {
           task.ident = "task-" + task.createdAt.replace(/[^0-9]/g, '') +
             Math.round(Math.random() * 10000);
           page.r.get("tasks").unshift(task);
-          renderTask(page.r, task);
+          renderTask(ctx, page.r, task);
           event.node.value = "";
           event.node.focus();
         }
@@ -37,17 +37,17 @@ function main(ctx, page) {
           var c = ctx.newChild(orig, "messages", { "message": m }).result;
           c.createAt = c.updatedAt = new Date().toJSON();
         }
-        renderTask(page.r, orig);
+        renderTask(ctx, page.r, orig);
         page.r.update("tasks");
       },
       "editTask": function() {
-        renderTask(page.r, page.r.get("obj"), { "doEdit": !page.r.get("doEdit") });
+        renderTask(ctx, page.r, page.r.get("obj"), { "doEdit": !page.r.get("doEdit") });
         if (page.r.get("doEdit")) {
           setTimeout(function() { $("#objEdit_title").focus(); });
         }
       },
       "addComment": function() {
-        renderTask(page.r, page.r.get("obj"), { "doComment": !page.r.get("doComment") });
+        renderTask(ctx, page.r, page.r.get("obj"), { "doComment": !page.r.get("doComment") });
         if (page.r.get("doComment")) {
           setTimeout(function() { $("#commentMessage").focus(); });
         }
@@ -61,14 +61,14 @@ function main(ctx, page) {
             c.createdAt = c.updatedAt = new Date().toJSON();
           }
         }
-        renderTask(page.r, task);
+        renderTask(ctx, page.r, task);
       }
     });
   }
 
   page.r.update("tasks");
   page.r.update("tasksByStatus");
-  renderTask(page.r, page.obj);
+  renderTask(ctx, page.r, page.obj);
 }
 
 function findTask(ctx, tasks, ident) {
@@ -76,13 +76,16 @@ function findTask(ctx, tasks, ident) {
   function where(task) { return task.ident == ident; };
 }
 
-function renderTask(r, task, extras) {
+function renderTask(ctx, r, task, extras) {
   r.set(_.defaults(extras || {}, { "obj": task,
                                    "objEdit": _.clone(task),
                                    "doEdit": false,
                                    "doComment": false,
                                    "commentMessage": "" }));
   r.set("taskCountsByStatus", _.countBy(r.get("tasks"), "status"));
+  r.set("taskStatusTransitions",
+        task && _.filter((ctx.getObj("stateMachine-taskStatus").result || {}).transitions || [],
+                         function(t) { return t.from == task.status; }));
 }
 
 function findStatusChoices(ctx) {

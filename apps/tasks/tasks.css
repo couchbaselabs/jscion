@@ -64,3 +64,6 @@
 .taskCountsByStatus {
     padding: 1em 0 1em 2em;
 }
+.taskStatusTransitions {
+    padding: 0 1em .5em 8.25em;
+}

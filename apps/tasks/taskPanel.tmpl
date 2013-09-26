@@ -17,6 +17,11 @@
     <label>status</label>
     {{^doEdit}}
       {{.status}}
+      <div class="taskStatusTransitions">
+        {{#taskStatusTransitions}}
+          <button class="btn btn-mini">{{.on}}</button>
+        {{/taskStatusTransitions}}
+      </div>
     {{/doEdit}}
     {{#doEdit}}
       <select value="{{objEdit.status}}">
