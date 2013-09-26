@@ -28,7 +28,6 @@
 // permissions and limitations under the License.
 
 var g_ctx;
-var g_tmpl;
 var g_page = {};
 var g_ractive;
 
@@ -41,9 +40,7 @@ $(function() {
 });
 
 function jscionStart(data, tmpl, el) {
-  var ctx = jscion(data);
-  g_ctx = ctx;
-  g_tmpl = tmpl;
+  var ctx = g_ctx = jscion(data);
   var app = g_ctx.getObj("app-info").result || {};
   $(window).bind('hashchange', redraw);
   redraw();
@@ -61,18 +58,14 @@ function jscionStart(data, tmpl, el) {
                         { mode: "view" });
 
     var o = g_ctx.getObj(ident);
-
-    var jRactive = jsionRactive(g_ctx);
-    var iRactive = { el: el, partials: jRactive.partials, template: null, data: g_page };
-    var ractive;
-
-    _.extend(g_page,
+    var j = jsionRactive(g_ctx);
+    var p = g_page = _.extend(g_page,
       { app: app, target: target, controller: controller, ident: ident, opts: opts,
-        templates: g_tmpl, renderers: jRactive.renderers, partials: jRactive.partials,
+        templates: tmpl, renderers: j.renderers, partials: j.partials,
         ctx: g_ctx, obj: o.result || g_page.obj, fetch: fetch, render: render });
 
     if (_.isFunction(window[controller])) {
-      return window[controller](g_ctx, iRactive.data, iRactive);
+      return window[controller](ctx, p);
     }
     if (o.err || !o.result) {
       return $("#container").html("error: no obj from controller:" + controller +
@@ -80,17 +73,16 @@ function jscionStart(data, tmpl, el) {
     }
     render();
 
-    function render(template, ir) {
-      template = template || controller;
-      ir = ir || iRactive;
-      ir.template = ir.template || ("{{>" + template + "}}\n\n" + ir.data.templates),
-      g_ractive = ractive = new Ractive(ir);
-      return ractive;
+    function render(template) {
+      var x = { el: el, partials: p.partials, data: p,
+                template: "{{>" + (template || controller) + "}}\n\n" + p.templates };
+      var r = g_ractive = new Ractive(x);
+      return r;
     }
 
     function fetch(into, ident, using) {
       setTimeout(function() {
-        ractive[using || "set"](into, g_ctx.getObj(ident || into).result);
+        r[using || "set"](into, g_ctx.getObj(ident || into).result);
       }, 10);
     }
   }
