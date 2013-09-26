@@ -75,6 +75,7 @@ function jscionStart(data, tmpl, page, el) {
     render();
 
     function render(template) {
+      page.objJSON = JSON.stringify(page.obj);
       var x = { el: el, partials: page.partials, data: page,
                 template: "{{>" + (template || controller) + "}}\n\n" + page.templates };
       var r = g_ractive = new Ractive(x);
