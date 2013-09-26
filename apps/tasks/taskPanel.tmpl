@@ -3,9 +3,7 @@
   <div>
     <label>title</label>
     {{^doEdit}}
-      <a href="#{{.ident}}">
-        {{.title}}
-      </a>
+      <a href="#{{.ident}}">{{.title}}</a>
     {{/doEdit}}
     {{#doEdit}}
       <span intro="fade:slow">
@@ -57,6 +55,10 @@
     <button class="btn btn-small" on-click="editTask">
       {{ doEdit ? 'cancel edit' : 'edit task' }}
     </button>
+    {{^doEdit}}
+      &nbsp;
+      [<a href="#json:{{.ident}}" onclick="alert('{{objJSON}}'); return false;">json</a>]
+    {{/doEdit}}
   </div>
 
   {{>taskMessages}}

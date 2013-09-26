@@ -79,6 +79,7 @@ function renderTask(ctx, r, task, extras) {
                                    "doEdit": false,
                                    "doComment": false,
                                    "commentMessage": "" }));
+  r.set("objJSON", JSON.stringify(r.get("obj")));
   r.set("taskCountsByStatus", _.countBy(r.get("tasks"), "status"));
   r.set("taskStatusTransitions",
         task && _.filter((ctx.getObj("stateMachine-taskStatus").result || {}).transitions || [],
