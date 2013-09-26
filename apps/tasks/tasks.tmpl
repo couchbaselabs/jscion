@@ -1,37 +1,30 @@
 {{>main_header}}
 
-<div class="main">
 {{# obj.class == "task" || obj.class == "app" }}
-  <h1>tasks: {{ tasks.length }}</h1>
-  <input on-change="newTask" class="newTask" placeholder="what needs to be done or fixed?"/>
+  <div class="tasks">
+    <h1>tasks: {{ tasks.length }}</h1>
+    <input on-change="newTask" class="newTask" placeholder="what needs to be done or fixed?"/>
 
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span3">
-        <ul>
-          {{#tasks}}
-            <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
-              <a href="#{{.ident}}">
-                {{.title}}
-              </a>
-            </li>
-          {{/tasks}}
-        </ul>
-      </div>
-      <div class="span7">
-        {{#obj}}
-          {{# .class == "task" }}
-            {{>taskPanel}}
-          {{/}}
-        {{/obj}}
-      </div>
-    </div>
+    <ul>
+      {{#tasks}}
+        <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
+          <a href="#{{.ident}}">{{.title}}</a>
+        </li>
+      {{/tasks}}
+    </ul>
   </div>
-{{/}}
+
+  {{#obj}}
+    {{# .class == "task" }}
+      {{>taskPanel}}
+    {{/ .class == "task" }}
+  {{/obj}}
+{{/ obj.class == "task" || obj.class == "app" }}
 
 {{# obj.class != "task" && obj.class != "app" }}
-  {{#obj}}{{>__object}}{{/obj}}
+  <div class="main">
+    {{#obj}}{{>__object}}{{/obj}}
+  </div>
 {{/}}
-</div>
 
 {{>main_footer}}
