@@ -61,11 +61,11 @@ function jscion(data, ctxNext) {
     if (c.err || !c.result) {
       return { err: c.err || ("no class for className: " + className) };
     }
-    var o = {};
     var f = flattenProperties(c.result);
     if (f.err) {
       return f;
     }
+    var o = {};
     _.each(f.result, function(p, k) { o[k] = propertyDefaultValue(p); });
     o.class = className;
     return { result: o };
@@ -73,10 +73,11 @@ function jscion(data, ctxNext) {
 
   function newChild(obj, arrayName) {
     var c = newObj((getProperty(getClass(obj).result, arrayName).result || {}).propertyKind);
-    if (!c.err && c.result) {
-      obj[arrayName] = obj[arrayName] || [];
-      obj[arrayName].push(c.result);
+    if (c.err || !c.result) {
+      return c;
     }
+    obj[arrayName] = obj[arrayName] || [];
+    obj[arrayName].push(c.result);
     return c;
   }
 
