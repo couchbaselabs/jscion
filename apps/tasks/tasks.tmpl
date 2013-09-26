@@ -16,7 +16,7 @@
     <div class="taskCountsByStatus">
       {{#statusChoices}}
         {{# taskCountsByStatus[.] > 0}}
-          {{.}}: {{taskCountsByStatus[.]}}
+          <div>{{.}}: {{taskCountsByStatus[.]}}</div>
         {{/ taskCountsByStatus[.] > 0}}
       {{/statusChoices}}
     </div>
