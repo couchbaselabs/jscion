@@ -57,8 +57,8 @@ function jscionStart(data, tmpl, el) {
                         function(o, p) { o[p.split('=')[0]] = p.split('=')[1]; return o; },
                         { mode: "view" });
 
-    var o = g_ctx.getObj(ident);
-    var j = jsionRactive(g_ctx);
+    var o = ctx.getObj(ident);
+    var j = jsionRactive(ctx);
     var p = g_page = _.extend(g_page,
       { app: app, target: target, controller: controller, ident: ident, opts: opts,
         templates: tmpl, renderers: j.renderers, partials: j.partials,
