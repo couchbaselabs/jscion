@@ -12,6 +12,14 @@
         </li>
       {{/tasks}}
     </ul>
+
+    <div class="taskCountsByStatus">
+      {{#statusChoices}}
+        {{# taskCountsByStatus[.] > 0}}
+          {{.}}: {{taskCountsByStatus[.]}}
+        {{/ taskCountsByStatus[.] > 0}}
+      {{/statusChoices}}
+    </div>
   </div>
 
   {{#obj}}

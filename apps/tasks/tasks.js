@@ -1,6 +1,7 @@
 function main(ctx, page) {
   page.statusChoices = page.statusChoices || findStatusChoices(ctx)
   page.tasks = page.tasks || [];
+  page.taskCountsByStatus = page.taskCountsByStatus || {};
   page.obj = findTask(ctx, page.tasks, page.ident) || page.obj;
 
   if (!page.r || page.controller != page.prev.controller) {
@@ -14,6 +15,7 @@ function main(ctx, page) {
           task.ident = "task-" + task.createdAt.replace(/[^0-9]/g, '') +
             Math.round(Math.random() * 10000);
           page.r.get("tasks").unshift(task);
+          page.r.set("taskCountsByStatus", _.countBy(page.r.get("tasks"), "status"));
           renderTask(page.r, task);
           event.node.value = "";
           event.node.focus();
@@ -40,6 +42,7 @@ function main(ctx, page) {
         }
         renderTask(page.r, orig);
         page.r.update("tasks");
+        page.r.set("taskCountsByStatus", _.countBy(page.r.get("tasks"), "status"));
       },
       "editTask": function() {
         renderTask(page.r, page.r.get("obj"), { "doEdit": !page.r.get("doEdit") });
@@ -71,6 +74,7 @@ function main(ctx, page) {
   }
 
   page.r.update("tasks");
+  page.r.update("tasksByStatus");
   renderTask(page.r, page.obj);
 }
 
