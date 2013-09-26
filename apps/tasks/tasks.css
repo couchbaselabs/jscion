@@ -53,7 +53,7 @@
 .task label:after {
     content:":";
 }
-.task .comments {
+.task .messages {
     margin-top: 2em;
     border-top: 1px solid #aaa;
     padding-top: 1em;
