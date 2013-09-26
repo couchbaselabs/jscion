@@ -58,6 +58,19 @@
     border-top: 1px solid #aaa;
     padding-top: 1em;
 }
+.task .messages ul {
+    list-style-type: none;
+    margin-left: 0;
+}
+.task .messages ul li button {
+    visibility: hidden;
+}
+.task .messages ul li:hover button {
+    visibility: visible;
+}
+.task .messages ul li:hover {
+    background: #f0f0f0;
+}
 .task select {
     width: 7em;
 }
