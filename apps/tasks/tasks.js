@@ -49,7 +49,9 @@ function main(ctx, page) {
       },
       "deleteMessage": function(event) {
         var task = page.r.get("obj");
-        task.messages.splice(parseInt(event.node.value), 1);
+        if (confirm("are you sure you want to delete that message?")) {
+          task.messages.splice(parseInt(event.node.value), 1);
+        }
         renderTask(ctx, page.r, task);
       },
       "changeTaskStatus": function(event) {
