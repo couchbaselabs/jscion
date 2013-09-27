@@ -79,13 +79,16 @@ function findTask(ctx, tasks, ident) {
 }
 
 function renderTask(ctx, r, task, extras) {
-  r.set(_.defaults(extras || {}, { "obj": task,
-                                   "objEdit": _.clone(task),
-                                   "doEdit": false,
-                                   "doComment": false,
-                                   "commentMessage": "" }));
+  var tasksByStatus = _.groupBy(r.get("tasks"), "status");
+  r.set(_.defaults(extras || {}, {
+        "obj": task,
+        "objEdit": _.clone(task),
+        "doEdit": false,
+        "doComment": false,
+        "commentMessage": "",
+        "tasksByStatus": function(status) { return tasksByStatus[status]; }
+      }));
   r.set("objJSON", JSON.stringify(r.get("obj")));
-  r.set("taskCountsByStatus", _.countBy(r.get("tasks"), "status"));
   r.set("taskStatusTransitions",
         task && _.filter((ctx.getObj("stateMachine-taskStatus").result || {}).transitions || [],
                          function(t) { return t.from == task.status; }));

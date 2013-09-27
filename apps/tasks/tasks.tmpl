@@ -4,21 +4,18 @@
   <div class="tasks">
     <h3>tasks: {{ tasks.length }}</h3>
 
-    <ul>
-      {{#tasks}}
-        <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
-          <a href="#{{.ident}}">{{.title}}</a>
-        </li>
-      {{/tasks}}
-    </ul>
-
-    <div class="taskCountsByStatus">
-      {{#statusChoices}}
-        {{# taskCountsByStatus[.] > 0}}
-          <div>{{.}}: {{taskCountsByStatus[.]}}</div>
-        {{/ taskCountsByStatus[.] > 0}}
-      {{/statusChoices}}
-    </div>
+    {{#statusChoices}}
+      {{# (tasksByStatus(.) || []).length > 0 }}
+        {{.}}: {{(tasksByStatus(.) || []).length}}
+        <ul>
+          {{# tasksByStatus(.) }}
+            <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
+              <a href="#{{.ident}}">{{.title}}</a>
+            </li>
+          {{/ tasksByStatus(.) }}
+        </ul>
+      {{/ (tasksByStatus(.) || []).length > 0 }}
+    {{/statusChoices}}
   </div>
 
   {{#obj}}
