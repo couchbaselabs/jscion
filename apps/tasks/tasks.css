@@ -1,3 +1,7 @@
+input.newTask {
+    width: 80%;
+    margin-top: .5em;
+}
 .tasks {
     position: absolute;
     width: 100%;
@@ -5,15 +9,9 @@
     overflow-y: scroll;
     padding: 4em 1em 5em 2em;
 }
-.tasks input.newTask {
-    position: relative;
-    width: 80%;
-    margin: .5em 1em 2em 0;
-    z-index: 10;
-}
 .tasks ul {
     position: relative;
-    padding-left: 2em;
+    padding: 1em 0 0 2em;
     width: 20%;
 }
 .tasks li.current {
@@ -24,7 +22,7 @@
     width: 60%;
     left: 40%;
     overflow-y: scroll;
-    padding-top: 13em;
+    padding-top: 10em;
 }
 .task {
     margin: 0 2em 5em 0;
