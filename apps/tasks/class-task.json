@@ -2,8 +2,15 @@
   "name": "task",
   "super": "object",
   "properties": [
+    { "name": "createdAt",
+      "propertyKind": "dateTimeStamp"
+    },
+    { "name": "updatedAt",
+      "propertyKind": "dateTimeStamp"
+    },
     { "name": "ident",
-      "propertyKind": "docId"
+      "propertyKind": "docId",
+      "defaultValueExpr": "c.name + '-' + o.createdAt.replace(/[^0-9]/g, '') + Math.round(Math.random() * 10000)"
     },
     { "name": "title",
       "propertyKind": "string"
@@ -14,12 +21,6 @@
       "valueChoices": [
         "new", "open", "resolved", "closed"
       ]
-    },
-    { "name": "createdAt",
-      "propertyKind": "dateTimeStamp"
-    },
-    { "name": "updatedAt",
-      "propertyKind": "dateTimeStamp"
     },
     { "name": "description",
       "propertyKind": "text"

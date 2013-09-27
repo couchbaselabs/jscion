@@ -65,8 +65,8 @@ function jscion(data, ctxNext) {
     if (f.err) {
       return f;
     }
-    var o = { class: className };
-    _.each(f.result, function(p, k) { o[k] = o[k] || propertyDefaultValue(c, p, o); });
+    var o = {};
+    _.each(f.result, function(p, k) { o[k] = propertyDefaultValue(c.result, p, o); });
     return { result: _.extend(o, initObj) };
   }
 
@@ -88,15 +88,12 @@ function jscion(data, ctxNext) {
 
   function propertyDefaultValue(c, p, o) {
     var t = getTypeByName(p.propertyKind).result || {};
-    var v = newObj(p.propertyKind).result;
-    if (!v) {
-      v = t.defaultValue;
+    var v = newObj(p.propertyKind).result || p.defaultValue || t.defaultValue;
+    var e = p.defaultValueExpr || t.defaultValueExpr;
+    if (e) {
+      v = (new Function("c", "p", "o", "v", "return (" + e + ")"))(c, p, o, v);
     }
-    if (t.defaultValueExpr) {
-      v = (new Function("c", "p", "o", "v", "return (" + t.defaultValueExpr + ")"))(c, p, o, v);
-    }
-    return _.clone(p.defaultValue ||
-                   (p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v)));
+    return _.clone(p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v));
   }
 
   function classSubs(className) {

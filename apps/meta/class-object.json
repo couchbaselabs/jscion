@@ -4,6 +4,7 @@
   "properties": [
     { "name": "class",
       "propertyKind": "className",
+      "defaultValueExpr": "c.name",
       "displayOrder": -1000,
       "editTemplate": "<a href=\"#<%- _.find(['class-', 'type-'], function(n) { return (ctx.getObj(n + v) || {}).result; }) %><%- v %>\"><%= v %></a>"
     }
