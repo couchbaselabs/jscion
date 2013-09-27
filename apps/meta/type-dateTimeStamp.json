@@ -1,0 +1,4 @@
+{ "class": "type",
+  "name": "dateTimeStamp",
+  "super": "dateTime"
+}

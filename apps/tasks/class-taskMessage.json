@@ -3,10 +3,10 @@
   "super": "object",
   "properties": [
     { "name": "createdAt",
-      "propertyKind": "dateTime"
+      "propertyKind": "dateTimeStamp"
     },
     { "name": "updatedAt",
-      "propertyKind": "dateTime"
+      "propertyKind": "dateTimeStamp"
     },
     { "name": "message",
       "propertyKind": "text"

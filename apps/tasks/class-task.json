@@ -16,10 +16,10 @@
       ]
     },
     { "name": "createdAt",
-      "propertyKind": "dateTime"
+      "propertyKind": "dateTimeStamp"
     },
     { "name": "updatedAt",
-      "propertyKind": "dateTime"
+      "propertyKind": "dateTimeStamp"
     },
     { "name": "description",
       "propertyKind": "text"
