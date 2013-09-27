@@ -56,6 +56,7 @@
       {{ doEdit ? 'cancel edit' : 'edit task' }}
     </button>
     {{^doEdit}}
+      <button class="btn btn-small" on-click="cloneTask">clone task</button>
       &nbsp;
       [<a href="#json:{{.ident}}" onclick="alert('{{objJSON}}'); return false;">json</a>]
     {{/doEdit}}

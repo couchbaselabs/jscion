@@ -29,6 +29,16 @@ function main(ctx, page) {
           setTimeout(function() { $("#objEdit_title").focus(); });
         }
       },
+      "cloneTask": function() {
+        var task = ctx.newObj("task", page.r.get("obj")).result;
+        task.createdAt = task.updatedAt = new Date().toJSON();
+        task.status = "new";
+        task.messages = [];
+        task.ident = "task-" + task.createdAt.replace(/[^0-9]/g, '') +
+          Math.round(Math.random() * 10000);
+        page.r.get("tasks").unshift(task);
+        renderTask(ctx, page.r, task);
+      },
       "addComment": function() {
         renderTask(ctx, page.r, page.r.get("obj"), { "doComment": !page.r.get("doComment") });
         if (page.r.get("doComment")) {
