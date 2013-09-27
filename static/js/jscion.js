@@ -66,7 +66,7 @@ function jscion(data, ctxNext) {
       return f;
     }
     var o = { class: className };
-    _.each(f.result, function(p, k) { o[k] = o[k] || propertyDefaultValue(p); });
+    _.each(f.result, function(p, k) { o[k] = o[k] || propertyDefaultValue(c, p, o); });
     return { result: _.extend(o, initObj) };
   }
 
@@ -86,9 +86,15 @@ function jscion(data, ctxNext) {
     return res;
   }
 
-  function propertyDefaultValue(p) {
-    var v = (newObj(p.propertyKind).result ||
-             (getTypeByName(p.propertyKind).result || {}).defaultValue);
+  function propertyDefaultValue(c, p, o) {
+    var t = getTypeByName(p.propertyKind).result || {};
+    var v = newObj(p.propertyKind).result;
+    if (!v) {
+      v = t.defaultValue;
+    }
+    if (t.defaultValueExpr) {
+      v = (new Function("c", "p", "o", "v", "return (" + t.defaultValueExpr + ")"))(c, p, o, v);
+    }
     return _.clone(p.defaultValue ||
                    (p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v)));
   }

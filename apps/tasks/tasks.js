@@ -10,7 +10,6 @@ function main(ctx, page) {
       "newTask": function(event) {
         var task = ctx.newObj("task", { "title": (event.node.value || "").trim() }).result;
         if (task.title) {
-          task.createdAt = task.updatedAt = new Date().toJSON();
           task.ident = "task-" + task.createdAt.replace(/[^0-9]/g, '') +
             Math.round(Math.random() * 10000);
           page.r.get("tasks").unshift(task);
@@ -31,7 +30,6 @@ function main(ctx, page) {
       },
       "cloneTask": function() {
         var task = ctx.newObj("task", page.r.get("obj")).result;
-        task.createdAt = task.updatedAt = new Date().toJSON();
         task.status = "new";
         task.messages = [];
         task.ident = "task-" + task.createdAt.replace(/[^0-9]/g, '') +

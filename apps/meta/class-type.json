@@ -11,6 +11,9 @@
     { "name": "defaultValue",
       "propertyKind": "any"
     },
+    { "name": "defaultValueExpr",
+      "propertyKind": "expr"
+    },
     { "class": "propertyArray",
       "name": "valueChoices",
       "propertyKind": "string"
