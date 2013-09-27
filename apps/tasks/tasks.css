@@ -12,6 +12,7 @@ input.newTask {
 .tasks ul {
     position: relative;
     width: 25%;
+    overflow: hidden;
 }
 .tasks li.current {
     background: #dfd;
