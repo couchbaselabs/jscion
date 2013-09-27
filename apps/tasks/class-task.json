@@ -6,7 +6,8 @@
       "propertyKind": "dateTimeStamp"
     },
     { "name": "updatedAt",
-      "propertyKind": "dateTimeStamp"
+      "propertyKind": "dateTimeStamp",
+      "defaultValueExpr": "o.createdAt"
     },
     { "name": "ident",
       "propertyKind": "docId",

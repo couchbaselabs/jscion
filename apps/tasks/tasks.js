@@ -10,8 +10,6 @@ function main(ctx, page) {
       "newTask": function(event) {
         var task = ctx.newObj("task", { "title": (event.node.value || "").trim() }).result;
         if (task.title) {
-          task.ident = "task-" + task.createdAt.replace(/[^0-9]/g, '') +
-            Math.round(Math.random() * 10000);
           page.r.get("tasks").unshift(task);
           renderTask(ctx, page.r, task);
           event.node.value = "";
