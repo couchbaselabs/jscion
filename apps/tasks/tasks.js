@@ -27,11 +27,9 @@ function main(ctx, page) {
         }
       },
       "cloneTask": function() {
-        var task = ctx.newObj("task", page.r.get("obj")).result;
-        task.status = "new";
-        task.messages = [];
-        task.ident = "task-" + task.createdAt.replace(/[^0-9]/g, '') +
-          Math.round(Math.random() * 10000);
+        var orig = page.r.get("obj");
+        var task = ctx.newObj("task", { "title": orig.title,
+                                        "description": orig.description }).result;
         page.r.get("tasks").unshift(task);
         renderTask(ctx, page.r, task);
       },
