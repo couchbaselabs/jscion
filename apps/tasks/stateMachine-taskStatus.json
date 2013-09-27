@@ -5,10 +5,6 @@
       "to": "open",
       "on": "open"
     },
-    { "from": "new",
-      "to": "resolved",
-      "on": "resolve"
-    },
     { "from": "open",
       "to": "resolved",
       "on": "resolve"
@@ -20,6 +16,10 @@
     { "from": "resolved",
       "to": "closed",
       "on": "close"
+    },
+    { "from": "resolved",
+      "to": "open",
+      "on": "reopen"
     },
     { "from": "closed",
       "to": "open",
