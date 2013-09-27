@@ -43,8 +43,7 @@ function main(ctx, page) {
         var msg = (page.r.get("commentMessage") + "").trim();
         var task = page.r.get("obj");
         if (task && msg) {
-          var c = ctx.newChild(task, "messages", { "message": msg }).result;
-          c.createdAt = c.updatedAt = new Date().toJSON();
+          ctx.newChild(task, "messages", { "message": msg }).result;
         }
         renderTask(ctx, page.r, task);
       },
@@ -103,8 +102,7 @@ function updateTask(ctx, page, orig, edit, msgSuffix) {
         if (_.isString(orig[k])) { orig[k] = orig[k].trim(); }
       });
     var m = "(" + changes.join(", ") + " edited" + (msgSuffix || "") + ")";
-    var c = ctx.newChild(orig, "messages", { "message": m }).result;
-    c.createAt = c.updatedAt = new Date().toJSON();
+    ctx.newChild(orig, "messages", { "message": m }).result;
   }
   renderTask(ctx, page.r, orig);
   page.r.update("tasks");
