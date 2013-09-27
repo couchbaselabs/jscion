@@ -1,0 +1,4 @@
+{ "class": "type",
+  "name": "expr",
+  "super": "string"
+}

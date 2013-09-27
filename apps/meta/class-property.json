@@ -23,6 +23,10 @@
       "propertyKind": "any",
       "nullAllowed": true
     },
+    { "name": "defaultValueExpr",
+      "propertyKind": "expr",
+      "nullAllowed": true
+    },
     { "name": "minValue",
       "propertyKind": "any",
       "nullAllowed": true
