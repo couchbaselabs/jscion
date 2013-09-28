@@ -32,10 +32,7 @@ input.newTask {
 .task .control {
     margin-top: 1em;
 }
-.task .control button {
-    width: 10em;
-}
-.task input, .task textarea {
+.task input {
     display: inline-block;
     min-width: 14em;
     width: 70%;
@@ -48,30 +45,42 @@ input.newTask {
 .task label:after {
     content:":";
 }
-.task .messages {
+.task .control button {
+    width: 10em;
+}
+.task select {
+    font-size: 9pt;
+    width: 7em;
+}
+.taskStatusTransitions {
+    padding: 0 1em .5em 8.25em;
+}
+.messages {
     margin-top: 2em;
     border-top: 1px solid #aaa;
     padding-top: 1em;
 }
-.task .messages ul {
+.messages label:after {
+    content:":";
+}
+.messages ul {
     list-style-type: none;
     margin-left: 0;
 }
-.task .messages ul li button {
+.messages ul li button {
     visibility: hidden;
 }
-.task .messages ul li:hover button {
+.messages ul li:hover button {
     visibility: visible;
 }
-.task .messages ul li:hover {
+.messages ul li:hover {
     background: #f0f0f0;
 }
-.task select {
-    width: 7em;
+.messages textarea {
+    display: inline-block;
+    min-width: 14em;
+    width: 70%;
 }
-.taskCountsByStatus {
-    padding: 1em 0 1em 2em;
-}
-.taskStatusTransitions {
-    padding: 0 1em .5em 8.25em;
+.messages .control button {
+    width: 10em;
 }
