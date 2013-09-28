@@ -2,11 +2,11 @@
 
 {{# obj.class == "task" || obj.class == "app" }}
   <div class="tasks">
-    <h3>tasks: {{ tasks.length }}</h3>
+    <h3>tasks <span class="badge badge-inverse">{{ tasks.length }}</span></h3>
 
     {{#statusChoices}}
       {{# (tasksByStatus(.) || []).length > 0 }}
-        {{.}}: {{(tasksByStatus(.) || []).length}}
+        {{.}} <span class="badge">{{(tasksByStatus(.) || []).length}}</span>
         <ul>
           {{# tasksByStatus(.) }}
             <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
