@@ -27,7 +27,7 @@ input.newTask {
 .task .control {
     margin-top: 1em;
 }
-.task input {
+.task input, .task textarea {
     display: inline-block;
     min-width: 14em;
     width: 70%;
