@@ -1,28 +1,43 @@
 {{>main_header}}
 
 {{# obj.class == "task" || obj.class == "app" }}
-  <div class="tasks">
-    <h3>tasks <span class="badge badge-inverse">{{ tasks.length }}</span></h3>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+      <div class="lhs">
+        <h3>tasks</h3>
 
-    {{#statusChoices}}
-      {{# (tasksByStatus(.) || []).length > 0 }}
-        {{.}} <span class="badge">{{(tasksByStatus(.) || []).length}}</span>
-        <ul>
-          {{# tasksByStatus(.) }}
-            <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
-              <a href="#{{.ident}}">{{.title}}</a>
-            </li>
-          {{/ tasksByStatus(.) }}
-        </ul>
-      {{/ (tasksByStatus(.) || []).length > 0 }}
-    {{/statusChoices}}
+        <div class="pane">
+          <div class="tasks">
+            {{#statusChoices}}
+              {{# (tasksByStatus(.) || []).length > 0 }}
+                {{.}} <span class="badge">{{(tasksByStatus(.) || []).length}}</span>
+                <ul>
+                  {{# tasksByStatus(.) }}
+                    <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
+                      <a href="#{{.ident}}">{{.title}}</a>
+                    </li>
+                  {{/ tasksByStatus(.) }}
+                </ul>
+              {{/ (tasksByStatus(.) || []).length > 0 }}
+            {{/statusChoices}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="span7">
+      <div class="rhs">
+        <input on-change="newTask" class="newTask" placeholder="what needs to be done or fixed?"/>
+
+        {{#obj}}
+          {{# .class == "task" }}
+            {{>taskPanel}}
+          {{/ .class == "task" }}
+        {{/obj}}
+      </div>
+    </div>
   </div>
-
-  {{#obj}}
-    {{# .class == "task" }}
-      {{>taskPanel}}
-    {{/ .class == "task" }}
-  {{/obj}}
+</div>
 {{/ obj.class == "task" || obj.class == "app" }}
 
 {{# obj.class != "task" && obj.class != "app" }}
