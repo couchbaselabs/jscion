@@ -18,7 +18,7 @@ input.newTask {
     background: #dfd;
 }
 .taskPanel {
-    padding: 7em 2em 10em 2em;
+    padding: 3em 2em 10em 2em;
     border-left: 1px solid #aaa;
 }
 .task * {
