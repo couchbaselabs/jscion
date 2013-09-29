@@ -5,9 +5,11 @@
   <div class="row-fluid">
     <div class="span3">
       <div class="lhs">
-        {{# tasks.length > 0 }}
-          <h3>tasks</h3>
-        {{/ tasks.length > 0 }}
+        <h3>tasks</h3>
+
+        <div class="search">
+          <input type="text" class="search-query" value={{search}} placeholder="Search"/>
+        </div>
 
         <div class="pane">
           <div class="tasks">

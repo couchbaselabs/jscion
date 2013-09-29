@@ -2,6 +2,9 @@ input.newTask {
     width: 80%;
     margin: .5em 2em 0 2em;
 }
+.search {
+    margin: 0 0 2em -0.2em;
+}
 .lhs {
     margin-top: 3.5em;
 }
