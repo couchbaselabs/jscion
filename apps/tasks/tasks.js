@@ -37,11 +37,11 @@ function main(ctx, page) {
         if (!confirm("are you sure you want to delete this task?")) {
           return;
         }
-        page.obj = page.r.get("obj");
-        page.tasks = _.reject(page.r.get("tasks"),
-                              function(t) { return t.ident == page.obj.ident; });
+        var task = page.r.get("obj");
+        page.tasks = _.reject(page.r.get("tasks"), function(t) { return t.ident == task.ident; });
         page.r.set("tasks", page.tasks);
-        renderTask(ctx, page.r, null);
+        page.r.set("ident", "app-info");
+        renderTask(ctx, page.r, page.app);
       },
       "addComment": function() {
         renderTask(ctx, page.r, page.r.get("obj"), { "doComment": !page.r.get("doComment") });
