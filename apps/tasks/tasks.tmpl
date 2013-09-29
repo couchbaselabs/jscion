@@ -1,6 +1,6 @@
 {{>main_header}}
 
-{{# obj.class == "task" || obj.class == "app" }}
+{{# !obj || obj.class == "task" || obj.class == "app" }}
 <div class="container-fluid">
   <div class="row-fluid">
     <div class="span3">
@@ -38,9 +38,9 @@
     </div>
   </div>
 </div>
-{{/ obj.class == "task" || obj.class == "app" }}
+{{/}}
 
-{{# obj.class != "task" && obj.class != "app" }}
+{{# obj && obj.class != "task" && obj.class != "app" }}
   <div class="main">
     {{#obj}}{{>__object}}{{/obj}}
   </div>

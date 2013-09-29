@@ -33,6 +33,16 @@ function main(ctx, page) {
         page.r.get("tasks").unshift(task);
         renderTask(ctx, page.r, task);
       },
+      "deleteTask": function() {
+        if (!confirm("are you sure you want to delete this task?")) {
+          return;
+        }
+        page.obj = page.r.get("obj");
+        page.tasks = _.reject(page.r.get("tasks"),
+                              function(t) { return t.ident == page.obj.ident; });
+        page.r.set("tasks", page.tasks);
+        renderTask(ctx, page.r, null);
+      },
       "addComment": function() {
         renderTask(ctx, page.r, page.r.get("obj"), { "doComment": !page.r.get("doComment") });
         if (page.r.get("doComment")) {
@@ -88,7 +98,7 @@ function renderTask(ctx, r, task, extras) {
         "commentMessage": "",
         "tasksByStatus": function(status) { return tasksByStatus[status]; }
       }));
-  r.set("objJSON", JSON.stringify(r.get("obj")));
+  r.set("objJSON", JSON.stringify(task));
   r.set("taskStatusTransitions",
         task && _.filter((ctx.getObj("stateMachine-taskStatus").result || {}).transitions || [],
                          function(t) { return t.from == task.status; }));
