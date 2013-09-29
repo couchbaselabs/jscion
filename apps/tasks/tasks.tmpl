@@ -7,10 +7,6 @@
       <div class="lhs">
         <h3>tasks</h3>
 
-        <div class="search">
-          <input type="text" class="search-query" value={{search}} placeholder="Search"/>
-        </div>
-
         <div class="pane">
           <div class="tasks">
             {{#statusChoices}}
@@ -18,9 +14,11 @@
                 {{.}} <span class="badge">{{(tasksByStatus(.) || []).length}}</span>
                 <ul>
                   {{# tasksByStatus(.) }}
-                    <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
-                      <a href="#{{.ident}}">{{.title}}</a>
-                    </li>
+                    {{# .title.indexOf(search || "") >= 0 }}
+                      <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
+                        <a href="#{{.ident}}">{{.title}}</a>
+                      </li>
+                    {{/ .title.indexOf(search || "") >= 0 }}
                   {{/ tasksByStatus(.) }}
                 </ul>
               {{/ (tasksByStatus(.) || []).length > 0 }}
@@ -31,8 +29,6 @@
     </div>
     <div class="span7">
       <div class="rhs">
-        <input on-change="newTask" class="newTask" placeholder="what needs to be done or fixed?"/>
-
         {{#obj}}
           {{# .class == "task" }}
             {{>taskPanel}}

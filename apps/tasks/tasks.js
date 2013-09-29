@@ -1,5 +1,6 @@
 function main(ctx, page) {
   page.statusChoices = page.statusChoices || findStatusChoices(ctx)
+  page.search = page.search || "";
   page.tasks = page.tasks || [];
   page.taskCountsByStatus = page.taskCountsByStatus || {};
   page.obj = findTask(ctx, page.tasks, page.ident) || page.obj;
