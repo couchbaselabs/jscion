@@ -68,7 +68,8 @@ function jscion(data, ctxNext) {
     }
     var o = {};
     _.each(f.result, function(p, k) {
-        o[k] = evalProperty(c.result, p, o, "defaultValue", "defaultValueExpr");
+        o[k] = evalProperty(c.result, p, o, "defaultValue", "defaultValueExpr",
+                            newObj(p.propertyKind).result);
       });
     return { result: _.extend(o, initObj) };
   }
@@ -89,9 +90,9 @@ function jscion(data, ctxNext) {
     return res;
   }
 
-  function evalProperty(c, p, o, slot, slotExpr) {
+  function evalProperty(c, p, o, slot, slotExpr, defaultValue) {
     var t = getTypeByName(p.propertyKind).result || {};
-    var v = newObj(p.propertyKind).result || p[slot] || t[slot];
+    var v = p[slot] || t[slot] || defaultValue;
     var e = p[slotExpr] || t[slotExpr];
     if (e) {
       v = (new Function("c", "p", "o", "v", "return (" + e + ")"))(c, p, o, v);
