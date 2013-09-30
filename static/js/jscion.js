@@ -20,6 +20,7 @@ function jscion(data, ctxNext) {
               "getClassByName": getClassByName,
               "getTypeByName": getTypeByName,
               "getProperty": getProperty,
+              "evalProperty": evalProperty,
               "newObj": newObj,
               "newChild": newChild,
               "findObj": findObj,
@@ -66,7 +67,9 @@ function jscion(data, ctxNext) {
       return f;
     }
     var o = {};
-    _.each(f.result, function(p, k) { o[k] = propertyDefaultValue(c.result, p, o); });
+    _.each(f.result, function(p, k) {
+        o[k] = evalProperty(c.result, p, o, "defaultValue", "defaultValueExpr");
+      });
     return { result: _.extend(o, initObj) };
   }
 
@@ -86,10 +89,10 @@ function jscion(data, ctxNext) {
     return res;
   }
 
-  function propertyDefaultValue(c, p, o) {
+  function evalProperty(c, p, o, slot, slotExpr) {
     var t = getTypeByName(p.propertyKind).result || {};
-    var v = newObj(p.propertyKind).result || p.defaultValue || t.defaultValue;
-    var e = p.defaultValueExpr || t.defaultValueExpr;
+    var v = newObj(p.propertyKind).result || p[slot] || t[slot];
+    var e = p[slotExpr] || t[slotExpr];
     if (e) {
       v = (new Function("c", "p", "o", "v", "return (" + e + ")"))(c, p, o, v);
     }
