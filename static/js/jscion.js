@@ -23,6 +23,7 @@ function jscion(data, ctxNext) {
               "evalProperty": evalProperty,
               "newObj": newObj,
               "newChild": newChild,
+              "validateObj": validateObj,
               "findObj": findObj,
               "filterObjs": filterObjs,
               "classSubs": classSubs,
@@ -82,6 +83,22 @@ function jscion(data, ctxNext) {
     obj[arrayName] = obj[arrayName] || [];
     obj[arrayName].push(_.extend(c.result, initObj));
     return c;
+  }
+
+  function validateObj(obj, cls) {
+    var cls = cls || getClass(obj).result;
+    if (!cls) {
+      return { err: ("no class for className: " + obj.class) };
+    }
+    var f = flattenProperties(cls);
+    if (f.err) {
+      return f;
+    }
+    var errs = {};
+    _.each(f.result, function(p, k) {
+        errs[k] = evalProperty(cls, p, obj, "validateExprInit", "validateExpr");
+      });
+    return errs;
   }
 
   function getProperty(cls, propertyName) {
