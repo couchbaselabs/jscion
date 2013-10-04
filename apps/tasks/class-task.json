@@ -10,8 +10,7 @@
       "defaultValueExpr": "o.createdAt"
     },
     { "name": "ident",
-      "propertyKind": "docId",
-      "defaultValueExpr": "c.name + '-' + o.createdAt.replace(/[^0-9]/g, '') + Math.round(Math.random() * 10000)"
+      "propertyKind": "docIdAuto"
     },
     { "name": "title",
       "propertyKind": "string"
