@@ -10,7 +10,7 @@
       "defaultValueExpr": "o.createdAt"
     },
     { "name": "ident",
-      "propertyKind": "docIdAuto"
+      "propertyKind": "docIdGen"
     },
     { "name": "title",
       "propertyKind": "string"
