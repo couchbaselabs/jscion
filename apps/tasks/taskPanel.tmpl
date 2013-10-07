@@ -51,7 +51,7 @@
   </div>
   <div class="control">
     {{#doEdit}}
-      <button class="btn btn-small" on-click="saveTask">
+      <button class="btn btn-small {{#objEditErrs != null}}btn-warning{{/objEditErrs != null}}" on-click="saveTask">
         save edit
       </button>
     {{/doEdit}}
