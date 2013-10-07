@@ -99,6 +99,7 @@ function renderTask(ctx, r, task, extras) {
   r.set(_.defaults(extras || {}, {
         "obj": task,
         "objEdit": _.clone(task),
+        "objEditErrs": null,
         "doEdit": false,
         "doComment": false,
         "commentMessage": "",
