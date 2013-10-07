@@ -19,6 +19,11 @@ function main(ctx, page) {
       },
       "saveTask": function() {
         var edit = page.r.get("objEdit");
+        var errs = ctx.validateObj(edit);
+        if (_.some(_.values(errs), _.isString)) {
+          page.r.set("objEditErrs", errs);
+          return;
+        }
         updateTask(ctx, page, findTask(ctx, page.r.get("tasks"), edit.ident), edit);
       },
       "editTask": function() {
@@ -122,4 +127,10 @@ function updateTask(ctx, page, orig, edit, msgSuffix) {
   }
   renderTask(ctx, page.r, orig);
   page.r.update("tasks");
+}
+
+function validateNonEmptyString(ctx, c, p, o, v) {
+  if (!o[p.name]) {
+    return p.name + " may not be empty";
+  }
 }

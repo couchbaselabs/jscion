@@ -13,7 +13,8 @@
       "propertyKind": "docIdGen"
     },
     { "name": "title",
-      "propertyKind": "string"
+      "propertyKind": "string",
+      "validateExpr": "validateNonEmptyString"
     },
     { "name": "status",
       "propertyKind": "taskStatus",

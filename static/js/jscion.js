@@ -112,8 +112,8 @@ function jscion(data, ctxNext) {
     var v = p[slot] || t[slot] || defaultValue;
     var e = p[slotExpr] || t[slotExpr];
     if (e) {
-      var f = window[e] || new Function("c", "p", "o", "v", "return (" + e + ")");
-      v = f(c, p, o, v);
+      var f = window[e] || new Function("ctx", "c", "p", "o", "v", "return (" + e + ")");
+      v = f(ctx, c, p, o, v);
     }
     return _.clone(p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v));
   }

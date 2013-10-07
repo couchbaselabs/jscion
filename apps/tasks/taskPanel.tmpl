@@ -8,6 +8,9 @@
     {{#doEdit}}
       <span intro="fade:slow">
         <input id="objEdit_title" value="{{objEdit.title}}"/>
+        {{#objEditErrs}}
+          <div class="text-error">{{.title}}</div>
+        {{/objEditErrs}}
       </span>
     {{/doEdit}}
   </div>

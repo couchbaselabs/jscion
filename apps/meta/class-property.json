@@ -27,6 +27,14 @@
       "propertyKind": "expr",
       "nullAllowed": true
     },
+    { "name": "validateExpr",
+      "propertyKind": "expr",
+      "nullAllowed": true
+    },
+    { "name": "validateExprInit",
+      "propertyKind": "string",
+      "nullAllowed": true
+    },
     { "class": "propertyArray",
       "name": "valueChoices",
       "propertyKind": "string"

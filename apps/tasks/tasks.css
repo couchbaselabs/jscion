@@ -50,6 +50,9 @@ input.newTask {
     font-size: 9pt;
     width: 7em;
 }
+.task .text-error {
+    margin-left: 9em;
+}
 .taskStatusTransitions {
     padding: 0 1em .5em 8.25em;
 }
