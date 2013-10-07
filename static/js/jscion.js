@@ -112,7 +112,8 @@ function jscion(data, ctxNext) {
     var v = p[slot] || t[slot] || defaultValue;
     var e = p[slotExpr] || t[slotExpr];
     if (e) {
-      var f = window[e] || new Function("ctx", "c", "p", "o", "v", "return (" + e + ")");
+      var f = getByPath(window, e) ||
+        new Function("ctx", "c", "p", "o", "v", "return (" + e + ")");
       v = f(ctx, c, p, o, v);
     }
     return _.clone(p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v));
@@ -168,5 +169,9 @@ function jscion(data, ctxNext) {
       }
       obj = p.result;
     }
+  }
+
+  function getByPath(obj, path) { // The path is dotted-notation ("a.b.c").
+    return _.reduce((path || "").split("."), function(o, k) { return o && o[k]; }, obj);
   }
 }
