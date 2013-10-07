@@ -130,7 +130,8 @@ function updateTask(ctx, page, orig, edit, msgSuffix) {
   page.r.update("tasks");
 }
 
-function validateNonEmptyString(ctx, c, p, o, v) {
+window.validators = window.validators || {};
+window.validators.nonEmptyString = function(ctx, c, p, o, v) {
   if (!o[p.name]) {
     return p.name + " may not be empty";
   }

@@ -14,7 +14,7 @@
     },
     { "name": "title",
       "propertyKind": "string",
-      "validateExpr": "validateNonEmptyString"
+      "validateExpr": "validators.nonEmptyString"
     },
     { "name": "status",
       "propertyKind": "taskStatus",
