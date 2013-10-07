@@ -14,11 +14,11 @@
                 {{.}} <span class="badge">{{(tasksByStatus(.) || []).length}}</span>
                 <ul>
                   {{# tasksByStatus(.) }}
-                    {{# .title.indexOf(search || "") >= 0 }}
+                    {{# stringContains(.title, search) }}
                       <li intro="fade:slow" class="{{ .ident == obj.ident ? 'current' : '' }}">
                         <a href="#{{.ident}}">{{.title}}</a>
                       </li>
-                    {{/ .title.indexOf(search || "") >= 0 }}
+                    {{/ stringContains(.title, search) }}
                   {{/ tasksByStatus(.) }}
                 </ul>
               {{/ (tasksByStatus(.) || []).length > 0 }}

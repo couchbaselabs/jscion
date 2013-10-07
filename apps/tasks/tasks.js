@@ -103,7 +103,8 @@ function renderTask(ctx, r, task, extras) {
         "doEdit": false,
         "doComment": false,
         "commentMessage": "",
-        "tasksByStatus": function(status) { return tasksByStatus[status]; }
+        "tasksByStatus": function(status) { return tasksByStatus[status]; },
+        "stringContains": function(s, x) { return (s + "").indexOf(x + "") >= 0; }
       }));
   r.set("objJSON", JSON.stringify(task));
   r.set("taskStatusTransitions",
