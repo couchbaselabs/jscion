@@ -27,6 +27,10 @@
       "propertyKind": "expr",
       "nullAllowed": true
     },
+    { "class": "propertyArray",
+      "name": "valueChoices",
+      "propertyKind": "string"
+    },
     { "name": "minValue",
       "propertyKind": "any",
       "nullAllowed": true
@@ -34,10 +38,6 @@
     { "name": "maxValue",
       "propertyKind": "any",
       "nullAllowed": true
-    },
-    { "class": "propertyArray",
-      "name": "valueChoices",
-      "propertyKind": "string"
     },
     { "name": "displayOrder",
       "propertyKind": "float"
