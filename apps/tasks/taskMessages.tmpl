@@ -9,14 +9,14 @@
     {{/.messages}}
   </ul>
   <div>
-    {{#doComment}}
-      <textarea id="commentMessage" value="{{commentMessage}}" placeholder="your new comment here"></textarea>
-    {{/doComment}}
+    {{#doMessage}}
+      <textarea id="messageVal" value="{{messageVal}}" placeholder="your new message here"></textarea>
+    {{/doMessage}}
     <div class="control">
-      {{#doComment}}
-        <button class="btn btn-small" on-click="saveComment">save comment</button>
-      {{/doComment}}
-      <button class="btn btn-small" on-click="addComment">{{ doComment ? 'cancel' : 'add' }} comment</button>
+      {{#doMessage}}
+        <button class="btn btn-small" on-click="saveMessage">save message</button>
+      {{/doMessage}}
+      <button class="btn btn-small" on-click="addMessage">{{ doMessage ? 'cancel' : 'add' }} message</button>
     </div>
   </div>
 </div>

@@ -49,14 +49,14 @@ function main(ctx, page) {
         page.r.set("ident", "app-info");
         renderTask(ctx, page.r, page.app);
       },
-      "addComment": function() {
-        renderTask(ctx, page.r, page.r.get("obj"), { "doComment": !page.r.get("doComment") });
-        if (page.r.get("doComment")) {
-          setTimeout(function() { $("#commentMessage").focus(); });
+      "addMessage": function() {
+        renderTask(ctx, page.r, page.r.get("obj"), { "doMessage": !page.r.get("doMessage") });
+        if (page.r.get("doMessage")) {
+          setTimeout(function() { $("#messageVal").focus(); });
         }
       },
-      "saveComment": function() {
-        var msg = (page.r.get("commentMessage") + "").trim();
+      "saveMessage": function() {
+        var msg = (page.r.get("messageVal") + "").trim();
         var task = page.r.get("obj");
         if (task && msg) {
           ctx.newChild(task, "messages", { "message": msg }).result;
@@ -101,8 +101,8 @@ function renderTask(ctx, r, task, extras) {
         "objEdit": _.clone(task),
         "objEditErrs": null,
         "doEdit": false,
-        "doComment": false,
-        "commentMessage": "",
+        "doMessage": false,
+        "messageVal": "",
         "tasksByStatus": function(status) { return tasksByStatus[status]; },
         "stringContains": function(s, x) { return (s + "").indexOf(x + "") >= 0; }
       }));
