@@ -130,10 +130,3 @@ function updateTask(ctx, page, orig, edit, msgSuffix) {
   renderTask(ctx, page.r, orig);
   page.r.update("tasks");
 }
-
-window.validators = window.validators || {};
-window.validators.nonEmptyString = function(ctx, c, p, o, v) {
-  if (!o[p.name]) {
-    return p.name + " may not be empty";
-  }
-}
