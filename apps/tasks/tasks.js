@@ -7,7 +7,7 @@ function main(ctx, page) {
 
   if (!page.r || page.controller != page.prev.controller) {
     page.r = page.render("tasks");
-    registerEventHandlers(ctx, page);
+    registerEventHandlers(ctx, page, page.r);
   }
 
   page.r.update("tasks");
@@ -15,78 +15,78 @@ function main(ctx, page) {
   renderTask(ctx, page.r, page.obj);
 }
 
-function registerEventHandlers(ctx, page) {
-  page.r.on({
+function registerEventHandlers(ctx, page, r) {
+  r.on({
     "newTask": function(event) {
       var task = ctx.newObj("task", { "title": (event.node.value || "").trim() }).result;
       if (task.title) {
-        page.r.get("tasks").unshift(task);
-        renderTask(ctx, page.r, task);
+        r.get("tasks").unshift(task);
+        renderTask(ctx, r, task);
         event.node.value = "";
         event.node.focus();
       }
     },
     "saveTask": function() {
-      var edit = page.r.get("objEdit");
+      var edit = r.get("objEdit");
       var errs = ctx.validateObj(edit);
       if (_.some(_.values(errs), _.isString)) {
-        page.r.set("objEditErrs", errs);
+        r.set("objEditErrs", errs);
         return;
       }
-      updateTask(ctx, page, findTask(ctx, page.r.get("tasks"), edit.ident), edit);
+      updateTask(ctx, r, findTask(ctx, r.get("tasks"), edit.ident), edit);
     },
     "editTask": function() {
-      renderTask(ctx, page.r, page.r.get("obj"), { "doEdit": !page.r.get("doEdit") });
-      if (page.r.get("doEdit")) {
+      renderTask(ctx, r, r.get("obj"), { "doEdit": !r.get("doEdit") });
+      if (r.get("doEdit")) {
         setTimeout(function() { $("#objEdit_title").focus(); });
       }
     },
     "cloneTask": function() {
-      var orig = page.r.get("obj");
+      var orig = r.get("obj");
       var task = ctx.newObj("task", { "title": orig.title,
             "description": orig.description }).result;
-      page.r.get("tasks").unshift(task);
-      renderTask(ctx, page.r, task);
+      r.get("tasks").unshift(task);
+      renderTask(ctx, r, task);
     },
     "deleteTask": function() {
       if (!confirm("are you sure you want to delete this task?")) {
         return;
       }
-      var task = page.r.get("obj");
-      page.tasks = _.reject(page.r.get("tasks"), function(t) { return t.ident == task.ident; });
-      page.r.set("tasks", page.tasks);
-      page.r.set("ident", "app-info");
-      renderTask(ctx, page.r, page.app);
+      var task = r.get("obj");
+      page.tasks = _.reject(r.get("tasks"), function(t) { return t.ident == task.ident; });
+      r.set("tasks", page.tasks);
+      r.set("ident", "app-info");
+      renderTask(ctx, r, page.app);
     },
     "addMessage": function() {
-      renderTask(ctx, page.r, page.r.get("obj"), { "doMessage": !page.r.get("doMessage") });
-      if (page.r.get("doMessage")) {
+      renderTask(ctx, r, r.get("obj"), { "doMessage": !r.get("doMessage") });
+      if (r.get("doMessage")) {
         setTimeout(function() { $("#messageVal").focus(); });
       }
     },
     "saveMessage": function() {
-      var msg = (page.r.get("messageVal") + "").trim();
-      var task = page.r.get("obj");
+      var msg = (r.get("messageVal") + "").trim();
+      var task = r.get("obj");
       if (task && msg) {
         ctx.newChild(task, "messages", { "message": msg }).result;
       }
-      renderTask(ctx, page.r, task);
+      renderTask(ctx, r, task);
     },
     "deleteMessage": function(event) {
-      var task = page.r.get("obj");
+      var task = r.get("obj");
       if (confirm("are you sure you want to delete that message?")) {
         task.messages.splice(parseInt(event.node.value), 1);
       }
-      renderTask(ctx, page.r, task);
+      renderTask(ctx, r, task);
     },
     "changeTaskStatus": function(event) {
-      var edit = page.r.get("objEdit");
+      var edit = r.get("objEdit");
       var newStatus =
         (_.findWhere((ctx.getObj("stateMachine-taskStatus").result || {}).transitions || [],
                      { "from": edit.status, "on": event.node.value }) || {}).to;
       if (newStatus) {
         edit.status = newStatus;
-        updateTask(ctx, page, findTask(ctx, page.r.get("tasks"), edit.ident), edit,
+        updateTask(ctx, r, findTask(ctx, r.get("tasks"), edit.ident), edit,
                    ", to " + newStatus);
       }
     }
@@ -114,9 +114,10 @@ function renderTask(ctx, r, task, extras) {
   r.set("taskStatusTransitions",
         task && _.filter((ctx.getObj("stateMachine-taskStatus").result || {}).transitions || [],
                          function(t) { return t.from == task.status; }));
+  updateServerAsync(ctx, r);
 }
 
-function updateTask(ctx, page, orig, edit, msgSuffix) {
+function updateTask(ctx, r, orig, edit, msgSuffix) {
   var changes = _.compact(_.map(_.keys(orig), function(k) { return (orig[k] != edit[k]) && k; }));
   if (changes.length > 0) {
     edit.updatedAt = new Date().toJSON();
@@ -127,10 +128,14 @@ function updateTask(ctx, page, orig, edit, msgSuffix) {
     var m = "(" + changes.join(", ") + " edited" + (msgSuffix || "") + ")";
     ctx.newChild(orig, "messages", { "message": m }).result;
   }
-  renderTask(ctx, page.r, orig);
-  page.r.update("tasks");
+  renderTask(ctx, r, orig);
+  r.update("tasks");
 }
 
 function findStatusChoices(ctx) {
   return _.findWhere(ctx.getClassByName("task").result.properties, { "name": "status" }).valueChoices;
+}
+
+function updateServerAsync(ctx, r) {
+  r.set("syncingByIdent", _.indexBy(r.get("tasks"), "ident"));
 }
