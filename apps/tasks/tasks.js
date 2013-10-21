@@ -68,14 +68,14 @@ function registerEventHandlers(ctx, r) {
       if (task && msg) {
         ctx.newChild(task, "messages", { "message": msg }).result;
       }
-      renderTask(ctx, r, task);
+      updateTask(ctx, r, task, task);
     },
     "deleteMessage": function(event) {
       var task = r.get("obj");
       if (confirm("are you sure you want to delete that message?")) {
         task.messages.splice(parseInt(event.node.value), 1);
       }
-      renderTask(ctx, r, task);
+      updateTask(ctx, r, task, task);
     },
     "changeTaskStatus": function(event) {
       var edit = r.get("objEdit");
