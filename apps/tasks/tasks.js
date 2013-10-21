@@ -6,8 +6,7 @@ function main(ctx, page) {
   page.obj = findTask(ctx, page.tasks, page.ident) || page.obj;
 
   if (!page.r || page.controller != page.prev.controller) {
-    page.r = page.render("tasks");
-    registerEventHandlers(ctx, page.r);
+    page.r = registerEventHandlers(ctx, page.render("tasks"));
   }
 
   page.r.update("tasks");
@@ -90,6 +89,7 @@ function registerEventHandlers(ctx, r) {
       }
     }
   });
+  return r;
 }
 
 function findTask(ctx, tasks, ident) {
