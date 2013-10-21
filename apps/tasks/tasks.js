@@ -20,10 +20,17 @@ function registerEventHandlers(ctx, r) {
       var task = ctx.newObj("task", { "title": (event.node.value || "").trim() }).result;
       if (task.title) {
         r.get("tasks").unshift(task);
-        updateTask(ctx, r, task, task, "created");
+        updateTask(ctx, r, task, task);
         event.node.value = "";
         event.node.focus();
       }
+    },
+    "cloneTask": function() {
+      var orig = r.get("obj");
+      var task = ctx.newObj("task", { "title": orig.title,
+                                      "description": orig.description }).result;
+      r.get("tasks").unshift(task);
+      updateTask(ctx, r, task, task);
     },
     "saveTask": function() {
       var edit = r.get("objEdit");
@@ -34,19 +41,6 @@ function registerEventHandlers(ctx, r) {
       }
       updateTask(ctx, r, findTask(ctx, r.get("tasks"), edit.ident), edit);
     },
-    "editTask": function() {
-      renderTask(ctx, r, r.get("obj"), { "doEdit": !r.get("doEdit") });
-      if (r.get("doEdit")) {
-        setTimeout(function() { $("#objEdit_title").focus(); });
-      }
-    },
-    "cloneTask": function() {
-      var orig = r.get("obj");
-      var task = ctx.newObj("task", { "title": orig.title,
-                                      "description": orig.description }).result;
-      r.get("tasks").unshift(task);
-      renderTask(ctx, r, task);
-    },
     "deleteTask": function() {
       if (!confirm("are you sure you want to delete this task?")) {
         return;
@@ -54,7 +48,13 @@ function registerEventHandlers(ctx, r) {
       var task = r.get("obj");
       r.set("tasks", _.reject(r.get("tasks"), function(t) { return t.ident == task.ident; }));
       r.set("ident", "app-info");
-      renderTask(ctx, r, ctx.getObj("app-info").result || {});
+      updateTask(ctx, r, ctx.getObj("app-info").result || {});
+    },
+    "editTask": function() {
+      renderTask(ctx, r, r.get("obj"), { "doEdit": !r.get("doEdit") });
+      if (r.get("doEdit")) {
+        setTimeout(function() { $("#objEdit_title").focus(); });
+      }
     },
     "addMessage": function() {
       renderTask(ctx, r, r.get("obj"), { "doMessage": !r.get("doMessage") });
@@ -113,10 +113,10 @@ function renderTask(ctx, r, task, extras) {
   r.set("taskStatusTransitions",
         task && _.filter((ctx.getObj("stateMachine-taskStatus").result || {}).transitions || [],
                          function(t) { return t.from == task.status; }));
-  updateServerAsync(ctx, r);
 }
 
 function updateTask(ctx, r, orig, edit, msgSuffix) {
+  edit = edit || orig;
   var changes = _.compact(_.map(_.keys(orig), function(k) { return (orig[k] != edit[k]) && k; }));
   if (changes.length > 0) {
     edit.updatedAt = new Date().toJSON();
@@ -129,6 +129,7 @@ function updateTask(ctx, r, orig, edit, msgSuffix) {
   }
   renderTask(ctx, r, orig);
   r.update("tasks");
+  updateServerAsync(ctx, r);
 }
 
 function findStatusChoices(ctx) {
