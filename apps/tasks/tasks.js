@@ -20,7 +20,7 @@ function registerEventHandlers(ctx, r) {
       var task = ctx.newObj("task", { "title": (event.node.value || "").trim() }).result;
       if (task.title) {
         r.get("tasks").unshift(task);
-        renderTask(ctx, r, task);
+        updateTask(ctx, r, task, task, "created");
         event.node.value = "";
         event.node.focus();
       }
@@ -43,7 +43,7 @@ function registerEventHandlers(ctx, r) {
     "cloneTask": function() {
       var orig = r.get("obj");
       var task = ctx.newObj("task", { "title": orig.title,
-            "description": orig.description }).result;
+                                      "description": orig.description }).result;
       r.get("tasks").unshift(task);
       renderTask(ctx, r, task);
     },
