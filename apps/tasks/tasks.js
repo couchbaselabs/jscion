@@ -7,7 +7,7 @@ function main(ctx, page) {
 
   if (!page.r || page.controller != page.prev.controller) {
     page.r = page.render("tasks");
-    registerEventHandlers(ctx, page, page.r);
+    registerEventHandlers(ctx, page.r);
   }
 
   page.r.update("tasks");
@@ -15,7 +15,7 @@ function main(ctx, page) {
   renderTask(ctx, page.r, page.obj);
 }
 
-function registerEventHandlers(ctx, page, r) {
+function registerEventHandlers(ctx, r) {
   r.on({
     "newTask": function(event) {
       var task = ctx.newObj("task", { "title": (event.node.value || "").trim() }).result;
@@ -53,10 +53,9 @@ function registerEventHandlers(ctx, page, r) {
         return;
       }
       var task = r.get("obj");
-      page.tasks = _.reject(r.get("tasks"), function(t) { return t.ident == task.ident; });
-      r.set("tasks", page.tasks);
+      r.set("tasks", _.reject(r.get("tasks"), function(t) { return t.ident == task.ident; }));
       r.set("ident", "app-info");
-      renderTask(ctx, r, page.app);
+      renderTask(ctx, r, ctx.getObj("app-info").result || {});
     },
     "addMessage": function() {
       renderTask(ctx, r, r.get("obj"), { "doMessage": !r.get("doMessage") });

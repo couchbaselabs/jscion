@@ -62,7 +62,7 @@ function jscionStart(data, tmpl, page, el) {
     var j = jsionRactive(ctx);
 
     _.extend(page,
-      { app: app, target: target, controller: controller, ident: ident, opts: opts,
+      { target: target, controller: controller, ident: ident, opts: opts,
         templates: tmpl, renderers: j.renderers, partials: j.partials, prev: _.clone(page),
         ctx: g_ctx, obj: o.result || page.obj, fetch: fetch, render: render});
 
