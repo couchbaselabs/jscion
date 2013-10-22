@@ -56,7 +56,7 @@ function jscion(data, ctxNext) {
   function getTypeByName(typeName) { return getObj("type-" + typeName); }
 
   function findObj(fn) {
-    var o = _.find(data, fn);
+    var o = _.find(data, function(o, k) { return !deleted[k] && fn(o, k); });
     return (o && { result: o }) || (ctxNext && ctxNext.findObj(fn)) || {};
   }
   function filterObjs(fn) {
