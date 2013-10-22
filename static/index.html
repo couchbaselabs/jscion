@@ -85,7 +85,7 @@ function jscionStart(data, tmpl, page, el) {
 
     function fetch(into, ident, using) {
       setTimeout(function() {
-        r[using || "set"](into, ctx.getObj(ident || into).result);
+        r[using || "set"](into, page.ctx.getObj(ident || into).result);
       }, 10);
     }
   }
