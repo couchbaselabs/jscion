@@ -64,7 +64,7 @@ function jscionStart(data, tmpl, page, el) {
     _.extend(page,
       { target: target, controller: controller, ident: ident, opts: opts,
         templates: tmpl, renderers: j.renderers, partials: j.partials, prev: _.clone(page),
-        ctx: g_ctx, obj: o.result || page.obj, fetch: fetch, render: render});
+        ctx: ctx, obj: o.result || page.obj, fetch: fetch, render: render});
 
     if (_.isFunction(window[controller])) {
       return window[controller](ctx, page);
@@ -85,7 +85,7 @@ function jscionStart(data, tmpl, page, el) {
 
     function fetch(into, ident, using) {
       setTimeout(function() {
-        r[using || "set"](into, g_ctx.getObj(ident || into).result);
+        r[using || "set"](into, ctx.getObj(ident || into).result);
       }, 10);
     }
   }
