@@ -56,13 +56,18 @@ function jscion(data, ctxNext) {
   function getTypeByName(typeName) { return getObj("type-" + typeName); }
 
   function findObj(fn) {
-    var o = _.find(data, function(o, k) { return !deleted[k] && fn(o, k); });
+    var key;
+    var o = _.find(data, function(o, k) { key = k; return fn(o, k); });
+    if (o && deleted[key]) {
+      return {};
+    }
     return (o && { result: o }) || (ctxNext && ctxNext.findObj(fn)) || {};
   }
   function filterObjs(fn) {
-    var r = _.filter(data, fn);
+    var r = _.filter(data, function(o, k) { return !deleted[k] && fn(o, k); });
     if (ctxNext) {
-      r = r.concat(ctxNext.filterObjs(function(o, k) { return !data[k] && fn(o, k); }).result || []);
+      r = r.concat(ctxNext.filterObjs(function(o, k) {
+            return !deleted[k] && !data[k] && fn(o, k); }).result || []);
     }
     return { result: r };
   }
