@@ -1,4 +1,5 @@
-function main(ctx, page) {
+function main(ctxIn, page) {
+  ctx = jscion({}, ctxIn);
   page.statusChoices = page.statusChoices || findStatusChoices(ctx)
   page.search = page.search || "";
   page.tasks = page.tasks || [];

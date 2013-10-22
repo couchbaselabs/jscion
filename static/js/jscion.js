@@ -55,8 +55,17 @@ function jscion(data, ctxNext) {
   function getClassByName(className) { return getObj("class-" + className); }
   function getTypeByName(typeName) { return getObj("type-" + typeName); }
 
-  function findObj(fn) { return { result: _.find(data, fn) }; }
-  function filterObjs(fn) { return { result: _.filter(data, fn) }; }
+  function findObj(fn) {
+    var o = _.find(data, fn);
+    return (o && { result: o }) || (ctxNext && ctxNext.findObj(fn)) || {};
+  }
+  function filterObjs(fn) {
+    var r = _.filter(data, fn);
+    if (ctxNext) {
+      r = r.concat(ctxNext.filterObjs(function(o, k) { return !data[k] && fn(o, k); }).result || []);
+    }
+    return { result: r };
+  }
 
   function newObj(className, initObj) {
     var c = getClassByName(className);
