@@ -12,7 +12,7 @@
 
 // Creates a jscion ctx around the data object.
 // The optional ctxNext allows chaining.
-function jscion(data, ctxNext) {
+function jscion(data, deleted, ctxNext) {
   var ctx = { "setObj": setObj,
               "delObj": delObj,
               "getObj": getObj,
@@ -32,7 +32,8 @@ function jscion(data, ctxNext) {
               "flattenProperties": flattenProperties,
               "flattenHierarchy": flattenHierarchy,
               "visitHierarchy": visitHierarchy };
-  var deleted = {}; // Used to shadow the ctxNext.
+  data = data || {}
+  deleted = deleted || {};
   return _.clone(ctx);
 
   function setObj(ident, obj) {

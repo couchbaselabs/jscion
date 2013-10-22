@@ -1,5 +1,7 @@
 function main(ctxIn, page) {
-  ctx = jscion({}, ctxIn);
+  var sessData = {};
+  var sessDeleted = {}
+  var ctx = jscion(sessData, sessDeleted, ctxIn);
   page.statusChoices = page.statusChoices || findStatusChoices(ctx)
   page.search = page.search || "";
   page.tasks = page.tasks || [];
