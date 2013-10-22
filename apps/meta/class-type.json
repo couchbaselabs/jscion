@@ -20,6 +20,9 @@
     },
     { "name": "viewTemplate",
       "propertyKind": "string"
+    },
+    { "name": "editTemplate",
+      "propertyKind": "string"
     }
   ]
 }
