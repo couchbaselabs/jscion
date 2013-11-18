@@ -28,7 +28,15 @@ func main() {
 	log.Printf("%s\n", os.Args[0])
 	flag.VisitAll(func(f *flag.Flag) { log.Printf("  -%s=%s\n", f.Name, f.Value) })
 
+	apps, err := ioutil.ReadDir(*appsPath)
+	if err != nil {
+		log.Fatalf("error: could not read appsPath: %s", *appsPath)
+	}
 	log.Printf("serving: /apps/{app}/")
+	for _, app := range apps {
+		log.Printf("  /apps/%s/", app.Name())
+	}
+
 	start(*addr, *appsPath, *staticPath)
 }
 
