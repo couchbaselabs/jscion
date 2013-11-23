@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/gorilla/mux"
@@ -17,7 +18,7 @@ import (
 var addr = flag.String("addr", ":8080",
 	"HTTP/REST listen address")
 var appsPath = flag.String("appsPath", "./apps",
-	"apps directory")
+	"apps directory, optionally comma separated")
 var staticPath = flag.String("staticPath", "./static",
 	"path to static web UI content")
 
@@ -27,26 +28,38 @@ func main() {
 	flag.Parse()
 	log.Printf("%s\n", os.Args[0])
 	flag.VisitAll(func(f *flag.Flag) { log.Printf("  -%s=%s\n", f.Name, f.Value) })
-
-	apps, err := ioutil.ReadDir(*appsPath)
-	if err != nil {
-		log.Fatalf("error: could not read appsPath: %s", *appsPath)
-	}
+	apps := readApps(*appsPath)
 	log.Printf("serving: /apps/{app}/")
-	for _, app := range apps {
-		log.Printf("  /apps/%s/", app.Name())
+	for name := range apps {
+		log.Printf("  /apps/%s/", name)
 	}
-
-	start(*addr, *appsPath, *staticPath)
+	start(*addr, apps, *staticPath)
 }
 
-func start(addr, appsPath, staticPath string) {
+func readApps(appsPath string) map[string]string {
+	apps := map[string]string{}
+	for _, path := range strings.Split(appsPath, ",") {
+		entries, err := ioutil.ReadDir(path)
+		if err != nil {
+			log.Fatalf("error: could not read dir path: %s", path)
+		}
+		for _, entry := range entries {
+			matched, err := regexp.MatchString("^\\w[\\w_-]*$", entry.Name())
+			if err == nil && matched && entry.IsDir() && apps[entry.Name()] == "" {
+				apps[entry.Name()] = filepath.Join(path, entry.Name())
+			}
+		}
+	}
+	return apps
+}
+
+func start(addr string, apps map[string]string, staticPath string) {
 	r := mux.NewRouter()
 	sr := r.PathPrefix("/apps/{app}/").Subrouter()
 	sr.HandleFunc("/init.json",
 		withApp(func(w http.ResponseWriter, r *http.Request, app string) {
 			m := map[string]interface{}{}
-			err := content(appsPath, app, ".json", func(name string, b []byte) error {
+			err := content(apps, app, ".json", func(name string, b []byte) error {
 				key := name[0 : len(name)-len(".json")]
 				var val interface{}
 				err := json.Unmarshal(b, &val)
@@ -69,11 +82,11 @@ func start(addr, appsPath, staticPath string) {
 			w.Write(d)
 		}))
 	sr.HandleFunc("/init.js",
-		suffixHandler(appsPath, ".js", "/* %s.js */", "/* %s.js */"))
+		suffixHandler(apps, ".js", "/* %s.js */", "/* %s.js */"))
 	sr.HandleFunc("/init.css",
-		suffixHandler(appsPath, ".css", "/* %s.css */", "/* %s.css */"))
+		suffixHandler(apps, ".css", "/* %s.css */", "/* %s.css */"))
 	sr.HandleFunc("/init.tmpl",
-		suffixHandler(appsPath, ".tmpl", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
+		suffixHandler(apps, ".tmpl", "<!-- {{>%s}} -->", "<!-- {{/%s}} -->"))
 	sr.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, staticPath+"/index.html")
 	})
@@ -83,11 +96,12 @@ func start(addr, appsPath, staticPath string) {
 
 // Visits every file in a directory tree that matches a name suffix.
 // And, follow the app info include metadata to bring in files from included apps.
-func content(root, app, suffix string, visitor func(name string, b []byte) error) error {
+func content(apps map[string]string, app string, suffix string,
+	visitor func(name string, b []byte) error) error {
 	m := map[string][]byte{}
 	var w func(app string) error
 	w = func(app string) error {
-		dir := filepath.Join(root, app)
+		dir := apps[app]
 		err := filepath.Walk(dir, func(path string, f os.FileInfo, err error) error {
 			if f.IsDir() || !strings.HasSuffix(path, suffix) || strings.Index(path, " ") > 0 {
 				return nil
@@ -127,9 +141,9 @@ func content(root, app, suffix string, visitor func(name string, b []byte) error
 	return nil
 }
 
-func suffixHandler(root, suffix, beg, end string) func(http.ResponseWriter, *http.Request) {
+func suffixHandler(apps map[string]string, suffix, beg, end string) func(http.ResponseWriter, *http.Request) {
 	return withApp(func(w http.ResponseWriter, r *http.Request, app string) {
-		content(root, app, suffix, func(name string, b []byte) error {
+		content(apps, app, suffix, func(name string, b []byte) error {
 			base := name[0 : len(name)-len(suffix)]
 			w.Write([]byte(fmt.Sprintf(beg+"\n", base)))
 			w.Write(b)
