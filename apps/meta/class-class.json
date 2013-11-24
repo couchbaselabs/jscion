@@ -11,6 +11,10 @@
     { "class": "propertyArray",
       "name": "properties",
       "propertyKind": "property"
+    },
+    { "name": "openPropertiesKind",
+      "propertyKind": "kindName",
+      "nullAllowed": true
     }
   ]
 }

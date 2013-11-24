@@ -41,6 +41,10 @@ function jsionRactive(ctx) {
         return ('<li class="' + p.propertyKind + " " + k + '">' +
                 "<label>" + k + "</label><span>" + v + "</span></li>");
       }).join("\n");
+    if (cls.openPropertiesKind) {
+      var c = ctx.getClassByName(cls.openPropertiesKind).result;
+      s = s + "<li><ul>{{#.:_key}}<li>{{_key}}:{{>__" + c.name + "}}</li>{{/.}}</ul></li>";
+    }
 
     res.partials[cls.name] = // Partial for the class.
       '<ul class="' + ctx.classSupers(cls.name).join(" ") + ' opts_mode_{{opts.mode}}">'
