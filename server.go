@@ -33,7 +33,7 @@ func main() {
 	for name := range apps {
 		log.Printf("  /apps/%s/", name)
 	}
-	start(*addr, apps, *staticPath)
+	http.ListenAndServe(*addr, router(apps, *staticPath))
 }
 
 func readApps(appsPath string) map[string]string {
@@ -53,7 +53,7 @@ func readApps(appsPath string) map[string]string {
 	return apps
 }
 
-func start(addr string, apps map[string]string, staticPath string) {
+func router(apps map[string]string, staticPath string) *mux.Router {
 	r := mux.NewRouter()
 	sr := r.PathPrefix("/apps/{app}/").Subrouter()
 	sr.HandleFunc("/init.json",
@@ -91,7 +91,7 @@ func start(addr string, apps map[string]string, staticPath string) {
 		http.ServeFile(w, r, staticPath+"/index.html")
 	})
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir(staticPath)))
-	http.ListenAndServe(addr, r)
+	return r
 }
 
 // Visits every file in a directory tree that matches a name suffix.
