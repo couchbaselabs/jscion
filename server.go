@@ -33,7 +33,10 @@ func main() {
 	for name := range apps {
 		log.Printf("  /apps/%s/", name)
 	}
-	http.ListenAndServe(*addr, router(apps, *staticPath))
+	err := http.ListenAndServe(*addr, routeApps(apps, *staticPath))
+	if err != nil {
+		log.Fatalf("error: http listen/serve err: %v", err)
+	}
 }
 
 func readApps(appsPath string) map[string]string {
@@ -53,7 +56,11 @@ func readApps(appsPath string) map[string]string {
 	return apps
 }
 
-func router(apps map[string]string, staticPath string) *mux.Router {
+func routeApps(apps map[string]string, staticPath string) *mux.Router {
+	fi, err := os.Stat(staticPath)
+	if err != nil || !fi.Mode().IsDir() {
+		log.Fatalf("error: staticPath is not a dir: %s, err: %v", staticPath, err)
+	}
 	r := mux.NewRouter()
 	sr := r.PathPrefix("/apps/{app}/").Subrouter()
 	sr.HandleFunc("/init.json",
