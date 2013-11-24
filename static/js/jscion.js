@@ -131,7 +131,9 @@ function jscion(data, deleted, ctxNext) {
         new Function("ctx", "c", "p", "o", "v", "return (" + e + ")");
       v = f(ctx, c, p, o, v);
     }
-    return _.clone(p.class == "propertyArray" ? [] : (_.isUndefined(v) ? null : v));
+    return _.clone(p.class == "propertyArray" ? [] :
+                   (p.class == "propertyDict" ? {} :
+                    (_.isUndefined(v) ? null : v)));
   }
 
   function classSubs(className) {

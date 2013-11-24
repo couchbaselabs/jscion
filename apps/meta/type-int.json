@@ -1,0 +1,5 @@
+{ "class": "type",
+  "name": "int",
+  "super": "any",
+  "defaultValue": 0
+}

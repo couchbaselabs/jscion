@@ -33,9 +33,10 @@ function jsionRactive(ctx) {
 
         var c = ctx.getClassByName(p.propertyKind).result;
         var v = c ? ("{{>__" + c.name + "}}") : ("{{{renderers." + fname + "(.,opts)}}}");
-        if (p.class == "propertyArray") {
-          v = '<ul class="propertyArray">\n{{#.' + k + "}}\n" +
-              "<li>" + v + "</li>\n{{/." + k + "}}\n</ul>";
+        if (p.class == "propertyArray" || p.class == "propertyDict") {
+          v = '<ul class="' + p.class + '">\n{{#.' + k + ":index}}\n" +
+            "<li>" + (p.class == "propertyArray" ? "" : "{{index}}: ") + v + "</li>\n" +
+            "{{/." + k + "}}\n</ul>";
         }
         return ('<li class="' + p.propertyKind + " " + k + '">' +
                 "<label>" + k + "</label><span>" + v + "</span></li>");
