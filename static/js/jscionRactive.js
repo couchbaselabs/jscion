@@ -16,6 +16,16 @@ function jsionRactive(ctx) {
   _.each(ctx.filterObjs(function(o) { return o.class == "class"; }).result, visit);
   return res;
 
+  function typeRenderer(typeName, cls, p, k) {
+    return function(obj, opts) {
+      var v = (k && _.isObject(obj)) ? ((k == "class" && !obj[k]) ? cls.name : obj[k]) : obj;
+      var t = ctx.getTypeByName(typeName || "any").result || {};
+      var n = ((opts || {}).mode || "view") + "Template";
+      var m = (p || {})[n] || ((ctx.flattenType(t).result || {})[n]);
+      return _.template(m, { ctx: ctx, property: p, type: t, k: k, o: obj, v: v, m: m });
+    }
+  }
+
   function visit(cls) {
     var props = ctx.flattenProperties(cls).result;
     var keys = _.sortBy(_.keys(props), function(k) { return props[k].displayOrder; });
@@ -23,14 +33,7 @@ function jsionRactive(ctx) {
         var p = props[k];
 
         var fname = cls.name + "_" + k;
-        res.renderers[fname] = function(obj, opts) {
-          var v = _.isObject(obj) ? ((k == "class" && !obj[k]) ? cls.name : obj[k]) : obj;
-          var t = ctx.getTypeByName(p.propertyKind || "any").result || {};
-          var n = ((opts || {}).mode || "view") + "Template";
-          var m = p[n] || ((ctx.flattenType(t).result || {})[n]);
-          return _.template(m, { ctx: ctx, property: p, type: t, k: k, o: obj, v: v });
-        }
-
+        res.renderers[fname] = typeRenderer(p.propertyKind, cls, p, k);
         var c = ctx.getClassByName(p.propertyKind).result;
         var v = c ? ("{{>__" + c.name + "}}") : ("{{{renderers." + fname + "(.,opts)}}}");
         if (p.class == "propertyArray" || p.class == "propertyDict") {
@@ -41,9 +44,16 @@ function jsionRactive(ctx) {
         return ('<li class="' + p.propertyKind + " " + k + '">' +
                 "<label>" + k + "</label><span>" + v + "</span></li>");
       }).join("\n");
+
     if (cls.openPropertiesKind) {
-      var c = ctx.getClassByName(cls.openPropertiesKind).result;
-      s = s + "<li><ul>{{#.:_key}}<li>{{_key}}:{{>__" + c.name + "}}</li>{{/.}}</ul></li>";
+      var v, c = ctx.getClassByName(cls.openPropertiesKind).result;
+      if (c) {
+        v = "{{>__" + c.name + "}}";
+      } else {
+        res.renderers[cls.openPropertiesKind] = typeRenderer(cls.openPropertiesKind);
+        v = "{{{renderers." + cls.openPropertiesKind + "(.,opts)}}}";
+      }
+      s = s + "<li><ul>{{#.:_key}}<li>{{_key}}: " + v + "</li>{{/.}}</ul></li>";
     }
 
     res.partials[cls.name] = // Partial for the class.

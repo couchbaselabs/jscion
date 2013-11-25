@@ -1,5 +1,5 @@
 { "class": "type",
   "name": "any",
-  "viewTemplate": "<%- v %>",
+  "viewTemplate": "<%- _.isArray(v) ? '[' + v.join(',') + ']' : v %>",
   "editTemplate": "<input value=\"<%- v %>\"/>"
 }
