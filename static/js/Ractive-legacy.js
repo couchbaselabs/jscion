@@ -2172,7 +2172,9 @@ resolveMustache = function ( keypath ) {
 		// remove any fragments that should no longer exist
 		for ( id in fragmentsById ) {
 			if ( value[ id ] === undefined ) {
-				fragmentsById[ id ].teardown( true );
+				if ( fragmentsById[ id ] && fragmentsById[ id ].teardown ) { // syen: 2013/11/26: fix for {{{ ... }}}.
+					fragmentsById[ id ].teardown( true );
+				}
 				fragmentsById[ id ] = null;
 			}
 		}
