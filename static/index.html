@@ -64,7 +64,7 @@ function jscionStart(data, tmpl, page, el) {
     _.extend(page,
       { target: target, controller: controller, ident: ident, opts: opts,
         templates: tmpl, renderers: j.renderers, partials: j.partials, prev: _.clone(page),
-        ctx: ctx, obj: o.result || page.obj, fetch: fetch, render: render});
+        ctx: ctx, obj: o.result || page.obj, fetch: fetch, render: render, _: _ });
 
     if (_.isFunction(window[controller])) {
       return window[controller](ctx, page);
@@ -77,7 +77,7 @@ function jscionStart(data, tmpl, page, el) {
 
     function render(template) {
       page.objJSON = JSON.stringify(page.obj);
-      var x = { el: el, partials: page.partials, data: page,
+      var x = { el: el, partials: page.partials, data: page, modifyArrays: false,
                 template: "{{>" + (template || controller) + "}}\n\n" + page.templates };
       var r = g_ractive = new Ractive(x);
       return r;
