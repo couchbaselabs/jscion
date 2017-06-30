@@ -1,0 +1,32 @@
+{
+  // promote nested comments to separate docs
+  "before": {
+    "blog-12": {
+      "type": "blog",
+      "id": "blog-12",
+      "comments": [
+        {
+          "authorId": "user-23",
+          "comment": "this blog roks",
+          ...2
+        }*
+      ],
+      ...1
+    }
+  },
+  after: {
+    "blog-12": {
+      "type": "blog",
+      "id": "blog-12",
+      ...1
+    },
+    "comment-($genId)": {
+      "type": "comment",
+      "id": "comment-($genId)"
+      "blogId": "blog-12",
+      "authorId": "user-23",
+      "comment": "this blog roks",
+      ...2
+    }*,
+  ]
+}
