@@ -1,9 +1,29 @@
+APP RULE: if you're expecting a scalar, check it!
+  - what if old app updates the array or objects?
+  - SAFE: using new field for changes to shape (invoice.amount ==> invoice.amounts)
+
+// scalar to object
+// invoice.amount number to object { amount, currency }
+
+// scalar to many objects
+// invoice.paid number to array [ { paid, currency }, ... ]
+
+// multiple docs denormalized sometimes into one doc
+
+// app compression
+
+// project.category to project.categories array (multiple categories)
+
+// project.category to primary project.category + optional array (multiple categories)
+
+// project.categories to separate join many-to-many table/docs
+
+// promote nested comments to separate docs
 {
-  // promote nested comments to separate docs
   "before": {
-    "blog-12": {
+    "blog-NN": {
       "type": "blog",
-      "id": "blog-12",
+      "id": "blog-NN",
       "comments": [
         {
           "authorId": "user-23",
@@ -15,12 +35,12 @@
     }
   },
   after: {
-    "blog-12": {
+    "blog-NN": {
       "type": "blog",
-      "id": "blog-12",
+      "id": "blog-NN",
       ...1
     },
-    "comment-($genId)": {
+    "comment-(blog-NN-(comments.index))": {
       "type": "comment",
       "id": "comment-($genId)"
       "blogId": "blog-12",
