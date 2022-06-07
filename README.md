@@ -1,8 +1,8 @@
-jscion - declarative, metadata driven apps based on json
+jscion - declarative, metadata driven json versioning and apps
 
 status - experimental!
 
-Pronounced "j-scion" -- a scion is a son of a notable or higher
-level family.  So, in a reference to the higher level nature of
-metadata-based approaches, instead of j-son, it's jscion.
+Pronounced "j-scion" or jay-sai-uhn. A scion is an offspring of rich
+or notable parents, and this project seems like a scion that's trying
+to stand upon the shoulders of JSON.
 
